@@ -1,0 +1,53 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/find/find",
+    "pages/find/classify/classify",
+    "pages/find/booksDetails/read",
+    "pages/find/booksDetails/booksDetails",
+    "pages/mine/mine",
+    "pages/bookshelf/bookshelf",
+    "pages/login/login",
+    "pages/mine/components/userCard"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8",
+    "titleNView": false
+  },
+  "tabBar": {
+    "color": "#4CD964",
+    "selectedColor": "#555555",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "static/logo.png",
+        "selectedIconPath": "static/logo.png"
+      },
+      {
+        "pagePath": "pages/find/find",
+        "text": "找书",
+        "iconPath": "static/logo.png",
+        "selectedIconPath": "static/logo.png"
+      },
+      {
+        "pagePath": "pages/bookshelf/bookshelf",
+        "text": "书架",
+        "iconPath": "static/logo.png",
+        "selectedIconPath": "static/logo.png"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "text": "我的",
+        "iconPath": "static/logo.png",
+        "selectedIconPath": "static/logo.png"
+      }
+    ]
+  },
+  "usingComponents": {},
+  "sitemapLocation": "sitemap39.json"
+}

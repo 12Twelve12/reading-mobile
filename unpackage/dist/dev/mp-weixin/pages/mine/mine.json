@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "user-card": "/pages/mine/components/userCard"
+  }
+}

@@ -8,7 +8,7 @@
 			</view>
 		</view>
 		<view class="cu-list grid" :class="['col-' + gridCol,gridBorder?'':'no-border']">
-			<view class="cu-item" v-for="(item,index) in cuIconList" :key="index" v-if="index<gridCol*2">
+			<view class="cu-item" v-for="(item,index) in cuIconList" :key="index" v-if="index<gridCol*2" @tap="to(item.href)">
 				<view :class="['cuIcon-' + item.cuIcon,'text-' + item.color]">
 					<view class="cu-tag badge" v-if="item.badge!=0">
 						<block v-if="item.badge!=1">{{item.badge>99?'99+':item.badge}}</block>
@@ -21,10 +21,14 @@
 			<view class="text-xl">随便看看</view>
 			<view class="text-sm text-orange">换一换<text class='cuIcon-refresh padding-sm text-orange'></text></view>
 		</view>
+		<GridList :BookLists="BookLists"></GridList>
+		<LookingList class="padding"></LookingList>
 	</view>
 </template>
 
 <script>
+	import GridList from './components/gridList.vue'
+	import LookingList from './components/lookingList.vue'
 	export default {
 		data() {
 			return {
@@ -49,16 +53,52 @@
 					cuIcon: 'cascades',
 					color: 'olive',
 					badge: 0,
-					name: '更多'
+					name: '更多',
+					href:'./classify/classify'
+				}],
+				//书列表数据
+				BookLists: [{
+					img: '../../../static/logo.png',
+					name: '书名1',
+					href: '../../pages/generator/generator'
+				}, {
+					img: '../../../static/logo.png',
+					name: '书名1',
+					href: '../../pages/powerpurchase/powerpurchase'
+				}, {
+					img: '../../../static/logo.png',
+					name: '书名1',
+					href: '../../pages/buy/buy'
+				}, {
+					img: '../../../static/logo.png',
+					name: '书名1',
+					href: '../../pages/market/policies/policies'
+				}, {
+					img: '../../../static/logo.png',
+					name: '书名1',
+					href: '../../pages/market/information/information'
+				}, {
+					img: '../../../static/logo.png',
+					name: '书名1',
+					href: '../../pages/market/trading/trading'
 				}],
 			}
 		},
-
-		methods: {}
+		components:{
+			GridList,
+			LookingList
+		},
+		methods: {
+			to(href){
+				uni.navigateTo({
+					url:'./classify/classify'
+				})
+			}
+		}
 	}
 </script>
 
-<style>
+<style scoped>
 	.top_back {
 		width: 100%;
 		padding: 15px;
@@ -81,5 +121,6 @@
 		padding-left: 1;
 		width: 83%;
 		background-color: #FDFEF6;
+		margin-top: 30px;
 	}
 </style>

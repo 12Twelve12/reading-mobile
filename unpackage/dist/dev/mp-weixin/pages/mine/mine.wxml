@@ -1,0 +1,1 @@
+<view><user-card vue-id="bae1c640-1" user="{{user}}" bind:__l="__l"></user-card></view>

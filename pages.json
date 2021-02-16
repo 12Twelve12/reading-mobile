@@ -1,75 +1,103 @@
 {
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationBarTitleText": "uni-app"
-			}
-		}
-	    ,{
+    "pages" : [
+		
+        //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+        {
+            "path" : "pages/index/index",
+            "style" : {
+                "navigationBarTitleText" : "uni-app"
+            }
+        },
+        {
             "path" : "pages/find/find",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
+            "style" : {
+                "navigationBarTitleText" : "",
+                "enablePullDownRefresh" : false
             }
-            
-        }
-        ,{
+        },
+		{
+		    "path" : "pages/find/classify/classify",
+		    "style" : {
+		        "navigationBarTitleText" : "分类",
+		        "enablePullDownRefresh" : false
+		    }
+		},
+		{
+		    "path" : "pages/find/booksDetails/read",
+		    "style" : {
+		        "navigationBarTitleText" : "详情",
+		        "enablePullDownRefresh" : false
+		    }
+		},
+		{
+		    "path" : "pages/find/booksDetails/booksDetails",
+		    "style" : {
+		        "navigationBarTitleText" : "详情",
+		        "enablePullDownRefresh" : false
+		    }
+		},
+	
+        {
             "path" : "pages/mine/mine",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
+            "style" : {
+                "navigationBarTitleText" : "",
+                "enablePullDownRefresh" : false
             }
-            
-        }
-        ,{
+        },
+        {
             "path" : "pages/bookshelf/bookshelf",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
+            "style" : {
+                "navigationBarTitleText" : "",
+                "enablePullDownRefresh" : false
             }
-            
+        },
+		{
+		    "path" : "pages/login/login",
+		    "style" : {
+		        "navigationBarTitleText" : "",
+		        "enablePullDownRefresh" : false
+		    }
+		},
+        {
+            "path" : "pages/mine/components/userCard",
+            "style" : {}
         }
     ],
-	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8",
-		"titleNView": false
-	},
-	"tabBar":{
-		"color":"#4CD964",
-		"selectedColor":"#555555",
-		"list":[
-			{
-				"pagePath":"pages/index/index",
-				"text":"首页",
-				"iconPath":"static/logo.png",
-				"selectedIconPath":"static/logo.png"
-			},
-			{
-				"pagePath":"pages/find/find",
-				"text":"找书",
-				"iconPath":"static/logo.png",
-				"selectedIconPath":"static/logo.png"
-			},
-			{
-				"pagePath":"pages/bookshelf/bookshelf",
-				"text":"书架",
-				"iconPath":"static/logo.png",
-				"selectedIconPath":"static/logo.png"
-			},
-			{
-				"pagePath":"pages/mine/mine",
-				"text":"我的",
-				"iconPath":"static/logo.png",
-				"selectedIconPath":"static/logo.png"
-			}
-		]
-		
-	}
+    "globalStyle" : {
+        "navigationBarTextStyle" : "black",
+        "navigationBarTitleText" : "uni-app",
+        "navigationBarBackgroundColor" : "#F8F8F8",
+        "backgroundColor" : "#F8F8F8",
+        "titleNView" : false
+    },
+    "tabBar" : {
+        "color" : "#4CD964",
+        "selectedColor" : "#555555",
+        "list" : [
+            {
+                "pagePath" : "pages/index/index",
+                "text" : "首页",
+                "iconPath" : "static/logo.png",
+                "selectedIconPath" : "static/logo.png"
+            },
+            {
+                "pagePath" : "pages/find/find",
+                "text" : "找书",
+                "iconPath" : "static/logo.png",
+                "selectedIconPath" : "static/logo.png"
+            },
+            {
+                "pagePath" : "pages/bookshelf/bookshelf",
+                "text" : "书架",
+                "iconPath" : "static/logo.png",
+                "selectedIconPath" : "static/logo.png"
+            },
+            {
+                "pagePath" : "pages/mine/mine",
+                "text" : "我的",
+                "iconPath" : "static/logo.png",
+                "selectedIconPath" : "static/logo.png"
+            }
+        ]
+    }
 }

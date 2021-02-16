@@ -1,6 +1,10 @@
 <script>
 	import Vue from 'vue'
 	export default {
+		globalData: {
+			base_ip: 'http://192.168.0.217:8080/',
+			mongo_ip: 'http://192.168.0.217:8000/'
+		},
 		onLaunch: function() {
 			uni.getSystemInfo({
 				success: function(e) {

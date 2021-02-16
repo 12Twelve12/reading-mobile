@@ -1,0 +1,1 @@
+<view><block wx:for="{{lists}}" wx:for-item="list" wx:for-index="index" wx:key="index"><view class="padding-sm radius text-sm bookcard"><image style="width:90rpx;height:135rpx;" src="{{list.img}}"></image>{{''+list.name+''}}</view></block></view>

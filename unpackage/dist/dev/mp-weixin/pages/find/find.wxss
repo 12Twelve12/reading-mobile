@@ -1,0 +1,24 @@
+
+.top_back.data-v-408c90a6 {
+	width: 100%;
+	padding: 15px;
+}
+.top_text.data-v-408c90a6 {
+	-webkit-align-self: center;
+	        align-self: center;
+	width: 17%;
+	color: #517E69;
+}
+.back.data-v-408c90a6 {
+	background-color: #FFFFFF;
+	height: 100%;
+}
+.search.data-v-408c90a6 {
+	border: 0.1px solid #FDFEF6;
+	border-radius: 50rpx;
+	padding-left: 1;
+	width: 83%;
+	background-color: #FDFEF6;
+	margin-top: 30px;
+}
+

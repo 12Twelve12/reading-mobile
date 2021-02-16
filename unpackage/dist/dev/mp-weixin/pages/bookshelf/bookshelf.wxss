@@ -1,0 +1,28 @@
+
+.top_back.data-v-59858e6c{
+	width: 100%;
+	height: 330rpx;
+	background-size: 100% 230rpx;
+	background: #517E69;
+	/* background-image: url(../../static/top_back.jpg); */
+	 background-repeat: no-repeat;
+	 /* padding: 55px; */
+}
+.time_card.data-v-59858e6c{
+	    position: relative;
+	    top: 37px;
+	    left: -8px;
+	    background-color: white;
+	    width: 177px;
+	    border-radius: 9px;
+	    padding-left: 20px;
+}
+[class*="cuIcon-"].data-v-59858e6c {
+   
+    font-size: large;
+}
+.flex-sub.data-v-59858e6c{
+	top: 30px;
+	position: relative;
+}
+

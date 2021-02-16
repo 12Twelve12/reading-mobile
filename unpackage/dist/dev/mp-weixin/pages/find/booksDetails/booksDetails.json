@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "详情",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "books-details": "/pages/find/booksDetails/components/booksDetails",
+    "comments": "/pages/find/booksDetails/components/comments"
+  }
+}

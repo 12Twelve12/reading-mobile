@@ -1,0 +1,14 @@
+
+.comment_title.data-v-a92e293a {
+	border: 0.5rpx solid #f5f5f5;
+	width: 90%;
+	padding: 12rpx;
+	border-radius: 30rpx;
+	background: #f5f5f5;
+	margin: auto;
+}
+.main.data-v-a92e293a{
+	margin-top: 12rpx;
+	padding-bottom: 24rpx;
+}
+
