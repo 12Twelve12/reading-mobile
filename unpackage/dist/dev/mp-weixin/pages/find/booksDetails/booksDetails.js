@@ -130,7 +130,8 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var BooksDetails = function BooksDetails() {__webpack_require__.e(/*! require.ensure | pages/find/booksDetails/components/booksDetails */ "pages/find/booksDetails/components/booksDetails").then((function () {return resolve(__webpack_require__(/*! ./components/booksDetails.vue */ 100));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var Comments = function Comments() {__webpack_require__.e(/*! require.ensure | pages/find/booksDetails/components/comments */ "pages/find/booksDetails/components/comments").then((function () {return resolve(__webpack_require__(/*! ./components/comments.vue */ 107));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var BooksDetails = function BooksDetails() {__webpack_require__.e(/*! require.ensure | pages/find/booksDetails/components/booksDetails */ "pages/find/booksDetails/components/booksDetails").then((function () {return resolve(__webpack_require__(/*! ./components/booksDetails.vue */ 114));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var Comments = function Comments() {__webpack_require__.e(/*! require.ensure | pages/find/booksDetails/components/comments */ "pages/find/booksDetails/components/comments").then((function () {return resolve(__webpack_require__(/*! ./components/comments.vue */ 121));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
 
 
 
@@ -145,6 +146,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       detail: {}, //基本信息（作者，简介等）
       chapter: {}, //章节数
+      user: {},
+      isBookShelf: false, //标记是否存在书架中
       comments_lists: [{
         "userimg": "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2566720529,304942931&fm=26&gp=0.jpg",
         "username": "twelve" },
@@ -161,27 +164,119 @@ __webpack_require__.r(__webpack_exports__);
     BooksDetails: BooksDetails,
     Comments: Comments },
 
+  onShow: function onShow() {
+    var user = uni.getStorageSync('user');
+    console.log(user);
+    if (user != null) {
+      this.user = user;
+    }
+    this.getChapter();
+    this.isInBookShelf();
+  },
   //接受参数
   onLoad: function onLoad(option) {
-    console.log(option);
+
     if (option) {
       var item = JSON.parse(decodeURIComponent(option.item));
-      console.log("传过来的数据");
-      console.log(item);
       this.detail = item;
-      this.getChapter();
+
     }
 
   },
   methods: {
     //子组件点击立即阅读，跳转
     to_read: function to_read(val) {
-      console.log("子组件点击立即阅读传过来的值" + val);
-      uni.navigateTo({
-        url: './read?item=' + encodeURIComponent(JSON.stringify({ "detail": this.detail, "chapter": this.chapter })) });
+      if (!this.isBookShelf && this.user) {
+        uni.showToast({
+          title: "是否要加入书架",
+          icon: "none" });
+
+      } else {
+        uni.navigateTo({
+          url: './read?item=' + encodeURIComponent(JSON.stringify({
+            "detail": this.detail,
+            "chapter": this.chapter })) });
+
+
+      }
 
 
     },
+    //判断是否在书架中
+    isInBookShelf: function isInBookShelf() {var _this = this;
+      console.log(this.user.nickname);
+      if (this.user.nickname) {
+        var websiteUrl = getApp().globalData.base_ip + 'bookshelf/isInBookShelf';
+        uni.request({
+          url: websiteUrl,
+          method: 'GET',
+          header: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+            // 'Content-Type': 'application/json',
+            // token : uni.getStorageSync("TOKEN")
+          },
+          dataType: 'json',
+          data: {
+            "bookId": this.detail.id,
+            "userId": this.user.id },
+
+          success: function success(res) {
+            if (res.data.success) {
+              _this.isBookShelf = true;
+            }
+          },
+          fail: function fail() {},
+          complete: function complete() {} });
+
+      } else {
+
+      }
+    },
+    go_login: function go_login() {
+      uni.navigateTo({
+        url: '../../login/login' });
+
+    },
+    addBookShelf: function addBookShelf() {
+      if (this.user) {
+        var websiteUrl = getApp().globalData.base_ip + 'bookshelf/insert';
+        uni.request({
+          url: websiteUrl,
+          method: 'POST',
+          header: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+            // 'Content-Type': 'application/json',
+            // token : uni.getStorageSync("TOKEN")
+          },
+          dataType: 'json',
+          data: {
+            "bookId": this.detail.id,
+            "userId": this.user.id },
+
+          success: function success(res) {
+            if (res.data.success) {
+              uni.showToast({
+                title: res.data.msg });
+
+            } else {
+              uni.showToast({
+                title: res.data.msg });
+
+            }
+
+
+          },
+          fail: function fail() {},
+          complete: function complete() {} });
+
+      } else {
+        this.go_login();
+      }
+
+    },
+
+
+
     /* 显示全部简介 */
     shows: function shows() {
       this.show = true;
@@ -189,7 +284,7 @@ __webpack_require__.r(__webpack_exports__);
     hidded: function hidded() {
       this.show = false;
     },
-    getChapter: function getChapter() {var _this = this;
+    getChapter: function getChapter() {var _this2 = this;
       var websiteUrl = getApp().globalData.mongo_ip + 'cmdb/getChapter';
       uni.request({
         url: websiteUrl,
@@ -203,8 +298,7 @@ __webpack_require__.r(__webpack_exports__);
           "id": this.detail.mongoId },
 
         success: function success(res) {
-          console.log(res.data);
-          _this.chapter = res.data;
+          _this2.chapter = res.data;
         },
         fail: function fail() {},
         complete: function complete() {} });

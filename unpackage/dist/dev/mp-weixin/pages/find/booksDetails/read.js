@@ -367,11 +367,19 @@ var _default =
     /* 上一章 */
     previousReadClick: function previousReadClick() {
       if (this.chapterCurrent.index == 0) {
+        this.coverShow = true;
         uni.showToast({
           title: '已经是第一章' });
 
       } else {
         this.details(this.chapterCurrent.index - 1);
+        this.optShow = false;
+        /* 回到顶部 */
+        uni.pageScrollTo({
+          scrollTop: 0,
+          duration: 300 });
+
+
       }
       console.log("点击上一章");
     },
@@ -383,6 +391,13 @@ var _default =
 
       } else {
         this.details(this.chapterCurrent.index + 1);
+        this.optShow = false;
+        /* 回到顶部 */
+        uni.pageScrollTo({
+          scrollTop: 0,
+          duration: 300 });
+
+
       }
       console.log("点击下一章");
     },
@@ -395,6 +410,14 @@ var _default =
       console.log(this.BookList.data[index]);
       this.chapterCurrent = { "detail": this.BookList.data[index], "index": index };
       this.GetReadContent();
+      this.asideShow = false;
+      this.optShow = false;
+      /* 回到顶部 */
+      uni.pageScrollTo({
+        scrollTop: 0,
+        duration: 300 });
+
+
     },
 
     //获取书的内容
@@ -429,24 +452,7 @@ var _default =
 
     },
 
-    coverStart: function coverStart(e) {
-      this.coverInfo.startPoint = e.touches[0].clientX;
 
-    },
-    coverEnd: function coverEnd(e) {
-      var end = e.changedTouches[0].clientX;
-      var start = this.coverInfo.startPoint;
-      var delta = start - end;
-      if (delta > 10) {
-        this.calculateCoverTranslate('left');
-      } else if (delta < -10) {
-        this.calculateCoverTranslate('right');
-      }
-      this.coverInfo.move = 0;
-    },
-    coverMove: function coverMove(e) {
-      this.coverInfo.move = e.changedTouches[0].clientX - this.coverInfo.startPoint;
-    },
     coverClick: function coverClick() {
       this.calculateCoverTranslate('click');
     },
@@ -460,29 +466,7 @@ var _default =
         _this2.coverShow = false;
       }, 300);
     },
-    touchStart: function touchStart(e) {
-      if (this.layoutValue == 'H') {
-        this.startPoint = e.touches[0].clientX;
-      }
-    },
-    touchEnd: function touchEnd(e) {
-      if (this.layoutValue == 'H') {
-        var end = e.changedTouches[0].clientX;
-        var start = this.startPoint;
-        var delta = start - end;
-        if (delta > 10) {
-          this.nextPage();
-        } else if (delta < -10) {
-          this.previousPage();
-        }
-        this.move = 0;
-      }
-    },
-    touchMove: function touchMove(e) {
-      if (this.layoutValue == 'H') {
-        this.move = e.changedTouches[0].clientX - this.startPoint;
-      }
-    },
+
     onToEnd: function onToEnd() {
       this.optShow = false;
       this.optBotShow = false;
@@ -592,14 +576,6 @@ var _default =
           backgroundColor: '#1a1a1a' });
 
       }
-    },
-    layoutCheckbox: function layoutCheckbox(index, key) {
-      var items = this.layoutData;
-      for (var i = 0, lenI = items.length; i < lenI; ++i) {
-        this.layoutData[i].checked = false;
-      }
-      this.layoutData[index].checked = true;
-      this.layoutValue = key;
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

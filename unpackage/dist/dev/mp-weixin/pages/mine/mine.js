@@ -128,7 +128,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
 
 
 
@@ -147,17 +147,17 @@ var _default = { data: function data() {return { user: {} };},
   components: {
     UserCard: _userCard.default },
 
-  created: function created() {
+  onShow: function onShow() {
     this.getData();
   },
   methods: {
     getData: function getData() {
-      // let user={"img":"../../static/logo.png","username":"twelve","status":0}
-      var user = { "status": 1 };
+      var user = uni.getStorageSync('user');
       if (user.img != null || user.img != "") {
         this.user = user;
       }
     } } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 
@@ -300,6 +300,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 var _default =
 {
   props: ['user'],
@@ -311,11 +315,39 @@ var _default =
   components: {},
 
 
+
   methods: {
-    toLogin: function toLogin() {
-      console.log("登陆");
+    /**
+              * 跳到登陆页面
+              */
+    go_login: function go_login() {
+      console.log(this.user);
+      if (!this.user) {
+        uni.navigateTo({
+          url: '../../pages/login/login' });
+
+
+      }
+
+    },
+    setting: function setting() {
       uni.navigateTo({
-        url: '../../pages/login/login' });
+        url: '../../pages/mine/setting' });
+
+    },
+    /**图片显示
+        * @param {Object} e
+        */
+    ViewImage: function ViewImage(e) {
+      if (this.user) {
+        var url = this.user.img;
+        var urls = [];
+        urls.push(url);
+        uni.previewImage({
+          urls: urls,
+          current: e.currentTarget.dataset.url });
+
+      }
 
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))

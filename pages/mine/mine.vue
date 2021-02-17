@@ -10,22 +10,21 @@
 	export default {
 		data() {
 			return {
-				
-				user:{}
+
+				user: {}
 			};
 		},
-		components:{
+		components: {
 			UserCard
 		},
-		created() {
+		onShow() {
 			this.getData();
 		},
-		methods:{
-			getData(){
-				// let user={"img":"../../static/logo.png","username":"twelve","status":0}
-					let user={"status":1}
-				if(user.img!=null||user.img!=""){
-					this.user=user
+		methods: {
+			getData() {
+				let user = uni.getStorageSync('user')
+				if (user.img != null || user.img != "") {
+					this.user = user
 				}
 			}
 		}

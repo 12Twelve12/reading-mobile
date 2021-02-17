@@ -44,7 +44,7 @@
 	        flex: 1;
 }
 image {
-	width: 68px !important;
-	height: 98px !important;
+	width: 122rpx !important;
+	height: 167rpx !important;
 }
 

@@ -1,6 +1,7 @@
 <template>
 	<view>
-		<BooksDetails :detail="detail" :chapter_count="chapter.count" @to_read="to_read"></BooksDetails>
+		<BooksDetails :isBookShelf="isBookShelf" :detail="detail" :chapter_count="chapter.count" @to_read="to_read"
+		 @addBookShelf="addBookShelf"></BooksDetails>
 		<Comments :comments_lists="comments_lists"></Comments>
 	</view>
 </template>
@@ -13,6 +14,8 @@
 			return {
 				detail: {}, //基本信息（作者，简介等）
 				chapter: {}, //章节数
+				user: {},
+				isBookShelf: false, //标记是否存在书架中
 				comments_lists: [{
 					"userimg": "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2566720529,304942931&fm=26&gp=0.jpg",
 					"username": "twelve"
@@ -29,27 +32,119 @@
 			BooksDetails,
 			Comments
 		},
+		onShow() {
+			let user = uni.getStorageSync('user');
+			console.log(user)
+			if (user != null) {
+				this.user = user
+			}
+			this.getChapter()
+			this.isInBookShelf()
+		},
 		//接受参数
 		onLoad: function(option) {
-			console.log(option)
+
 			if (option) {
 				const item = JSON.parse(decodeURIComponent(option.item));
-				console.log("传过来的数据")
-				console.log(item);
 				this.detail = item;
-				this.getChapter()
+
 			}
 
 		},
 		methods: {
 			//子组件点击立即阅读，跳转
-			to_read(val){
-				console.log("子组件点击立即阅读传过来的值"+val)
-				uni.navigateTo({
-					url:'./read?item='+ encodeURIComponent(JSON.stringify({"detail":this.detail,"chapter":this.chapter}))
-				})
-				
+			to_read(val) {
+				if (!this.isBookShelf && this.user) {
+					uni.showToast({
+						title: "是否要加入书架",
+						icon: "none"
+					})
+				} else {
+					uni.navigateTo({
+						url: './read?item=' + encodeURIComponent(JSON.stringify({
+							"detail": this.detail,
+							"chapter": this.chapter
+						}))
+					})
+				}
+
+
 			},
+			//判断是否在书架中
+			isInBookShelf() {
+				console.log(this.user.nickname)
+				if (this.user.nickname) {
+					let websiteUrl = getApp().globalData.base_ip + 'bookshelf/isInBookShelf';
+					uni.request({
+						url: websiteUrl,
+						method: 'GET',
+						header: {
+							'Content-Type': 'application/x-www-form-urlencoded'
+							// 'Content-Type': 'application/json',
+							// token : uni.getStorageSync("TOKEN")
+						},
+						dataType: 'json',
+						data: {
+							"bookId": this.detail.id,
+							"userId": this.user.id
+						},
+						success: res => {
+							if (res.data.success) {
+								this.isBookShelf = true
+							}
+						},
+						fail: () => {},
+						complete: () => {}
+					});
+				} else {
+
+				}
+			},
+			go_login() {
+				uni.navigateTo({
+					url: '../../login/login'
+				})
+			},
+			addBookShelf() {
+				if (this.user) {
+					let websiteUrl = getApp().globalData.base_ip + 'bookshelf/insert';
+					uni.request({
+						url: websiteUrl,
+						method: 'POST',
+						header: {
+							'Content-Type': 'application/x-www-form-urlencoded'
+							// 'Content-Type': 'application/json',
+							// token : uni.getStorageSync("TOKEN")
+						},
+						dataType: 'json',
+						data: {
+							"bookId": this.detail.id,
+							"userId": this.user.id
+						},
+						success: res => {
+							if (res.data.success) {
+								uni.showToast({
+									title: res.data.msg
+								});
+							} else {
+								uni.showToast({
+									title: res.data.msg
+								});
+							}
+
+
+						},
+						fail: () => {},
+						complete: () => {}
+					});
+				} else {
+					this.go_login()
+				}
+
+			},
+
+
+
 			/* 显示全部简介 */
 			shows() {
 				this.show = true
@@ -71,7 +166,6 @@
 						"id": this.detail.mongoId
 					},
 					success: res => {
-						console.log(res.data);
 						this.chapter = res.data
 					},
 					fail: () => {},

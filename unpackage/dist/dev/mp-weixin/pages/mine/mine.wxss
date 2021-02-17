@@ -5,11 +5,61 @@
 	display: flex;
 	-webkit-box-align: center;
 	-webkit-align-items: center;
-	        align-items: center;/*子元素垂直居中*/
+	        align-items: center;
+	/*子元素垂直居中*/
 	-webkit-box-pack: center;
 	-webkit-justify-content: center;
-	        justify-content: center;/*子元素水平居中*/
-	background-color: #ebfcee;
+	        justify-content: center;
+	/*子元素水平居中*/
+	background-color: #ffffff;
 	padding-top: 20px;
+	border-radius: 11px;
 }
+.card.data-v-59c78c11 {
+	width: 91%;
+	height: 256rpx;
+	background-color: #ffffff;
+	top: 179rpx;
+	position: relative;
+	border-radius: 11px;
+	box-shadow: 2px 2px 5px #9e9e9e70;
+	background-color: rgba(255, 255, 255, 0.9);
+}
+.content-bg.data-v-59c78c11 {
+	width: 100%;
+	height: 328rpx;
+	background-color: #ffffff;
+}
+.content-img.data-v-59c78c11 {
+	width: 100%;
+	height: 381rpx;
+	/* background-color: #00ff00; */
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
+	/*子元素水平居中*/
+	/* background: url('https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic.51yuansu.com%2Fbackgd%2Fcover%2F00%2F51%2F70%2F5c110d336b9fa.jpg%21%2Ffw%2F780%2Fquality%2F90%2Funsharp%2Ftrue%2Fcompress%2Ftrue&refer=http%3A%2F%2Fpic.51yuansu.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1613721778&t=9eab90e6fd216ac8a3c09cf9c030a886') no-repeat 0% 50%; */
+	/* background: url(helper.websiteUrl + '/api/1.0/user/background') no-repeat center center; */
+}
+.cu-list.data-v-59c78c11 {
+	border-radius: 21px;
+	width: 100%;
+	padding: 27px;
+}
+.content-id.data-v-59c78c11 {}
+.cu-list.menu-avatar>.cu-item .content.data-v-59c78c11 {
+
+	left: 200rpx;
+}
+.cu-list.menu-avatar>.cu-item>.cu-avatar.data-v-59c78c11 {
+	border-radius: 8px;
+}
+.bg-green.data-v-59c78c11 {}
+
+/* .cu-item{
+	background-color: rgba(255,255,255,0);
+} */
 

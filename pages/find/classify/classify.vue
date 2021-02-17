@@ -172,7 +172,7 @@
 	}
 
 	image {
-		width: 68px !important;
-		height: 98px !important;
+		width: 122upx !important;
+		height: 167upx !important;
 	}
 </style>

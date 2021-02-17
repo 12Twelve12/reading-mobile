@@ -6,8 +6,10 @@
     "pages/find/booksDetails/read",
     "pages/find/booksDetails/booksDetails",
     "pages/mine/mine",
+    "pages/mine/setting",
     "pages/bookshelf/bookshelf",
     "pages/login/login",
+    "pages/login/register",
     "pages/mine/components/userCard"
   ],
   "subPackages": [],
@@ -49,5 +51,5 @@
     ]
   },
   "usingComponents": {},
-  "sitemapLocation": "sitemap39.json"
+  "sitemapLocation": "sitemap87.json"
 }

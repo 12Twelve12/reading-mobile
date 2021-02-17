@@ -18,7 +18,8 @@
 				</view>
 				<view class="btn-box">
 					<view class="readBtn" @click="to(chapter_count)">开始阅读</view>
-					<view class="joinBtn">加入书架</view>
+					<view class="joinBtn" v-if="isBookShelf==true">已加入书架</view>
+					<view class="joinBtn" v-else @click="addBookShelf">加入书架</view>
 				</view>
 			</view>
 		</view>
@@ -40,30 +41,32 @@
 <script>
 	import htzRate from '@/components/htz-rate/htz-rate.vue'
 	export default {
-		props:['detail','chapter_count'],
+		props: ['detail', 'chapter_count','isBookShelf'],
 		data() {
 			return {
 				show: false,
-				score: 2,//评分数
-
+				score: 2, //评分数
 			};
 		},
 		components: {
 			htzRate,
 		},
-		
 		methods: {
-			
+
 			/* 显示全部简介 */
-			shows(){
-				this.show=true
+			shows() {
+				this.show = true
 			},
-			hidded(){
-				this.show=false
+			hidded() {
+				this.show = false
 			},
-			to(chapter){
-				 this.$emit('to_read',this.chapter_count)
+			to(chapter) {
+				this.$emit('to_read', this.chapter_count)
+			},
+			addBookShelf(){
+				this.$emit('addBookShelf')
 			}
+			
 
 		}
 	}

@@ -139,6 +139,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 var _default =
 {
   props: ['user'],
@@ -150,11 +154,39 @@ var _default =
   components: {},
 
 
+
   methods: {
-    toLogin: function toLogin() {
-      console.log("登陆");
+    /**
+              * 跳到登陆页面
+              */
+    go_login: function go_login() {
+      console.log(this.user);
+      if (!this.user) {
+        uni.navigateTo({
+          url: '../../pages/login/login' });
+
+
+      }
+
+    },
+    setting: function setting() {
       uni.navigateTo({
-        url: '../../pages/login/login' });
+        url: '../../pages/mine/setting' });
+
+    },
+    /**图片显示
+        * @param {Object} e
+        */
+    ViewImage: function ViewImage(e) {
+      if (this.user) {
+        var url = this.user.img;
+        var urls = [];
+        urls.push(url);
+        uni.previewImage({
+          urls: urls,
+          current: e.currentTarget.dataset.url });
+
+      }
 
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
@@ -190,7 +222,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ 80:
+/***/ 94:
 /*!***************************************************************************************************!*\
   !*** F:/A_study/HBuilderProjects/reading/main.js?{"page":"pages%2Fmine%2Fcomponents%2FuserCard"} ***!
   \***************************************************************************************************/
@@ -206,5 +238,5 @@ createPage(_userCard.default);
 
 /***/ })
 
-},[[80,"common/runtime","common/vendor"]]]);
+},[[94,"common/runtime","common/vendor"]]]);
 //# sourceMappingURL=../../../../.sourcemap/mp-weixin/pages/mine/components/userCard.js.map
