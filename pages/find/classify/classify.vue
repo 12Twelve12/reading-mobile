@@ -112,6 +112,7 @@
 				});
 			},
 			to(item){
+				console.log(item);
 				uni.navigateTo({
 					url:'../booksDetails/booksDetails?item='+ encodeURIComponent(JSON.stringify(item))
 				})

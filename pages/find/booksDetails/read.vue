@@ -1,7 +1,7 @@
 <template>
 	<view class="zai-read-box skin" :class="skinValue">
 		<!--封面层-->
-		<view class="zai-read-cover-box"  :class="coverShow?'show':''">
+		<view class="zai-read-cover-box" :class="coverShow?'show':''">
 			<view class="zai-read-cover" :style="{transform: `translateX(${coverInfo.translate + coverInfo.move}px)`, transition: `all ${animationSeconds}s ease`}">
 				<view class="zai-cover-v">
 					<text class="zai-cover-cor"></text>
@@ -162,7 +162,7 @@
 				skinData: [],
 				skinValue: 'default',
 				layoutData: [],
-				layoutValue: 'V',//滑动方式，上下滑动
+				layoutValue: 'V', //滑动方式，上下滑动
 				domInfo: {},
 				coverShow: true,
 				BookData: {}, //书的基本信息
@@ -172,8 +172,9 @@
 					translate: 0
 				},
 				ReadContent: '',
-				BookList: {},//书的章节信息
-				chapterCurrent:{},//当前章节
+				BookList: {}, //书的章节信息
+				chapterCurrent: {}, //当前章节
+				// current_progress: 0, //当前章节索引，0开始
 				BookInfo: {},
 				addBtn: true,
 			}
@@ -183,7 +184,8 @@
 				const item = JSON.parse(decodeURIComponent(option.item));
 				this.BookData = item.detail
 				this.BookList = item.chapter
-				this.iniGetBookInfo();
+				// this.current_progress = item.current_progress
+				this.iniGetBookInfo(item.current_progress);
 
 			}
 
@@ -215,76 +217,113 @@
 		onReady() {
 
 		},
-		
+
 		methods: {
 			//获取初始的书籍信息
-			iniGetBookInfo() {
+			iniGetBookInfo(index) {
 
 				if (this.BookData.index > 1 || this.BookData.page > 1) {
 					//封面
 					this.coverShow = false;
 				}
 				//获取书籍内容
-				this.details(0)
+				this.details(index)
 			},
 			/* 上一章 */
 			previousReadClick() {
-				if(this.chapterCurrent.index==0){
-					this.coverShow=true
+				if (this.chapterCurrent.index == 0) {
+					this.coverShow = true
 					uni.showToast({
-						title:'已经是第一章'
+						title: '已经是第一章'
 					})
-				}else{
-					this.details(this.chapterCurrent.index-1)
-					this.optShow=false
+				} else {
+					this.details(this.chapterCurrent.index - 1)
+					this.optShow = false
 					/* 回到顶部 */
 					uni.pageScrollTo({
-					    scrollTop: 0,
-					    duration: 300
+						scrollTop: 0,
+						duration: 300
 					});
-				
+
 				}
 				console.log("点击上一章")
 			},
 			/* 下一章 */
 			nexReadClick() {
-				if(this.chapterCurrent.index==this.BookList.count-1){
+				if (this.chapterCurrent.index == this.BookList.count - 1) {
 					uni.showToast({
-						title:'没有更多了'
+						title: '没有更多了'
 					})
-				}else{
-					this.details(this.chapterCurrent.index+1)
-					this.optShow=false
+				} else {
+					this.details(this.chapterCurrent.index + 1)
+					this.optShow = false
 					/* 回到顶部 */
 					uni.pageScrollTo({
-					    scrollTop: 0,
-					    duration: 300
+						scrollTop: 0,
+						duration: 300
 					});
-					
+
 				}
 				console.log("点击下一章")
 			},
-			
+
 			/**获取当前章节
 			 * @param {Object} item当前章节信息
 			 */
 			details(index) {
-				console.log("点击哪一章"+index)
+				console.log("点击哪一章" + index)
 				console.log(this.BookList.data[index])
-				this.chapterCurrent={"detail":this.BookList.data[index],"index":index}
-				this.GetReadContent()
-				this.asideShow=false
-				this.optShow=false
-				/* 回到顶部 */
-				uni.pageScrollTo({
-				    scrollTop: 0,
-				    duration: 300
+				this.chapterCurrent = {
+					"detail": this.BookList.data[index],
+					"index": index
+				}
+
+
+				uni.request({
+					url: getApp().globalData.mongo_ip + 'cmdb/is_have',
+					method: 'POST',
+					header: {
+						'Content-Type': 'application/json',
+						// token : uni.getStorageSync("TOKEN")
+					},
+					dataType: 'json',
+					data: {
+						"book_id": this.BookData.mongoId,
+						"index": index
+					},
+					success: res => {
+						console.log("是否存在===========================")
+						console.log(res.data)
+						//如果数据库中有该内容
+						if (res.data.code==1) {
+							this.ReadContent=res.data.data
+						} else {
+							this.GetReadContent(index)
+							
+						}
+						this.asideShow = false
+						this.optShow = false
+						/* 回到顶部 */
+						uni.pageScrollTo({
+							scrollTop: 0,
+							duration: 300
+						});
+					},
+					fail: () => {},
+					complete: () => {}
 				});
-				
+
+
+
+
+
+
+
 			},
-			
+
+
 			//获取书的内容
-			GetReadContent() {
+			GetReadContent(index) {
 				let websiteUrl = this.chapterCurrent.detail.directory_url[0]
 				// console.log(websiteUrl)
 				uni.request({
@@ -298,24 +337,46 @@
 					dataType: 'html',
 					success: res => {
 						console.log(res.data);
-						var htmls=res.data						
+						var htmls = res.data
 						var content1;
-						content1=htmls.split('#footid')
-						console.log("截取的数据");					
-						var content2=content1[1].split('供读书爱好者学习交流之用')
+						content1 = htmls.split('#footid')
+						console.log("截取的数据");
+						var content2 = content1[1].split('供读书爱好者学习交流之用')
 						console.log(content2)
-						var content3=content2[0].split('</div>')
+						var content3 = content2[0].split('</div>')
 						console.log(content3[1]);
 						//去除掉横线后面的东西
-						var content4=content3[1].split('<hr')
-						this.ReadContent=content4[0]
+						var content4 = content3[1].split('<hr')
+						this.ReadContent = content4[0]
+						this.insertContent(content4[0],index)
 					},
 					fail: () => {},
 					complete: () => {}
 				});
 			},
 
-			
+			//往数据库插入内容
+			insertContent(content,index) {
+				console.log("执行插入======================")
+				uni.request({
+					url: getApp().globalData.mongo_ip + 'cmdb/insertContent',
+					method: 'POST',
+					header: {
+						'Content-Type': 'application/json',
+						// token : uni.getStorageSync("TOKEN")
+					},
+					dataType: 'json',
+					data: {
+						"book_id": this.BookData.mongoId,
+						"index": index,
+						"content": content
+					},
+					success: res => {},
+					fail: () => {},
+					complete: () => {}
+				});
+			},
+
 			coverClick() {
 				this.calculateCoverTranslate('click');
 			},
@@ -329,7 +390,7 @@
 					this.coverShow = false;
 				}, 300);
 			},
-			
+
 			onToEnd() {
 				this.optShow = false;
 				this.optBotShow = false;
@@ -440,8 +501,8 @@
 					});
 				}
 			},
-		
-			
+
+
 		}
 	}
 </script>

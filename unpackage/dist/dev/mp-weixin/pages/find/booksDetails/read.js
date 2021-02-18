@@ -311,6 +311,7 @@ var _default =
       ReadContent: '',
       BookList: {}, //书的章节信息
       chapterCurrent: {}, //当前章节
+      // current_progress: 0, //当前章节索引，0开始
       BookInfo: {},
       addBtn: true };
 
@@ -320,7 +321,8 @@ var _default =
       var item = JSON.parse(decodeURIComponent(option.item));
       this.BookData = item.detail;
       this.BookList = item.chapter;
-      this.iniGetBookInfo();
+      // this.current_progress = item.current_progress
+      this.iniGetBookInfo(item.current_progress);
 
     }
 
@@ -355,14 +357,14 @@ var _default =
 
   methods: {
     //获取初始的书籍信息
-    iniGetBookInfo: function iniGetBookInfo() {
+    iniGetBookInfo: function iniGetBookInfo(index) {
 
       if (this.BookData.index > 1 || this.BookData.page > 1) {
         //封面
         this.coverShow = false;
       }
       //获取书籍内容
-      this.details(0);
+      this.details(index);
     },
     /* 上一章 */
     previousReadClick: function previousReadClick() {
@@ -405,23 +407,60 @@ var _default =
     /**获取当前章节
         * @param {Object} item当前章节信息
         */
-    details: function details(index) {
+    details: function details(index) {var _this = this;
       console.log("点击哪一章" + index);
       console.log(this.BookList.data[index]);
-      this.chapterCurrent = { "detail": this.BookList.data[index], "index": index };
-      this.GetReadContent();
-      this.asideShow = false;
-      this.optShow = false;
-      /* 回到顶部 */
-      uni.pageScrollTo({
-        scrollTop: 0,
-        duration: 300 });
+      this.chapterCurrent = {
+        "detail": this.BookList.data[index],
+        "index": index };
+
+
+
+      uni.request({
+        url: getApp().globalData.mongo_ip + 'cmdb/is_have',
+        method: 'POST',
+        header: {
+          'Content-Type': 'application/json'
+          // token : uni.getStorageSync("TOKEN")
+        },
+        dataType: 'json',
+        data: {
+          "book_id": this.BookData.mongoId,
+          "index": index },
+
+        success: function success(res) {
+          console.log("是否存在===========================");
+          console.log(res.data);
+          //如果数据库中有该内容
+          if (res.data.code == 1) {
+            _this.ReadContent = res.data.data;
+          } else {
+            _this.GetReadContent(index);
+
+          }
+          _this.asideShow = false;
+          _this.optShow = false;
+          /* 回到顶部 */
+          uni.pageScrollTo({
+            scrollTop: 0,
+            duration: 300 });
+
+        },
+        fail: function fail() {},
+        complete: function complete() {} });
+
+
+
+
+
+
 
 
     },
 
+
     //获取书的内容
-    GetReadContent: function GetReadContent() {var _this = this;
+    GetReadContent: function GetReadContent(index) {var _this2 = this;
       var websiteUrl = this.chapterCurrent.detail.directory_url[0];
       // console.log(websiteUrl)
       uni.request({
@@ -445,25 +484,47 @@ var _default =
           console.log(content3[1]);
           //去除掉横线后面的东西
           var content4 = content3[1].split('<hr');
-          _this.ReadContent = content4[0];
+          _this2.ReadContent = content4[0];
+          _this2.insertContent(content4[0], index);
         },
         fail: function fail() {},
         complete: function complete() {} });
 
     },
 
+    //往数据库插入内容
+    insertContent: function insertContent(content, index) {
+      console.log("执行插入======================");
+      uni.request({
+        url: getApp().globalData.mongo_ip + 'cmdb/insertContent',
+        method: 'POST',
+        header: {
+          'Content-Type': 'application/json'
+          // token : uni.getStorageSync("TOKEN")
+        },
+        dataType: 'json',
+        data: {
+          "book_id": this.BookData.mongoId,
+          "index": index,
+          "content": content },
+
+        success: function success(res) {},
+        fail: function fail() {},
+        complete: function complete() {} });
+
+    },
 
     coverClick: function coverClick() {
       this.calculateCoverTranslate('click');
     },
-    calculateCoverTranslate: function calculateCoverTranslate(sort) {var _this2 = this;
+    calculateCoverTranslate: function calculateCoverTranslate(sort) {var _this3 = this;
       if (sort == 'left' || sort == 'click') {
         this.coverInfo.translate = -(this.domInfo.offsetWidth + this.clearance);
       } else if (sort == 'right') {
         this.coverInfo.translate = this.domInfo.offsetWidth + this.clearance;
       }
       setTimeout(function () {
-        _this2.coverShow = false;
+        _this3.coverShow = false;
       }, 300);
     },
 

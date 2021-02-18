@@ -17,7 +17,7 @@
 					</view> -->
 				</view>
 				<view class="btn-box">
-					<view class="readBtn" @click="to(chapter_count)">开始阅读</view>
+					<view class="readBtn" @click="to">开始阅读</view>
 					<view class="joinBtn" v-if="isBookShelf==true">已加入书架</view>
 					<view class="joinBtn" v-else @click="addBookShelf">加入书架</view>
 				</view>
@@ -60,8 +60,8 @@
 			hidded() {
 				this.show = false
 			},
-			to(chapter) {
-				this.$emit('to_read', this.chapter_count)
+			to() {
+				this.$emit('to_read')
 			},
 			addBookShelf(){
 				this.$emit('addBookShelf')
