@@ -85,10 +85,17 @@
 			 * @param {Object} value
 			 */
 			confirm(done) {
-				done()
+				
 				//确认加入书架
 				this.addBookShelf()
-				this.read()
+				this.isInBookShelf()
+				
+				done()
+				let that=this
+				setTimeout(function(){
+					that.read()
+				},100)
+				
 				// TODO 做一些其他的事情，手动执行 done 才会关闭对话框
 				// ...
 				
@@ -101,7 +108,8 @@
 					url: './read?item=' + encodeURIComponent(JSON.stringify({
 						"detail": this.detail,
 						"chapter": this.chapter,
-						"current_progress": this.current_progress
+						"current_progress": this.current_progress,
+						"isBookShelf":this.isBookShelf//是否存在书架中（前提是已经登陆）
 					}))
 				})
 			},
@@ -127,6 +135,9 @@
 							if (res.data.success) {
 								this.isBookShelf = true
 								//如果有在书架中，获取最新阅读进度，比如在第几章
+								if(res.data.code!=-1){
+									this.current_progress=res.data.code
+								}
 							}
 						},
 						fail: () => {},

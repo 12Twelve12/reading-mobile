@@ -1,6 +1,6 @@
 <template>
 	<view class="cu-list grid bg-white" :class="['col-' + gridCol,gridBorder?'':'no-border']">
-		<view class="cu-item" v-for="(item,index) in BookLists" :key="index" @click="to(item.href)">
+		<view class="cu-item" v-for="(item,index) in BookLists" :key="index" @click="to(index)">
 			<view>
 				<!-- <image style="width:70px; height: 100px; background-color: #eeeeee;" :src="item.src" @error="imageError"></image> -->
 				<image :src="item.img"></image>
@@ -25,12 +25,15 @@
 			imageError: function(e) {
 				console.error('image发生error事件，携带值为' + e.detail.errMsg)
 			},
-			to(href) {
-				console.log("发电");
-				uni.navigateTo({
-					url: href
-				});
+			to(index){
+				this.$emit('to_read',index)//点击了那本书
 			}
+			// to(href) {
+			// 	console.log("发电");
+			// 	uni.navigateTo({
+			// 		url: href
+			// 	});
+			// }
 		}
 	}
 </script>

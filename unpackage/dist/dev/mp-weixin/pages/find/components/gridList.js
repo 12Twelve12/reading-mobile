@@ -114,7 +114,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
 //
 //
 //
@@ -141,13 +141,16 @@ var _default =
     imageError: function imageError(e) {
       console.error('image发生error事件，携带值为' + e.detail.errMsg);
     },
-    to: function to(href) {
-      console.log("发电");
-      uni.navigateTo({
-        url: href });
-
-    } } };exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+    to: function to(index) {
+      this.$emit('to_read', index); //点击了那本书
+    }
+    // to(href) {
+    // 	console.log("发电");
+    // 	uni.navigateTo({
+    // 		url: href
+    // 	});
+    // }
+  } };exports.default = _default;
 
 /***/ }),
 

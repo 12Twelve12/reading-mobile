@@ -168,8 +168,13 @@ __webpack_require__.r(__webpack_exports__);
       //书列表数据
       BookLists: [],
       user: {},
-      windowHeights: 0 };
-
+      windowHeights: 0,
+      detail: {}, //基本信息（作者，简介等）
+      chapter: {}, //章节数
+      current_progress: 0, //当前进度，第几-1章
+      minutes: '0', //进入阅读分钟
+      seconds: '0' //进入阅读余秒
+    };
   },
   onShow: function onShow() {
     var user = uni.getStorageSync('user');
@@ -177,6 +182,7 @@ __webpack_require__.r(__webpack_exports__);
       this.user = user;
     }
     this.getData();
+    this.getTimeDay();
   },
   onLoad: function onLoad() {
     var _this = this;
@@ -224,6 +230,102 @@ __webpack_require__.r(__webpack_exports__);
           complete: function complete() {} });
 
       }
+
+    },
+    //获得跳转时需要的数据
+    to_read: function to_read(index) {
+      this.detail = this.BookLists[index];
+      this.getCurrent_progress();
+      this.getChapter();
+
+
+    },
+
+    to: function to() {
+      console.log("获得跳转时需要的数据");
+      console.log(this.chapter);
+      console.log(this.current_progress);
+      uni.navigateTo({
+        url: '../find/booksDetails/read?item=' + encodeURIComponent(JSON.stringify({
+          "detail": this.detail,
+          "chapter": this.chapter,
+          "current_progress": this.current_progress,
+          "isBookShelf": true //是否存在书架中（前提是已经登陆）
+        })) });
+
+    },
+
+    //获得章节信息
+    getChapter: function getChapter() {var _this3 = this;
+      var websiteUrl = getApp().globalData.mongo_ip + 'cmdb/getChapter';
+      uni.request({
+        url: websiteUrl,
+        method: 'GET',
+        header: {
+          'Content-Type': 'application/json'
+          // token : uni.getStorageSync("TOKEN")
+        },
+        dataType: 'json',
+        data: {
+          "id": this.detail.mongoId },
+
+        success: function success(res) {
+          _this3.chapter = res.data;
+          console.log("获得章节信息");
+          console.log(res.data);
+          _this3.to();
+        },
+        fail: function fail() {},
+        complete: function complete() {} });
+
+    },
+    //获得阅读进度
+    getCurrent_progress: function getCurrent_progress() {var _this4 = this;
+      uni.request({
+        url: getApp().globalData.base_ip + 'read/query',
+        method: 'GET',
+        header: {
+          'Content-Type': 'application/x-www-form-urlencoded' },
+
+
+        dataType: 'json',
+        data: {
+          "userId": this.user.id,
+          "bookId": this.detail.id },
+
+        success: function success(res) {
+          console.log("获得进度返回结果=====================");
+          console.log(res);
+          console.log(res.data);
+          if (res.data.data != -1) {
+            _this4.current_progress = res.data.data;
+          } else {
+            _this4.current_progress = 0;
+          }
+          console.log(_this4.current_progress);
+        },
+        fail: function fail() {},
+        complete: function complete() {} });
+
+    },
+    getTimeDay: function getTimeDay() {var _this5 = this;
+      uni.request({
+        url: getApp().globalData.base_ip + 'read/queryTimeDay?userId=' + this.user.id,
+        method: 'GET',
+        header: {
+          'Content-Type': 'application/x-www-form-urlencoded' },
+
+        dataType: 'json',
+        success: function success(res) {
+          console.log("获得时间返回结果=====================");
+          console.log(res);
+          console.log(res.data);
+          _this5.minutes = res.data.msg;
+          _this5.seconds = res.data.data;
+
+        },
+        fail: function fail() {},
+        complete: function complete() {} });
 
     } },
 

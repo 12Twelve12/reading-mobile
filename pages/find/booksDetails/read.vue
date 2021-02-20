@@ -174,18 +174,38 @@
 				ReadContent: '',
 				BookList: {}, //书的章节信息
 				chapterCurrent: {}, //当前章节
-				// current_progress: 0, //当前章节索引，0开始
+				current_progress: 0, //当前章节索引，0开始
 				BookInfo: {},
 				addBtn: true,
+				isBookShelf: false, //是否存在书架中，有的话才记录进度
+				user: {}, //如果存在书架中，才获取用户信息
+				read_log: {
+					"startTime": '',
+					"endTime": '',
+					"bookId": '',
+					"userId": '',
+					"progress": 0 //当前章节
+				} //记录阅读进度，有登陆，同时存在该用户书架中时才进行记录
 			}
 		},
 		onLoad(option) { //接受参数
 			if (option) {
 				const item = JSON.parse(decodeURIComponent(option.item));
+				console.log("传到阅读界面的数据================================")
+				console.log(item)
 				this.BookData = item.detail
 				this.BookList = item.chapter
 				// this.current_progress = item.current_progress
-				this.iniGetBookInfo(item.current_progress);
+				this.isBookShelf = item.isBookShelf //是否存在书架中，有的话才记录进度
+
+				//用于记录阅读日志
+				if (this.isBookShelf) {
+					this.coverShow=false
+					this.user = uni.getStorageSync('user')
+					this.read_log.startTime = this.$moment().format('YYYY-MM-DD hh:mm:ss')
+				}
+				this.current_progress=item.current_progress;
+				this.iniGetBookInfo(this.current_progress);
 
 			}
 
@@ -271,6 +291,12 @@
 			 * @param {Object} item当前章节信息
 			 */
 			details(index) {
+
+				//用于记录阅读日志
+				if (this.isBookShelf) {
+					this.read_log.progress = index
+				}
+
 				console.log("点击哪一章" + index)
 				console.log(this.BookList.data[index])
 				this.chapterCurrent = {
@@ -295,11 +321,11 @@
 						console.log("是否存在===========================")
 						console.log(res.data)
 						//如果数据库中有该内容
-						if (res.data.code==1) {
-							this.ReadContent=res.data.data
+						if (res.data.code == 1) {
+							this.ReadContent = res.data.data
 						} else {
 							this.GetReadContent(index)
-							
+
 						}
 						this.asideShow = false
 						this.optShow = false
@@ -348,7 +374,7 @@
 						//去除掉横线后面的东西
 						var content4 = content3[1].split('<hr')
 						this.ReadContent = content4[0]
-						this.insertContent(content4[0],index)
+						this.insertContent(content4[0], index)
 					},
 					fail: () => {},
 					complete: () => {}
@@ -356,7 +382,7 @@
 			},
 
 			//往数据库插入内容
-			insertContent(content,index) {
+			insertContent(content, index) {
 				console.log("执行插入======================")
 				uni.request({
 					url: getApp().globalData.mongo_ip + 'cmdb/insertContent',
@@ -376,6 +402,40 @@
 					complete: () => {}
 				});
 			},
+
+			//返回的时候记录阅读日志
+			onBackPress(e) {
+				if (e.from == 'backbutton') {
+					console.log("//返回的时候记录阅读日志");
+					console.log(e);
+					if (this.isBookShelf) {
+						this.read_log.endTime = this.$moment().format('YYYY-MM-DD hh:mm:ss')
+						this.read_log.bookId = this.BookData.id
+						this.read_log.userId = this.user.id
+
+						console.log("有加入书架时记录的数据")
+						console.log(this.read_log);
+						uni.request({
+							url: getApp().globalData.base_ip + 'read/insert',
+							method: 'POST',
+							header: {
+								'Content-Type': 'application/x-www-form-urlencoded'
+								// 'Content-Type': 'application/json',
+								// token : uni.getStorageSync("TOKEN")
+							},
+							dataType: 'json',
+							data: this.read_log,
+							success: res => {},
+							fail: () => {},
+							complete: () => {}
+						});
+					}
+					// return true; //阻止默认返回行为
+				}
+
+			},
+
+
 
 			coverClick() {
 				this.calculateCoverTranslate('click');
@@ -447,6 +507,10 @@
 				let num = e.detail.value;
 				this.SetFontSize(num);
 			},
+			/**
+			 * 字体大小
+			 * @param {Object} num
+			 */
 			SetFontSize(num) {
 				if (num == 1) {
 					this.fontSize = 0.875;
@@ -466,6 +530,11 @@
 					this.fontSize = 1.75;
 				}
 			},
+			/**
+			 * 选择主题颜色
+			 * @param {Object} index
+			 * @param {Object} key
+			 */
 			skinCheckbox(index, key) {
 				let items = this.skinData;
 				for (let i = 0, lenI = items.length; i < lenI; ++i) {

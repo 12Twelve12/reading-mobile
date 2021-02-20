@@ -6294,12 +6294,29 @@ var render = function() {
           _c(
             "v-uni-view",
             { staticClass: _vm._$g(8, "sc"), attrs: { _i: 8 } },
-            [_vm._v("今日阅读 100分100秒")]
+            [
+              _vm._v(
+                "今日阅读 " +
+                  _vm._$g(8, "t0-0") +
+                  "分" +
+                  _vm._$g(8, "t0-1") +
+                  "秒"
+              )
+            ]
           )
         ],
         1
       ),
-      _vm._$g(9, "i") ? _c("GridList", { attrs: { _i: 9 } }) : _vm._e(),
+      _vm._$g(9, "i")
+        ? _c("GridList", {
+            attrs: { _i: 9 },
+            on: {
+              to_read: function($event) {
+                return _vm.$handleViewEvent($event)
+              }
+            }
+          })
+        : _vm._e(),
       _vm._$g(10, "i")
         ? _c(
             "v-uni-view",
@@ -6407,7 +6424,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ./node_modules/css-loader/dist/runtime/api.js */ 25);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "\n.top_back[data-v-7b4ba71a] {\n\twidth: 100%;\n\theight: 330upx;\n\tbackground-size: 100% 230upx;\n\tbackground: #517E69;\n\t/* background-image: url(../../static/top_back.jpg); */\n\tbackground-repeat: no-repeat;\n\t/* padding: 55px; */\n}\n.time_card[data-v-7b4ba71a] {\n\tposition: relative;\n\ttop: 37px;\n\tleft: -8px;\n\tbackground-color: white;\n\twidth: 177px;\n\tborder-radius: 9px;\n\tpadding-left: 20px;\n}\n[class*=\"cuIcon-\"][data-v-7b4ba71a] {\n\n\tfont-size: large;\n}\n.flex-sub[data-v-7b4ba71a] {\n\ttop: 30px;\n\tposition: relative;\n}\n\n", ""]);
+exports.push([module.i, "\n.top_back[data-v-7b4ba71a] {\n\twidth: 100%;\n\theight: 330upx;\n\tbackground-size: 100% 230upx;\n\tbackground: #517E69;\n\t/* background-image: url(../../static/top_back.jpg); */\n\tbackground-repeat: no-repeat;\n\t/* padding: 55px; */\n}\n.time_card[data-v-7b4ba71a] {\n\tposition: relative;\n\ttop: 37px;\n\tleft: -8px;\n\tbackground-color: white;\n\twidth: 177px;\n\tborder-radius: 9px;\n\tpadding-left: 20px;\n}\n[class*=\"cuIcon-\"][data-v-7b4ba71a] {\n\n\tfont-size: large;\n}\n.flex-sub[data-v-7b4ba71a] {\n\ttop: 30px;\n\tposition: relative;\n}\n", ""]);
 // Exports
 module.exports = exports;
 
