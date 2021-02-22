@@ -1,0 +1,29 @@
+
+.padding-top.data-v-3f6227dc {
+	padding-top: 100rpx;
+}
+.book-img.data-v-3f6227dc {
+	width: 150rpx;
+	height: 200rpx;
+	left: 50rpx;
+}
+.score.data-v-3f6227dc {
+	width: -webkit-fit-content;
+	width: fit-content;
+	border-radius: 8rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	padding-right: 20rpx;
+}
+[class*="cuIcon-"].data-v-3f6227dc {
+	font-size: initial;
+}
+.plaClass.data-v-3f6227dc {
+	color: #dbdbdb;
+	width: 382px;
+}
+

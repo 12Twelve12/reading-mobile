@@ -10,7 +10,9 @@
 					<view class="author">{{detail.author}}</view>
 					<view class="score">
 						<text class="text-yellow text-bold padding-sm">2.0分</text>
-						<htz-rate v-model="score" class="padding-right"></htz-rate>
+						<view v-for="(item,index) in score_star">
+							<text :class="item?'cuIcon-favorfill':'cuIcon-favor'" class="text-yellow"></text>
+						</view>
 					</view>
 					<!-- <view class="grade">
 						<u-rate active-color="#FFB32F" current="5" :disabled='true' />
@@ -30,7 +32,7 @@
 			</view>
 			<text v-if="!show" @click="shows" class="text-green cuIcon-unfold" style="position: relative;left: 33%;">展开阅读全文</text>
 		</view>
-		<view class="flex justify-between directory _padding">
+		<view class="flex justify-between directory _padding" @click="to_directory">
 			<view>目录</view>
 			<view class="text-sm text-gray">共{{chapter_count}}章<text class="cuIcon-right"></text></view>
 		</view>
@@ -39,17 +41,17 @@
 </template>
 
 <script>
-	import htzRate from '@/components/htz-rate/htz-rate.vue'
 	export default {
-		props: ['detail', 'chapter_count','isBookShelf'],
+		props: ['detail', 'chapter_count', 'isBookShelf'],
 		data() {
 			return {
 				show: false,
 				score: 2, //评分数
+				score_star: [true, true, false, false, false]
 			};
 		},
 		components: {
-			htzRate,
+
 		},
 		methods: {
 
@@ -63,10 +65,12 @@
 			to() {
 				this.$emit('to_read')
 			},
-			addBookShelf(){
+			addBookShelf() {
 				this.$emit('addBookShelf')
+			},
+			to_directory() {
+				this.$emit('to_directory')
 			}
-			
 
 		}
 	}
@@ -128,10 +132,13 @@
 			}
 
 			.score {
-				padding: 10upx;
+				// padding: 10upx;
 				background-color: rgba(12, 10, 6, 0.3);
 				width: fit-content;
 				border-radius: 8rpx;
+				display: flex;
+				align-items: center;
+				padding-right: 10upx;
 			}
 
 

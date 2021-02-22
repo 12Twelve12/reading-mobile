@@ -1,6 +1,4 @@
 {
-  "component": true,
-  "usingComponents": {
-    "htz-rate": "/components/htz-rate/htz-rate"
-  }
+  "usingComponents": {},
+  "component": true
 }

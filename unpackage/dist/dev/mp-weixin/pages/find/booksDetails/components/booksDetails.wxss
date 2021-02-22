@@ -77,11 +77,17 @@
   padding-bottom: 20rpx;
 }
 .book-detail .detail-right .score.data-v-313407b2 {
-  padding: 10rpx;
   background-color: rgba(12, 10, 6, 0.3);
   width: -webkit-fit-content;
   width: fit-content;
   border-radius: 8rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  padding-right: 10rpx;
 }
 .book-detail .detail-right .grade.data-v-313407b2 {
   padding-top: 4rpx;

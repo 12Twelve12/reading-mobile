@@ -1,0 +1,32 @@
+.zai-off-hover.data-v-c7233e24,
+.zai-aside-content.data-v-c7233e24,
+.zai-chapter-tab-x.data-v-c7233e24 {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+.zai-aside-content.data-v-c7233e24 {
+  left: 5.5rem;
+  color: #969ba3;
+  -webkit-transition: -webkit-transform 0.15s;
+  transition: -webkit-transform 0.15s;
+  transition: transform 0.15s;
+  transition: transform 0.15s, -webkit-transform 0.15s;
+  -webkit-transform: translateX(100%);
+          transform: translateX(100%);
+  background-color: #f6f7f9;
+}
+.zai-aside-content .zai-nav-title.data-v-c7233e24 {
+  border-bottom: 2rpx solid #f37b1d;
+  z-index: 9;
+}
+.zai-aside-content .zai-chapter-tab-x.data-v-c7233e24 {
+  top: 2.6rem;
+  overflow: auto;
+}
+.zai-aside-content .zai-chapter-tab-x .zai-title-f.data-v-c7233e24 {
+  min-height: 65rpx;
+}
+

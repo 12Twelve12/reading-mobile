@@ -1,8 +1,8 @@
 <template>
 	<view>
 		<BooksDetails :isBookShelf="isBookShelf" :detail="detail" :chapter_count="chapter.count" @to_read="to_read"
-		 @addBookShelf="addBookShelf"></BooksDetails>
-		<Comments :comments_lists="comments_lists"></Comments>
+		 @addBookShelf="addBookShelf" @to_directory="to_directory"></BooksDetails>
+		<Comments @to_comments="to_comments" :comments_lists="comments_lists" :user="user" @del_comment="del_comment"></Comments>
 		<uni-popup ref="popup" type="dialog">
 			<uni-popup-dialog type="input" message="成功消息" :duration="2000" :before-close="true" @close="close" @confirm="confirm"></uni-popup-dialog>
 		</uni-popup>
@@ -21,15 +21,19 @@
 				current_progress: 0, //当前进度，第几-1章
 				isBookShelf: false, //标记是否存在书架中
 				comments_lists: [{
-					"userimg": "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2566720529,304942931&fm=26&gp=0.jpg",
-					"username": "twelve"
-				}, {
-					"userimg": "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2566720529,304942931&fm=26&gp=0.jpg",
-					"username": "twelve"
-				}, {
-					"userimg": "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2566720529,304942931&fm=26&gp=0.jpg",
-					"username": "twelve"
+					"img": "",
+					"nickname": "",
+					"content": "",
+					"score_star":[],
+					"time":"",
+					"str":""//不同星星颗数，不同话
 				}]
+				// comments_lists: [{
+				// 	"img": "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2566720529,304942931&fm=26&gp=0.jpg",
+				// 	"nickname": "twelve",
+				// 	"content":"",
+				// 	"time":""
+				// }]
 			};
 		},
 		components: {
@@ -43,6 +47,7 @@
 			}
 			this.getChapter()
 			this.isInBookShelf()
+			this.getComments()
 		},
 		//接受参数
 		onLoad: function(option) {
@@ -59,13 +64,40 @@
 			to_read() {
 				if (!this.isBookShelf && this.user) {
 					// 通过组件定义的ref调用uni-popup方法
-					this.$refs.popup.open()//进入阅读界面前先问是否要加入书架
+					this.$refs.popup.open() //进入阅读界面前先问是否要加入书架
 
 				} else {
 					this.read()
 				}
 
 
+			},
+
+			//子组件点击评论，跳转到填写评论内容页面
+			to_comments() {
+				if (this.user) {
+					uni.navigateTo({
+						url: '../comments/comments?item=' + encodeURIComponent(JSON.stringify({
+							"detail": this.detail,
+							"user": this.user
+						}))
+					})
+				} else {
+					this.go_login()
+				}
+
+			},
+			
+			//点击了目录
+			to_directory(){
+				uni.navigateTo({
+					url: '../directory/directory?item=' + encodeURIComponent(JSON.stringify({
+						"detail": this.detail,
+						"chapter": this.chapter,
+						"current_progress": this.current_progress,
+						"isBookShelf": this.isBookShelf 
+					}))
+				})
 			},
 
 			//是否加入书架对话框======================================================================================
@@ -85,20 +117,20 @@
 			 * @param {Object} value
 			 */
 			confirm(done) {
-				
+
 				//确认加入书架
 				this.addBookShelf()
 				this.isInBookShelf()
-				
+
 				done()
-				let that=this
-				setTimeout(function(){
+				let that = this
+				setTimeout(function() {
 					that.read()
-				},100)
-				
+				}, 100)
+
 				// TODO 做一些其他的事情，手动执行 done 才会关闭对话框
 				// ...
-				
+
 			},
 			//是否加入书架对话框======================================================================================
 
@@ -109,7 +141,7 @@
 						"detail": this.detail,
 						"chapter": this.chapter,
 						"current_progress": this.current_progress,
-						"isBookShelf":this.isBookShelf//是否存在书架中（前提是已经登陆）
+						"isBookShelf": this.isBookShelf //是否存在书架中（前提是已经登陆）
 					}))
 				})
 			},
@@ -135,8 +167,8 @@
 							if (res.data.success) {
 								this.isBookShelf = true
 								//如果有在书架中，获取最新阅读进度，比如在第几章
-								if(res.data.code!=-1){
-									this.current_progress=res.data.code
+								if (res.data.code != -1) {
+									this.current_progress = res.data.code
 								}
 							}
 						},
@@ -172,13 +204,13 @@
 							if (res.data.success) {
 								uni.showToast({
 									title: res.data.msg,
-									icon:'none'
+									icon: 'none'
 								});
 								this.isBookShelf = true
 							} else {
 								uni.showToast({
 									title: res.data.msg,
-									icon:'none'
+									icon: 'none'
 								});
 							}
 
@@ -217,6 +249,81 @@
 					},
 					success: res => {
 						this.chapter = res.data
+					},
+					fail: () => {},
+					complete: () => {}
+				});
+			},
+			getComments() {
+				uni.request({
+					url: getApp().globalData.base_ip + "comment/queryByBookId",
+					method: 'GET',
+					header: {
+						'Content-Type': 'application/json',
+						// token : uni.getStorageSync("TOKEN")
+					},
+					dataType: 'json',
+					data: {
+						"bookId": this.detail.id
+					},
+					success: res => {
+						console.log(res.data)
+
+						this.comments_lists = res.data
+						for (let i = 0; i < this.comments_lists.length; i++) {
+							let score_star = []
+							for (let j = 0; j < this.comments_lists[i].grade; j++) {
+								score_star.push(true);
+							}
+							this.comments_lists[i].score_star = score_star
+							if(this.comments_lists[i].grade==1){
+								this.comments_lists[i].str = "惨不忍睹"
+							}
+							else if(this.comments_lists[i].grade==2){
+								this.comments_lists[i].str = "不值一提"
+							}
+							else if(this.comments_lists[i].grade==3){
+								this.comments_lists[i].str = "平淡无奇"
+							}
+							else if(this.comments_lists[i].grade==4){
+								this.comments_lists[i].str = "值得一看"
+							}
+							else if(this.comments_lists[i].grade==5){
+								this.comments_lists[i].str = "强力推荐"
+							}
+						}
+					},
+					fail: () => {},
+					complete: () => {}
+				});
+			},
+			//删除评论
+			del_comment(time){
+				console.log("点击删除评论"+time)
+				uni.request({
+					url: getApp().globalData.base_ip + "comment/delete",
+					method: 'DELETE',
+					header: {
+						'Content-Type': 'application/x-www-form-urlencoded'
+						// 'Content-Type': 'application/json',
+						// token : uni.getStorageSync("TOKEN")
+					},
+					dataType: 'json',
+					data: {"time":time},
+					success: res => {
+						console.log(res.data)
+						if(res.data.success){
+							uni.showToast({
+								title:"成功删除",
+								icon:'none'
+							})
+							this.getComments()
+						}else{
+							uni.showToast({
+								title:res.data.msg,
+								icon:'none'
+							})
+						}
 					},
 					fail: () => {},
 					complete: () => {}
