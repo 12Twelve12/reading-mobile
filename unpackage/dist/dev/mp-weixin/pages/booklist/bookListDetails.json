@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "book-list-details": "/pages/booklist/components/details",
+    "books": "/pages/booklist/components/list"
+  }
+}

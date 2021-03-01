@@ -1,5 +1,3 @@
-
-
 <template>
 
 	<view class="padding-top">
@@ -11,10 +9,12 @@
 			<text class="cuIcon-search text-gray search"></text>
 		</scroll-view>
 		<view v-if="TabCur==0">
-			<CardList v-bind:booklists="booklists"></CardList>
+			<text class="text-gray" style="display: block;text-align: center;padding: 12px;" v-if="booklists.length==0">暂无数据</text>
+			<CardList v-bind:booklists="booklists" @to_details="to_details"></CardList>
 		</view>
 		<view v-if="TabCur==1">
-			最新1
+			<text class="text-gray" style="display: block;text-align: center;padding: 12px;" v-if="booklists.length==0">暂无数据</text>
+			<CardList v-bind:booklists="booklists"></CardList>
 		</view>
 	</view>
 
@@ -33,7 +33,7 @@
 		components: {
 			CardList
 		},
-		created() {
+		onShow() {
 			this.getData()
 		},
 		methods: {
@@ -41,110 +41,36 @@
 				this.TabCur = e.currentTarget.dataset.id;
 			},
 			getData() {
-				let booklists = [{
-						"user": {
-							"img": "https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png",
-							"name": "用户名1"
-						},
-						"books": {
-							"name": "书单名1",
-							"intro": "简介1",
-							"collect_counts": 6,
-							"like_counts": 6,
-							"time": "2018年12月4日",
-							"lists": [{
-									"img": "https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png",
-									"name": "cc1"
-								},
-								{
-									"img": "https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png",
-									"name": "cc2"
-								},
-								{
-									"img": "https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png",
-									"name": "cc3"
-								},
-								{
-									"img": "https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png",
-									"name": "cc4"
-								}
-							]
-						}
+				let websiteUrl = getApp().globalData.base_ip + 'booklist/findAllNew';
+				uni.request({
+					url: websiteUrl,
+					method: 'GET',
+					header: {
+						'Content-Type': 'application/json',
+						// token : uni.getStorageSync("TOKEN")
 					},
-					{
-						"user": {
-							"img": "https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png",
-							"name": "用户名2"
-						},
-						"books": {
-							"name": "书单名2",
-							"intro": "简介2",
-							"collect_counts": 8,
-							"like_counts": 5,
-							"time": "2018年12月5日",
-							"lists": [{
-									"img": "https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png",
-									"name": "cc1"
-								},
-								{
-									"img": "https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png",
-									"name": "cc2"
-								}
-							]
+					dataType: 'json',
+					success: res => {
+						if (res.data.success) {
+							this.booklists = res.data.data;
+							this.$forceUpdate(); //强制刷新，数据才会更新
 						}
+
+
 					},
-					{
-						"user": {
-							"img": "https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png",
-							"name": "用户名2"
-						},
-						"books": {
-							"name": "书单名2",
-							"intro": "简介2",
-							"collect_counts": 8,
-							"like_counts": 5,
-							"time": "2018年12月5日",
-							"lists": [{
-									"img": "https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png",
-									"name": "cc1"
-								},
-								{
-									"img": "https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png",
-									"name": "cc2"
-								}
-							]
-						}
-					},
-					{
-						"user": {
-							"img": "https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png",
-							"name": "用户名2"
-						},
-						"books": {
-							"name": "书单名2",
-							"intro": "简介2",
-							"collect_counts": 8,
-							"like_counts": 5,
-							"time": "2018年12月5日",
-							"lists": [{
-									"img": "https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png",
-									"name": "cc1"
-								},
-								{
-									"img": "https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png",
-									"name": "cc2"
-								},
-								{
-									"img": "https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png",
-									"name": "cc2"
-								}
-								
-							]
-						}
-					}
-				];
-				this.booklists = booklists;
-			}
+					fail: () => {},
+					complete: () => {}
+				});
+
+			},
+			to_details(index) {
+				uni.navigateTo({
+					url: '../booklist/bookListDetails?item=' + encodeURIComponent(JSON.stringify({
+						"booklists": this.booklists[index]
+					}))
+				})
+			},
+			
 		}
 	}
 </script>
@@ -159,13 +85,14 @@
 	.booklist {
 		background-color: #edf6ff;
 	}
+
 	.bookcard {
 		display: flex;
 		flex-direction: column !important;
 		text-align: center;
 	}
-	.padding-top{
+
+	.padding-top {
 		padding-top: 40px;
 	}
 </style>
-

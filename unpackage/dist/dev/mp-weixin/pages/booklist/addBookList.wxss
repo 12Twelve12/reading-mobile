@@ -1,0 +1,28 @@
+
+.add_cover.data-v-27c7fbd9 {
+	margin: 0 auto;
+	display: block;
+}
+.input.data-v-27c7fbd9 {
+	width: 90%;
+	background-color: #fafafa;
+	margin: 0 auto;
+	border-radius: 14rpx;
+	padding: 10rpx;
+	height: auto;
+	padding-left: 20rpx;
+	margin-top: 40rpx;
+	margin-bottom: 40rpx;
+}
+textarea.data-v-27c7fbd9 {
+	width: 90%;
+	background-color: #fafafa;
+	margin: 0 auto;
+	border-radius: 14rpx;
+	padding: 20rpx;
+	padding-left: 20rpx;
+}
+.padding-top.data-v-27c7fbd9 {
+	padding-top: 40px;
+}
+

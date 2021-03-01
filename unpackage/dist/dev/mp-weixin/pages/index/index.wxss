@@ -17,7 +17,7 @@
 	        flex-direction: column !important;
 	text-align: center;
 }
-.padding-top{
+.padding-top {
 	padding-top: 40px;
 }
 

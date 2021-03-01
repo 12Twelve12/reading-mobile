@@ -12,7 +12,11 @@
     "pages/login/register",
     "pages/mine/components/userCard",
     "pages/find/comments/comments",
-    "pages/find/directory/directory"
+    "pages/find/directory/directory",
+    "pages/booklist/booklist",
+    "pages/booklist/addBookList",
+    "pages/booklist/addBook",
+    "pages/booklist/bookListDetails"
   ],
   "subPackages": [],
   "window": {
@@ -23,35 +27,41 @@
     "titleNView": false
   },
   "tabBar": {
-    "color": "#4CD964",
-    "selectedColor": "#555555",
+    "color": "#E6E6E6",
+    "selectedColor": "#41A28E",
     "list": [
       {
         "pagePath": "pages/index/index",
         "text": "首页",
-        "iconPath": "static/logo.png",
-        "selectedIconPath": "static/logo.png"
+        "iconPath": "static/img/tabbar/index.png",
+        "selectedIconPath": "static/img/tabbar/indexactive.png"
       },
       {
         "pagePath": "pages/find/find",
         "text": "找书",
-        "iconPath": "static/logo.png",
-        "selectedIconPath": "static/logo.png"
+        "iconPath": "static/img/tabbar/find.png",
+        "selectedIconPath": "static/img/tabbar/findactive.png"
+      },
+      {
+        "pagePath": "pages/booklist/booklist",
+        "iconPath": "static/img/tabbar/add.png",
+        "selectedIconPath": "static/img/tabbar/addactive.png",
+        "text": "发布"
       },
       {
         "pagePath": "pages/bookshelf/bookshelf",
         "text": "书架",
-        "iconPath": "static/logo.png",
-        "selectedIconPath": "static/logo.png"
+        "iconPath": "static/img/tabbar/bookshelf.png",
+        "selectedIconPath": "static/img/tabbar/bookshelfactive.png"
       },
       {
         "pagePath": "pages/mine/mine",
         "text": "我的",
-        "iconPath": "static/logo.png",
-        "selectedIconPath": "static/logo.png"
+        "iconPath": "static/img/tabbar/mine.png",
+        "selectedIconPath": "static/img/tabbar/mineactive.png"
       }
     ]
   },
   "usingComponents": {},
-  "sitemapLocation": "sitemap30.json"
+  "sitemapLocation": "sitemap53.json"
 }

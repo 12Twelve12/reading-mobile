@@ -130,7 +130,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var CardList = function CardList() {__webpack_require__.e(/*! require.ensure | components/cardList */ "components/cardList").then((function () {return resolve(__webpack_require__(/*! ../../components/cardList.vue */ 249));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var CardList = function CardList() {__webpack_require__.e(/*! require.ensure | components/cardList */ "components/cardList").then((function () {return resolve(__webpack_require__(/*! ../../components/cardList.vue */ 277));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -165,118 +165,44 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
   components: {
     CardList: CardList },
 
-  created: function created() {
+  onShow: function onShow() {
     this.getData();
   },
   methods: {
     tabSelect: function tabSelect(e) {
       this.TabCur = e.currentTarget.dataset.id;
     },
-    getData: function getData() {
-      var booklists = [{
-        "user": {
-          "img": "https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png",
-          "name": "用户名1" },
-
-        "books": {
-          "name": "书单名1",
-          "intro": "简介1",
-          "collect_counts": 6,
-          "like_counts": 6,
-          "time": "2018年12月4日",
-          "lists": [{
-            "img": "https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png",
-            "name": "cc1" },
-
-          {
-            "img": "https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png",
-            "name": "cc2" },
-
-          {
-            "img": "https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png",
-            "name": "cc3" },
-
-          {
-            "img": "https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png",
-            "name": "cc4" }] } },
+    getData: function getData() {var _this = this;
+      var websiteUrl = getApp().globalData.base_ip + 'booklist/findAllNew';
+      uni.request({
+        url: websiteUrl,
+        method: 'GET',
+        header: {
+          'Content-Type': 'application/json'
+          // token : uni.getStorageSync("TOKEN")
+        },
+        dataType: 'json',
+        success: function success(res) {
+          if (res.data.success) {
+            _this.booklists = res.data.data;
+            _this.$forceUpdate(); //强制刷新，数据才会更新
+          }
 
 
+        },
+        fail: function fail() {},
+        complete: function complete() {} });
 
 
-      {
-        "user": {
-          "img": "https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png",
-          "name": "用户名2" },
-
-        "books": {
-          "name": "书单名2",
-          "intro": "简介2",
-          "collect_counts": 8,
-          "like_counts": 5,
-          "time": "2018年12月5日",
-          "lists": [{
-            "img": "https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png",
-            "name": "cc1" },
-
-          {
-            "img": "https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png",
-            "name": "cc2" }] } },
+    },
+    to_details: function to_details(index) {
+      uni.navigateTo({
+        url: '../booklist/bookListDetails?item=' + encodeURIComponent(JSON.stringify({
+          "booklists": this.booklists[index] })) });
 
 
-
-
-      {
-        "user": {
-          "img": "https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png",
-          "name": "用户名2" },
-
-        "books": {
-          "name": "书单名2",
-          "intro": "简介2",
-          "collect_counts": 8,
-          "like_counts": 5,
-          "time": "2018年12月5日",
-          "lists": [{
-            "img": "https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png",
-            "name": "cc1" },
-
-          {
-            "img": "https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png",
-            "name": "cc2" }] } },
-
-
-
-
-      {
-        "user": {
-          "img": "https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png",
-          "name": "用户名2" },
-
-        "books": {
-          "name": "书单名2",
-          "intro": "简介2",
-          "collect_counts": 8,
-          "like_counts": 5,
-          "time": "2018年12月5日",
-          "lists": [{
-            "img": "https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png",
-            "name": "cc1" },
-
-          {
-            "img": "https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png",
-            "name": "cc2" },
-
-          {
-            "img": "https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png",
-            "name": "cc2" }] } }];
-
-
-
-
-
-
-      this.booklists = booklists;
     } } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 
