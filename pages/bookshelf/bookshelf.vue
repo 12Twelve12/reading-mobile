@@ -210,7 +210,8 @@
 				});
 			},
 			getTimeDay() {
-				uni.request({
+				if(this.user){
+					uni.request({
 					url: getApp().globalData.base_ip + 'read/queryTimeDay?userId=' + this.user.id,
 					method: 'GET',
 					header: {
@@ -228,6 +229,8 @@
 					fail: () => {},
 					complete: () => {}
 				});
+				}
+				
 			},
 			/**
 			 * 更新书阅读的时间，方便书架排序

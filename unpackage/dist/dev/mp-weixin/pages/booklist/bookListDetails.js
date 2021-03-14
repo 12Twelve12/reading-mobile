@@ -128,7 +128,8 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var BookListDetails = function BookListDetails() {__webpack_require__.e(/*! require.ensure | pages/booklist/components/details */ "pages/booklist/components/details").then((function () {return resolve(__webpack_require__(/*! ./components/details.vue */ 339));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var Books = function Books() {__webpack_require__.e(/*! require.ensure | pages/booklist/components/list */ "pages/booklist/components/list").then((function () {return resolve(__webpack_require__(/*! ./components/list.vue */ 346));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var BookListDetails = function BookListDetails() {__webpack_require__.e(/*! require.ensure | pages/booklist/components/details */ "pages/booklist/components/details").then((function () {return resolve(__webpack_require__(/*! ./components/details.vue */ 347));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var Books = function Books() {__webpack_require__.e(/*! require.ensure | pages/booklist/components/list */ "pages/booklist/components/list").then((function () {return resolve(__webpack_require__(/*! ./components/list.vue */ 354));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
 
 
 
@@ -143,18 +144,6 @@ __webpack_require__.r(__webpack_exports__);
     return {
       booklist: {},
       books: [],
-      // 		booklists: {
-      // 			"booklist": {
-      // 				"des": "",
-      // 				"id": null,
-      // 				"img":"",
-      // 				"name":"",
-      // 				"nickname":"",
-      // 				"time":""
-
-      // 			},
-      // 			"books": []
-      // 		},
       user: {},
       is_collect: false };
 
@@ -175,6 +164,26 @@ __webpack_require__.r(__webpack_exports__);
       console.log(this.booklist);
       console.log(this.books);
       // this.$forceUpdate();
+      //记录日志=============================================
+      var val;
+      if (this.user) {
+        val = {
+          "startTime": this.$moment().format('YYYY-MM-DD hh:mm:ss'),
+          "operation": "浏览书单",
+          "booklistId": this.booklist.id,
+          "userId": this.user.id };
+
+      } else {
+        val = {
+          "startTime": this.$moment().format('YYYY-MM-DD hh:mm:ss'),
+          "operation": "浏览书单",
+          "booklistId": this.booklist.id };
+
+      }
+
+      console.log(val);
+      this.$uniApi.addLog(val);
+      //记录日志=============================================
     }
 
 
@@ -192,7 +201,8 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     to_bookDetails: function to_bookDetails(index) {
       uni.navigateTo({
-        url: '../find/booksDetails/booksDetails?item=' + encodeURIComponent(JSON.stringify(this.books[index])) });
+        url: '../find/booksDetails/booksDetails?item=' + encodeURIComponent(JSON.stringify(this.books[
+        index])) });
 
     },
     //判断是否收藏
@@ -235,32 +245,40 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     addCollect: function addCollect() {var _this2 = this;
-      var websiteUrl = getApp().globalData.base_ip + 'booklistCollect/insert';
-      uni.request({
-        url: websiteUrl,
-        method: 'POST',
-        header: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-          // 'Content-Type': 'application/json',
-          // token : uni.getStorageSync("TOKEN")
-        },
-        dataType: 'json',
-        data: {
-          "booklistId": this.booklist.id,
-          "userId": this.user.id,
-          "time": this.$moment().format('YYYY-MM-DD hh:mm:ss') },
+      if (this.user) {
+        var websiteUrl = getApp().globalData.base_ip + 'booklistCollect/insert';
+        uni.request({
+          url: websiteUrl,
+          method: 'POST',
+          header: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+            // 'Content-Type': 'application/json',
+            // token : uni.getStorageSync("TOKEN")
+          },
+          dataType: 'json',
+          data: {
+            "booklistId": this.booklist.id,
+            "userId": this.user.id,
+            "time": this.$moment().format('YYYY-MM-DD hh:mm:ss') },
 
-        success: function success(res) {
-          if (res.data.success) {
-            uni.showToast({
-              title: '收藏成功',
-              icon: 'none' });
+          success: function success(res) {
+            if (res.data.success) {
+              uni.showToast({
+                title: '收藏成功',
+                icon: 'none' });
 
-            _this2.is_collect = true;
-          }
-        },
-        fail: function fail() {},
-        complete: function complete() {} });
+              _this2.is_collect = true;
+            }
+          },
+          fail: function fail() {},
+          complete: function complete() {} });
+
+      } else {
+        uni.showToast({
+          title: '请先登陆',
+          icon: 'none' });
+
+      }
 
     },
     delCollect: function delCollect() {var _this3 = this;

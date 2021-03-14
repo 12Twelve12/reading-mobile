@@ -145,7 +145,7 @@ var _userCard = _interopRequireDefault(__webpack_require__(/*! ./components/user
 //
 //
 //
-var MineList = function MineList() {__webpack_require__.e(/*! require.ensure | pages/mine/components/mineList */ "pages/mine/components/mineList").then((function () {return resolve(__webpack_require__(/*! ./components/mineList.vue */ 334));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default = { data: function data() {return { user: {}, //列表组件所需的数据
+var MineList = function MineList() {__webpack_require__.e(/*! require.ensure | pages/mine/components/mineList */ "pages/mine/components/mineList").then((function () {return resolve(__webpack_require__(/*! ./components/mineList.vue */ 342));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default = { data: function data() {return { user: {}, //列表组件所需的数据
       lists: [{ "icon": "cuIcon-copy text-green",
         "name": "我的发布",
         // "src": '../../static/about.png',

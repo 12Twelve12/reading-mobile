@@ -7,7 +7,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createApp) {__webpack_require__(/*! uni-pages */ 4);var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+/* WEBPACK VAR INJECTION */(function(createApp, uni) {__webpack_require__(/*! uni-pages */ 4);var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
 var _App = _interopRequireDefault(__webpack_require__(/*! ./App */ 5));
 
 
@@ -21,7 +21,29 @@ var app = new _vue.default(_objectSpread({},
 _App.default));
 
 createApp(app).$mount();
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createApp"]))
+
+var addLog = function addLog(val) {
+  var websiteUrl = getApp().globalData.base_ip + 'log/insert';
+  uni.request({
+    url: websiteUrl,
+    method: 'POST',
+    header: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+      // 'Content-Type': 'application/json',
+      // token : uni.getStorageSync("TOKEN")
+    },
+    dataType: 'json',
+    data: val,
+    success: function success(res) {
+
+    },
+    fail: function fail() {},
+    complete: function complete() {} });
+
+};
+
+_vue.default.prototype.$uniApi = { addLog: addLog };
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createApp"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 /* 1 */,
@@ -94,8 +116,11 @@ __webpack_require__.r(__webpack_exports__);
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var _default =
 {
   globalData: {
-    base_ip: 'http://127.0.0.1:8080/',
-    mongo_ip: 'http://127.0.0.1:8000/' },
+    // base_ip: 'http://127.0.0.1:8080/',
+    // mongo_ip: 'http://127.0.0.1:8000/'
+    base_ip: 'http://192.168.31.53:8080/',
+    mongo_ip: 'http://192.168.31.53:8000/' },
+
 
   onLaunch: function onLaunch() {
     uni.getSystemInfo({

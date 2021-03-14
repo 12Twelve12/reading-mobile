@@ -1,6 +1,7 @@
 <template>
 	<view>
-		<BookListDetails :booklist="booklist" :books="books" :is_collect="is_collect" @Collect="Collect"></BookListDetails>
+		<BookListDetails :booklist="booklist" :books="books" :is_collect="is_collect" @Collect="Collect">
+		</BookListDetails>
 		<Books :books="books" @to_bookDetails="to_bookDetails"></Books>
 	</view>
 </template>
@@ -11,20 +12,8 @@
 	export default {
 		data() {
 			return {
-				booklist:{},
-				books:[],
-		// 		booklists: {
-		// 			"booklist": {
-		// 				"des": "",
-		// 				"id": null,
-		// 				"img":"",
-		// 				"name":"",
-		// 				"nickname":"",
-		// 				"time":""
-		
-		// 			},
-		// 			"books": []
-		// 		},
+				booklist: {},
+				books: [],
 				user: {},
 				is_collect: false
 			}
@@ -41,16 +30,36 @@
 				console.log("============================================")
 				console.log(item.booklists)
 				this.booklist = item.booklists.booklist;
-				this.books=item.booklists.books
-			console.log(this.booklist)
-			console.log(this.books)
+				this.books = item.booklists.books
+				console.log(this.booklist)
+				console.log(this.books)
 				// this.$forceUpdate();
+				//记录日志=============================================
+				let val
+				if (this.user) {
+					val = {
+						"startTime": this.$moment().format('YYYY-MM-DD hh:mm:ss'),
+						"operation": "浏览书单",
+						"booklistId": this.booklist.id,
+						"userId": this.user.id
+					}
+				} else {
+					val = {
+						"startTime": this.$moment().format('YYYY-MM-DD hh:mm:ss'),
+						"operation": "浏览书单",
+						"booklistId": this.booklist.id
+					}
+				}
+
+				console.log(val)
+				this.$uniApi.addLog(val)
+				//记录日志=============================================
 			}
 
 
 		},
 		onShow() {
-				
+
 		},
 		mounted() {
 			this.isCollect()
@@ -62,7 +71,8 @@
 		methods: {
 			to_bookDetails(index) {
 				uni.navigateTo({
-					url: '../find/booksDetails/booksDetails?item=' + encodeURIComponent(JSON.stringify(this.books[index]))
+					url: '../find/booksDetails/booksDetails?item=' + encodeURIComponent(JSON.stringify(this.books[
+						index]))
 				})
 			},
 			//判断是否收藏
@@ -105,33 +115,41 @@
 				}
 			},
 			addCollect() {
-				let websiteUrl = getApp().globalData.base_ip + 'booklistCollect/insert';
-				uni.request({
-					url: websiteUrl,
-					method: 'POST',
-					header: {
-						'Content-Type': 'application/x-www-form-urlencoded'
-						// 'Content-Type': 'application/json',
-						// token : uni.getStorageSync("TOKEN")
-					},
-					dataType: 'json',
-					data: {
-						"booklistId": this.booklist.id,
-						"userId": this.user.id,
-						"time":this.$moment().format('YYYY-MM-DD hh:mm:ss')
-					},
-					success: res => {
-						if (res.data.success) {
-							uni.showToast({
-								title: '收藏成功',
-								icon: 'none'
-							})
-							this.is_collect = true
-						}
-					},
-					fail: () => {},
-					complete: () => {}
-				});
+				if (this.user) {
+					let websiteUrl = getApp().globalData.base_ip + 'booklistCollect/insert';
+					uni.request({
+						url: websiteUrl,
+						method: 'POST',
+						header: {
+							'Content-Type': 'application/x-www-form-urlencoded'
+							// 'Content-Type': 'application/json',
+							// token : uni.getStorageSync("TOKEN")
+						},
+						dataType: 'json',
+						data: {
+							"booklistId": this.booklist.id,
+							"userId": this.user.id,
+							"time": this.$moment().format('YYYY-MM-DD hh:mm:ss')
+						},
+						success: res => {
+							if (res.data.success) {
+								uni.showToast({
+									title: '收藏成功',
+									icon: 'none'
+								})
+								this.is_collect = true
+							}
+						},
+						fail: () => {},
+						complete: () => {}
+					});
+				}else{
+					uni.showToast({
+						title:'请先登陆',
+						icon:'none'
+					})
+				}
+
 			},
 			delCollect() {
 				let websiteUrl = getApp().globalData.base_ip + 'booklistCollect/delete';
@@ -160,7 +178,8 @@
 					fail: () => {},
 					complete: () => {}
 				});
-			}
+			},
+
 		}
 	}
 </script>

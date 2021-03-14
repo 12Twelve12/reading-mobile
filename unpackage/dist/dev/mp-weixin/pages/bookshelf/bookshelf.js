@@ -96,10 +96,10 @@ var components
 try {
   components = {
     uniPopup: function() {
-      return Promise.all(/*! import() | uni_modules/uni-popup/components/uni-popup/uni-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-popup/components/uni-popup/uni-popup")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-popup/components/uni-popup/uni-popup.vue */ 304))
+      return Promise.all(/*! import() | uni_modules/uni-popup/components/uni-popup/uni-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-popup/components/uni-popup/uni-popup")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-popup/components/uni-popup/uni-popup.vue */ 312))
     },
     uniPopupDialog: function() {
-      return __webpack_require__.e(/*! import() | uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog */ "uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog.vue */ 313))
+      return __webpack_require__.e(/*! import() | uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog */ "uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog.vue */ 321))
     }
   }
 } catch (e) {
@@ -156,7 +156,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var GridList = function GridList() {__webpack_require__.e(/*! require.ensure | pages/find/components/gridList */ "pages/find/components/gridList").then((function () {return resolve(__webpack_require__(/*! ../find/components/gridList.vue */ 290));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var GridList = function GridList() {__webpack_require__.e(/*! require.ensure | pages/find/components/gridList */ "pages/find/components/gridList").then((function () {return resolve(__webpack_require__(/*! ../find/components/gridList.vue */ 298));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -368,23 +368,26 @@ __webpack_require__.r(__webpack_exports__);
 
     },
     getTimeDay: function getTimeDay() {var _this5 = this;
-      uni.request({
-        url: getApp().globalData.base_ip + 'read/queryTimeDay?userId=' + this.user.id,
-        method: 'GET',
-        header: {
-          'Content-Type': 'application/x-www-form-urlencoded' },
+      if (this.user) {
+        uni.request({
+          url: getApp().globalData.base_ip + 'read/queryTimeDay?userId=' + this.user.id,
+          method: 'GET',
+          header: {
+            'Content-Type': 'application/x-www-form-urlencoded' },
 
-        dataType: 'json',
-        success: function success(res) {
-          console.log("获得时间返回结果=====================");
-          console.log(res);
-          console.log(res.data);
-          _this5.minutes = res.data.msg;
-          _this5.seconds = res.data.data;
+          dataType: 'json',
+          success: function success(res) {
+            console.log("获得时间返回结果=====================");
+            console.log(res);
+            console.log(res.data);
+            _this5.minutes = res.data.msg;
+            _this5.seconds = res.data.data;
 
-        },
-        fail: function fail() {},
-        complete: function complete() {} });
+          },
+          fail: function fail() {},
+          complete: function complete() {} });
+
+      }
 
     },
     /**

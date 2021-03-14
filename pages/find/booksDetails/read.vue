@@ -2,7 +2,8 @@
 	<view class="zai-read-box skin" :class="skinValue">
 		<!--封面层-->
 		<view class="zai-read-cover-box" :class="coverShow?'show':''">
-			<view class="zai-read-cover" :style="{transform: `translateX(${coverInfo.translate + coverInfo.move}px)`, transition: `all ${animationSeconds}s ease`}">
+			<view class="zai-read-cover"
+				:style="{transform: `translateX(${coverInfo.translate + coverInfo.move}px)`, transition: `all ${animationSeconds}s ease`}">
 				<view class="zai-cover-v">
 					<text class="zai-cover-cor"></text>
 					<text class="zai-cover-cor"></text>
@@ -31,9 +32,11 @@
 		<view class="zai-read " :class="layoutValue">
 			<view class='zai-content'>
 				<view class="zai-article">
-					<text class="text-bold">{{chapterCurrent.detail.directory_title?chapterCurrent.detail.directory_title:''}}</text>
-					<view class="zai-section" id='readerBook' :style="{transform: `translateX(${translateX + move}px)`, transition: `all ${animationSeconds}s ease`, fontSize: `${fontSize}rem`}"
-					 v-html="ReadContent"></view>
+					<text
+						class="text-bold">{{chapterCurrent.detail.directory_title?chapterCurrent.detail.directory_title:''}}</text>
+					<view class="zai-section" id='readerBook'
+						:style="{transform: `translateX(${translateX + move}px)`, transition: `all ${animationSeconds}s ease`, fontSize: `${fontSize}rem`}"
+						v-html="ReadContent"></view>
 				</view>
 			</view>
 
@@ -69,7 +72,8 @@
 					<text>上一章</text>
 				</view>
 				<view class="content text-bold">{{BookData.name}}</view>
-				<view class="action" :class="chapterCurrent.index == BookList.count-1 ?'text-gray':''" @click="nexReadClick">
+				<view class="action" :class="chapterCurrent.index == BookList.count-1 ?'text-gray':''"
+					@click="nexReadClick">
 					<text>下一章</text>
 					<text class="cuIcon-right"></text>
 				</view>
@@ -84,8 +88,9 @@
 						<text class="cuIcon-move"></text>
 					</view>
 					<view class="content" style="width: calc(100% - 182rpx); pointer-events: all;">
-						<slider :value="fontSizeSlider" activeColor="#f37b1d" backgroundColor="#464646" block-color="#f37b1d" block-size="12"
-						 min="1" max="8" @change="fontSizeChange" @changing="fontSizeChange" />
+						<slider :value="fontSizeSlider" activeColor="#f37b1d" backgroundColor="#464646"
+							block-color="#f37b1d" block-size="12" min="1" max="8" @change="fontSizeChange"
+							@changing="fontSizeChange" />
 					</view>
 					<view class="action" @click="fontSizeAdd">
 						<text class="cuIcon-add"></text>
@@ -95,10 +100,12 @@
 				<!--样式层-->
 				<view class="grid col-5 padding-sm solid-bottom">
 					<view class="padding-xs" v-for="(item,index) in skinData" :key="index">
-						<button class="cu-btn block line-orange text-xl text-bold btn-skin" :class="item.key" v-if="item.checked">
+						<button class="cu-btn block line-orange text-xl text-bold btn-skin" :class="item.key"
+							v-if="item.checked">
 							<text class="cuIcon-check text-orange"></text>
 						</button>
-						<button class="cu-btn block btn-skin" @tap="skinCheckbox(index,item.key)" :class="item.key" v-else></button>
+						<button class="cu-btn block btn-skin" @tap="skinCheckbox(index,item.key)" :class="item.key"
+							v-else></button>
 					</view>
 				</view>
 
@@ -128,7 +135,8 @@
 					</view>
 					<!--章节列表-->
 					<view class="cu-list menu bg-white">
-						<view class="cu-item" v-for="(item,index) in BookList.data" :key="index" @click="details(index)">
+						<view class="cu-item" v-for="(item,index) in BookList.data" :key="index"
+							@click="details(index)">
 							<view class="content" :class="chapterCurrent.index==index?'text-orange':''">
 								{{item.directory_title}}
 							</view>
@@ -189,6 +197,8 @@
 			}
 		},
 		onLoad(option) { //接受参数
+			this.user = uni.getStorageSync('user')
+			this.read_log.startTime = this.$moment().format('YYYY-MM-DD hh:mm:ss')
 			if (option) {
 				const item = JSON.parse(decodeURIComponent(option.item));
 				console.log("传到阅读界面的数据================================")
@@ -200,13 +210,11 @@
 
 				//用于记录阅读日志
 				if (this.isBookShelf) {
-					this.coverShow=false
-					this.user = uni.getStorageSync('user')
-					this.read_log.startTime = this.$moment().format('YYYY-MM-DD hh:mm:ss')
-				}
-				this.current_progress=item.current_progress;
-				this.iniGetBookInfo(this.current_progress);
+					this.coverShow = false
 
+				}
+				this.current_progress = item.current_progress;
+				this.iniGetBookInfo(this.current_progress);
 			}
 
 			this.skinData = [{
@@ -431,6 +439,30 @@
 						});
 					}
 					// return true; //阻止默认返回行为
+
+
+					//记录日志=============================================
+					let val
+					if (this.user) {
+						val = {
+							"startTime": this.read_log.startTime,
+							"endTime": this.$moment().format('YYYY-MM-DD hh:mm:ss'),
+							"operation": "阅读",
+							"bookId": this.BookData.id,
+							"userId": this.user.id
+						}
+					} else {
+						val = {
+							"startTime": this.read_log.startTime,
+							"endTime": this.$moment().format('YYYY-MM-DD hh:mm:ss'),
+							"operation": "阅读",
+							"bookId": this.BookData.id,
+						}
+					}
+
+					console.log(val)
+					this.$uniApi.addLog(val)
+					//记录日志=============================================
 				}
 
 			},

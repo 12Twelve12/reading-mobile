@@ -47,15 +47,33 @@
 		},
 		//接受参数
 		onLoad: function(option) {
-			let user = uni.getStorageSync('user');
-			if (user != null) {
-				this.user = user
-			}
+			this.user = uni.getStorageSync('user');
 			if (option) {
 				const item = JSON.parse(decodeURIComponent(option.item));
 				this.detail = item;
 				this.getChapter()
 				this.getGrade()
+				
+				//记录日志=============================================
+				let val
+				if (this.user) {
+					val = {
+						"startTime": this.$moment().format('YYYY-MM-DD hh:mm:ss'),
+						"operation": "浏览图书",
+						"bookId": this.detail.id,
+						"userId": this.user.id
+					}
+				}else{
+					val = {
+						"startTime": this.$moment().format('YYYY-MM-DD hh:mm:ss'),
+						"operation": "浏览图书",
+						"bookId": this.detail.id
+					}
+				}
+				
+				console.log(val)
+				this.$uniApi.addLog(val)
+				//记录日志=============================================
 			}
 			
 

@@ -277,6 +277,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 var _default =
 {
   data: function data() {
@@ -326,6 +334,8 @@ var _default =
     };
   },
   onLoad: function onLoad(option) {//接受参数
+    this.user = uni.getStorageSync('user');
+    this.read_log.startTime = this.$moment().format('YYYY-MM-DD hh:mm:ss');
     if (option) {
       var item = JSON.parse(decodeURIComponent(option.item));
       console.log("传到阅读界面的数据================================");
@@ -338,12 +348,10 @@ var _default =
       //用于记录阅读日志
       if (this.isBookShelf) {
         this.coverShow = false;
-        this.user = uni.getStorageSync('user');
-        this.read_log.startTime = this.$moment().format('YYYY-MM-DD hh:mm:ss');
+
       }
       this.current_progress = item.current_progress;
       this.iniGetBookInfo(this.current_progress);
-
     }
 
     this.skinData = [{
@@ -568,6 +576,30 @@ var _default =
 
         }
         // return true; //阻止默认返回行为
+
+
+        //记录日志=============================================
+        var val;
+        if (this.user) {
+          val = {
+            "startTime": this.read_log.startTime,
+            "endTime": this.$moment().format('YYYY-MM-DD hh:mm:ss'),
+            "operation": "阅读",
+            "bookId": this.BookData.id,
+            "userId": this.user.id };
+
+        } else {
+          val = {
+            "startTime": this.read_log.startTime,
+            "endTime": this.$moment().format('YYYY-MM-DD hh:mm:ss'),
+            "operation": "阅读",
+            "bookId": this.BookData.id };
+
+        }
+
+        console.log(val);
+        this.$uniApi.addLog(val);
+        //记录日志=============================================
       }
 
     },
