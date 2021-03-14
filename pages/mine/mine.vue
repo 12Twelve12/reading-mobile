@@ -1,21 +1,37 @@
 <template>
 	<view>
 		<UserCard :user="user"></UserCard>
+		<MineList :lists="lists" @to="to"></MineList>
 	</view>
 
 </template>
 
 <script>
 	import UserCard from './components/userCard.vue'
+	import MineList from './components/mineList.vue'
 	export default {
 		data() {
 			return {
 
-				user: {}
+				user: {},
+				//列表组件所需的数据
+				lists: [{
+					"icon": "cuIcon-copy text-green",
+					"name": "我的发布",
+					// "src": '../../static/about.png',
+					"href": "../../pages/mine/myBooklist?type=myBooklist"
+				},
+				{
+					"icon": "cuIcon-favorfill text-yellow",
+					"name": "我的收藏",
+					// "src": '../../static/about.png',
+					"href": "../../pages/mine/myBooklist?type=myCollect"
+				}]
 			};
 		},
 		components: {
-			UserCard
+			UserCard,
+			MineList
 		},
 		onShow() {
 			this.getData();
@@ -26,6 +42,23 @@
 				if (user.img != null || user.img != "") {
 					this.user = user
 				}
+			},
+			/**
+			 * 子组件传过来的跳转路径
+			 */
+			to(href) {
+				// console.log(href)
+				if (this.user) {
+					uni.navigateTo({
+						url: href
+					})
+				}else{
+					uni.showToast({
+						title:'请先登陆',
+						icon:'none'
+					})
+				}
+
 			}
 		}
 	}

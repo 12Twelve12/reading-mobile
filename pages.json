@@ -130,6 +130,24 @@
             }
             
         }
+        ,{
+            "path" : "pages/mine/myBooklist",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/find/search",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
     "globalStyle" : {
         "navigationBarTextStyle" : "black",

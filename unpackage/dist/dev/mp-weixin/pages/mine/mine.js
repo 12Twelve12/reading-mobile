@@ -136,6 +136,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var _userCard = _interopRequireDefault(__webpack_require__(/*! ./components/userCard.vue */ 195));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
 //
 //
@@ -143,9 +144,24 @@ var _userCard = _interopRequireDefault(__webpack_require__(/*! ./components/user
 //
 //
 //
-var _default = { data: function data() {return { user: {} };},
+//
+var MineList = function MineList() {__webpack_require__.e(/*! require.ensure | pages/mine/components/mineList */ "pages/mine/components/mineList").then((function () {return resolve(__webpack_require__(/*! ./components/mineList.vue */ 334));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default = { data: function data() {return { user: {}, //列表组件所需的数据
+      lists: [{ "icon": "cuIcon-copy text-green",
+        "name": "我的发布",
+        // "src": '../../static/about.png',
+        "href": "../../pages/mine/myBooklist?type=myBooklist" },
+
+      {
+        "icon": "cuIcon-favorfill text-yellow",
+        "name": "我的收藏",
+        // "src": '../../static/about.png',
+        "href": "../../pages/mine/myBooklist?type=myCollect" }] };
+
+
+  },
   components: {
-    UserCard: _userCard.default },
+    UserCard: _userCard.default,
+    MineList: MineList },
 
   onShow: function onShow() {
     this.getData();
@@ -156,6 +172,23 @@ var _default = { data: function data() {return { user: {} };},
       if (user.img != null || user.img != "") {
         this.user = user;
       }
+    },
+    /**
+        * 子组件传过来的跳转路径
+        */
+    to: function to(href) {
+      // console.log(href)
+      if (this.user) {
+        uni.navigateTo({
+          url: href });
+
+      } else {
+        uni.showToast({
+          title: '请先登陆',
+          icon: 'none' });
+
+      }
+
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

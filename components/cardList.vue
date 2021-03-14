@@ -2,7 +2,10 @@
 		<view class="cu-card dynamic">
 			<view class="cu-item shadow">
 				<view class="cu-list menu-avatar comment solids-top">
-					<view class="cu-item" v-for="(item,index) in booklists" :key="index" @click="to_details(index)">
+					<view v-if="booklists.length==0" class="text-center text-gray">
+						暂无数据~
+					</view>
+					<view class="cu-item" v-else v-for="(item,index) in booklists" :key="index" @click="to_details(index)">
 						<!--头像-->
 						<view class="cu-avatar round" :style="'background-image:url('+item.booklist.img+');'"></view>
 						<view class="content">
@@ -26,8 +29,8 @@
 							<view class="margin-top-sm flex justify-between">
 								<view class="text-gray text-df">{{item.booklist.time}}</view>
 								<view>
-									<text class="cuIcon-appreciatefill text-red">{{item.booklist.collect_counts}}</text>
-									<text class="cuIcon-favor text-gray margin-left-sm">{{item.booklist.like_counts}}</text>
+									<!-- <text class="cuIcon-appreciatefill text-red">{{item.booklist.collect_counts}}</text>
+									<text class="cuIcon-favor text-gray margin-left-sm">{{item.booklist.like_counts}}</text> -->
 								</view>
 							</view>
 						</view>

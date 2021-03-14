@@ -1,0 +1,1 @@
+<view><card-list vue-id="2269fca0-1" booklists="{{booklists}}" data-event-opts="{{[['^to_details',[['to_details']]]]}}" bind:to_details="__e" bind:__l="__l"></card-list></view>

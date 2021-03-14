@@ -93,6 +93,32 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "recyclableRender", function() { return recyclableRender; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components
+try {
+  components = {
+    uniPopup: function() {
+      return Promise.all(/*! import() | uni_modules/uni-popup/components/uni-popup/uni-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-popup/components/uni-popup/uni-popup")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-popup/components/uni-popup/uni-popup.vue */ 304))
+    },
+    uniPopupDialog: function() {
+      return __webpack_require__.e(/*! import() | uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog */ "uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog.vue */ 313))
+    }
+  }
+} catch (e) {
+  if (
+    e.message.indexOf("Cannot find module") !== -1 &&
+    e.message.indexOf(".vue") !== -1
+  ) {
+    console.error(e.message)
+    console.error("1. 排查组件名称拼写是否正确")
+    console.error(
+      "2. 排查组件是否符合 easycom 规范，文档：https://uniapp.dcloud.net.cn/collocation/pages?id=easycom"
+    )
+    console.error(
+      "3. 若组件不符合 easycom 规范，需手动引入，并在 components 中注册该组件"
+    )
+  } else {
+    throw e
+  }
+}
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
@@ -130,7 +156,12 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var GridList = function GridList() {__webpack_require__.e(/*! require.ensure | pages/find/components/gridList */ "pages/find/components/gridList").then((function () {return resolve(__webpack_require__(/*! ../find/components/gridList.vue */ 282));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var GridList = function GridList() {__webpack_require__.e(/*! require.ensure | pages/find/components/gridList */ "pages/find/components/gridList").then((function () {return resolve(__webpack_require__(/*! ../find/components/gridList.vue */ 290));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
+
+
+
 
 
 
@@ -173,8 +204,9 @@ __webpack_require__.r(__webpack_exports__);
       chapter: {}, //章节数
       current_progress: 0, //当前进度，第几-1章
       minutes: '0', //进入阅读分钟
-      seconds: '0' //进入阅读余秒
-    };
+      seconds: '0', //进入阅读余秒
+      del_bookid: null };
+
   },
   onShow: function onShow() {
     var user = uni.getStorageSync('user');
@@ -235,16 +267,43 @@ __webpack_require__.r(__webpack_exports__);
     //获得跳转时需要的数据
     to_read: function to_read(index) {
       this.detail = this.BookLists[index];
+      this.updateTime();
       this.getCurrent_progress();
       this.getChapter();
-
-
     },
+    /* 长按删除 */
+    to_longpress: function to_longpress(index) {
+      this.del_bookid = this.BookLists[index].id;
+      this.$refs.popup.open(); //进入阅读界面前先问是否要加入书架
+    },
+    //是否删除图书对话框======================================================================================
+    /**
+     * 点击取消按钮触发
+     * @param {Object} done
+     */
+    close: function close(done) {
+      // TODO 做一些其他的事情，before-close 为true的情况下，手动执行 done 才会关闭对话框
+      // ...
+      done();
+    },
+    /**
+        * 点击确认按钮触发
+        * @param {Object} done
+        * @param {Object} value
+        */
+    confirm: function confirm(done) {
+      done();
+      //确认删除
+      this.delete();
+    },
+    //是否删除图书对话框======================================================================================
+
 
     to: function to() {
-      console.log("获得跳转时需要的数据");
-      console.log(this.chapter);
-      console.log(this.current_progress);
+      // console.log("获得跳转时需要的数据")
+      // console.log(this.chapter)
+      // console.log(this.current_progress)
+      /* 跳转前更新阅读进度，好在书架中排序 */
       uni.navigateTo({
         url: '../find/booksDetails/read?item=' + encodeURIComponent(JSON.stringify({
           "detail": this.detail,
@@ -322,6 +381,64 @@ __webpack_require__.r(__webpack_exports__);
           console.log(res.data);
           _this5.minutes = res.data.msg;
           _this5.seconds = res.data.data;
+
+        },
+        fail: function fail() {},
+        complete: function complete() {} });
+
+    },
+    /**
+        * 更新书阅读的时间，方便书架排序
+        */
+    updateTime: function updateTime() {
+      uni.request({
+        url: getApp().globalData.base_ip + 'bookshelf/update',
+        method: 'PUT',
+        header: {
+          'Content-Type': 'application/x-www-form-urlencoded' },
+
+
+        dataType: 'json',
+        data: {
+          "userId": this.user.id,
+          "bookId": this.detail.id,
+          "time": this.$moment().format('YYYY-MM-DD hh:mm:ss') },
+
+        success: function success(res) {
+          if (!res.data.success) {
+            uni.showToast({
+              title: res.data.msg,
+              icon: 'none' });
+
+          }
+
+        },
+        fail: function fail() {},
+        complete: function complete() {} });
+
+    },
+    /* 从书架中移除 */
+    delete: function _delete() {var _this6 = this;
+      uni.request({
+        url: getApp().globalData.base_ip + 'bookshelf/delete',
+        method: 'DELETE',
+        header: {
+          'Content-Type': 'application/x-www-form-urlencoded' },
+
+        dataType: 'json',
+        data: {
+          "userId": this.user.id,
+          "bookId": this.del_bookid },
+
+        success: function success(res) {
+          if (!res.data.success) {
+            uni.showToast({
+              title: res.data.msg,
+              icon: 'none' });
+
+          } else {
+            _this6.getData();
+          }
 
         },
         fail: function fail() {},

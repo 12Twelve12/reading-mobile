@@ -130,7 +130,8 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var GridList = function GridList() {__webpack_require__.e(/*! require.ensure | pages/find/components/gridList */ "pages/find/components/gridList").then((function () {return resolve(__webpack_require__(/*! ./components/gridList.vue */ 282));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var LookingList = function LookingList() {__webpack_require__.e(/*! require.ensure | pages/find/components/lookingList */ "pages/find/components/lookingList").then((function () {return resolve(__webpack_require__(/*! ./components/lookingList.vue */ 289));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var GridList = function GridList() {__webpack_require__.e(/*! require.ensure | pages/find/components/gridList */ "pages/find/components/gridList").then((function () {return resolve(__webpack_require__(/*! ./components/gridList.vue */ 290));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var LookingList = function LookingList() {__webpack_require__.e(/*! require.ensure | pages/find/components/lookingList */ "pages/find/components/lookingList").then((function () {return resolve(__webpack_require__(/*! ./components/lookingList.vue */ 297));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
 
 
 
@@ -166,28 +167,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       gridCol: 4,
       gridBorder: false,
-      cuIconList: [{
-        cuIcon: 'discover',
-        color: 'red',
-        badge: 0,
-        name: '世界名著' },
-      {
-        cuIcon: 'read',
-        color: 'orange',
-        badge: 0,
-        name: '小说' },
-      {
-        cuIcon: 'form',
-        color: 'yellow',
-        badge: 0,
-        name: '文学' },
-      {
-        cuIcon: 'cascades',
-        color: 'olive',
-        badge: 0,
-        name: '更多',
-        href: './classify/classify' }],
-
+      //分类信息
+      cuIconList: [],
       //书列表数据
       BookLists: [{
         img: '../../../static/logo.png',
@@ -212,18 +193,80 @@ __webpack_require__.r(__webpack_exports__);
       {
         img: '../../../static/logo.png',
         name: '书名1',
-        href: '../../pages/market/trading/trading' }] };
+        href: '../../pages/market/trading/trading' }],
 
-
+      str: "" //搜索关键字
+    };
   },
   components: {
     GridList: GridList,
     LookingList: LookingList },
 
+  created: function created() {
+    this.getData();
+  },
   methods: {
-    to: function to(href) {
+    to: function to(item) {
+      console.log(item);
+      if (item.name == "更多") {
+        item = this.cuIconList[0];
+      }
+      // console.log(id);
       uni.navigateTo({
-        url: './classify/classify' });
+        url: './classify/classify?item=' + encodeURIComponent(JSON.stringify(item)) });
+
+    },
+    to_search: function to_search() {
+      uni.navigateTo({
+        url: './search' });
+
+    },
+    //获得所有分类
+    getData: function getData() {var _this = this;
+      var websiteUrl = getApp().globalData.base_ip + 'classify/queryAlls';
+      uni.request({
+        url: websiteUrl,
+        method: 'GET',
+        header: {
+          'Content-Type': 'application/json'
+          // token : uni.getStorageSync("TOKEN")
+        },
+        dataType: 'json',
+        success: function success(res) {
+          console.log(res.data);
+          for (var i = 0; i < res.data.length - (res.data.length - 3); i++) {
+            var cuIcon = "";
+            var color = "";
+            if (i == 0) {
+              cuIcon = "discover";
+              color = "red";
+            } else if (i == 1) {
+              cuIcon = "read";
+              color = "orange";
+            } else if (i == 2) {
+              cuIcon = "form";
+              color = "yellow";
+            }
+            _this.cuIconList.push({
+              cuIcon: cuIcon,
+              color: color,
+              badge: 0,
+              name: res.data[i].name,
+              id: res.data[i].id });
+
+          }
+          _this.cuIconList.push({
+            cuIcon: 'cascades',
+            color: 'olive',
+            badge: 0,
+            name: '更多' });
+
+
+          // this.list = res.data
+          // this.$forceUpdate();//强制刷新，数据才会更新
+        },
+        fail: function fail() {},
+        complete: function complete() {} });
 
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))

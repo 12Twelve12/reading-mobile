@@ -3,12 +3,13 @@
 		<view class="top_back flex justify-start">
 			<view class="text-xxl top_text">找书</view>
 			<view class="cu-form-group search">
-				<input placeholder="搜索 书名|作者" name="input"></input>
+				<input placeholder="搜索 书名|作者" name="input" disabled @click="to_search()"></input>
 				<text class='cuIcon-search text-green'></text>
 			</view>
 		</view>
 		<view class="cu-list grid" :class="['col-' + gridCol,gridBorder?'':'no-border']">
-			<view class="cu-item" v-for="(item,index) in cuIconList" :key="index" v-if="index<gridCol*2" @tap="to(item.href)">
+			<view class="cu-item" v-for="(item,index) in cuIconList" :key="index" v-if="index<4"
+				@tap="to(item)">
 				<view :class="['cuIcon-' + item.cuIcon,'text-' + item.color]">
 					<view class="cu-tag badge" v-if="item.badge!=0">
 						<block v-if="item.badge!=1">{{item.badge>99?'99+':item.badge}}</block>
@@ -34,28 +35,8 @@
 			return {
 				gridCol: 4,
 				gridBorder: false,
-				cuIconList: [{
-					cuIcon: 'discover',
-					color: 'red',
-					badge: 0,
-					name: '世界名著'
-				}, {
-					cuIcon: 'read',
-					color: 'orange',
-					badge: 0,
-					name: '小说'
-				}, {
-					cuIcon: 'form',
-					color: 'yellow',
-					badge: 0,
-					name: '文学'
-				}, {
-					cuIcon: 'cascades',
-					color: 'olive',
-					badge: 0,
-					name: '更多',
-					href:'./classify/classify'
-				}],
+				//分类信息
+				cuIconList: [],
 				//书列表数据
 				BookLists: [{
 					img: '../../../static/logo.png',
@@ -82,18 +63,80 @@
 					name: '书名1',
 					href: '../../pages/market/trading/trading'
 				}],
+				str: "" //搜索关键字
 			}
 		},
-		components:{
+		components: {
 			GridList,
 			LookingList
 		},
+		created() {
+			this.getData()
+		},
 		methods: {
-			to(href){
+			to(item) {
+				console.log(item);
+				if(item.name=="更多"){
+					item=this.cuIconList[0]
+				}
+				// console.log(id);
 				uni.navigateTo({
-					url:'./classify/classify'
+					url: './classify/classify?item='+encodeURIComponent(JSON.stringify(item))
 				})
-			}
+			},
+			to_search() {
+				uni.navigateTo({
+					url: './search'
+				})
+			},
+			//获得所有分类
+			getData() {
+				let websiteUrl = getApp().globalData.base_ip + 'classify/queryAlls';
+				uni.request({
+					url: websiteUrl,
+					method: 'GET',
+					header: {
+						'Content-Type': 'application/json',
+						// token : uni.getStorageSync("TOKEN")
+					},
+					dataType: 'json',
+					success: res => {
+						console.log(res.data)
+						for (let i = 0; i < res.data.length - (res.data.length - 3); i++) {
+							let cuIcon = ""
+							let color = ""
+							if (i == 0) {
+								cuIcon = "discover"
+								color = "red"
+							} else if (i == 1) {
+								cuIcon = "read"
+								color = "orange"
+							} else if (i == 2) {
+								cuIcon = "form"
+								color = "yellow"
+							}
+							this.cuIconList.push({
+								cuIcon: cuIcon,
+								color: color,
+								badge: 0,
+								name: res.data[i].name,
+								id: res.data[i].id
+							});
+						}
+						this.cuIconList.push({
+							cuIcon: 'cascades',
+							color: 'olive',
+							badge: 0,
+							name: '更多'
+						})
+
+						// this.list = res.data
+						// this.$forceUpdate();//强制刷新，数据才会更新
+					},
+					fail: () => {},
+					complete: () => {}
+				});
+			},
 		}
 	}
 </script>

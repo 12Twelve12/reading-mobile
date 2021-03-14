@@ -1,0 +1,19 @@
+
+.search {
+	border: 0.1px solid #FDFEF6;
+	border-radius: 50rpx;
+	padding-left: 1;
+	width: 90%;
+	background-color: #f8f8f8;
+	margin-top: 30px;
+	margin: auto;
+}
+.padding-top {
+	padding-top: 40px;
+}
+image {
+	width: 85px;
+	height: 110px;
+}
+
+

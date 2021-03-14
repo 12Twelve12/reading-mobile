@@ -2,19 +2,19 @@
 	<view class="books-details bg-white">
 		<view class="book-detail _padding" style="padding-top: 40px;">
 			<view class="detail-left">
-				<image class="book-img" :src="booklists.booklist.img" />
+				<image class="book-img" :src="books[0].img" />
 			</view>
 			<view class="detail-right">
 				<view class="detail-right-box">
-					<view class="title">{{booklists.booklist.name}}</view>
-					<view class="author">{{booklists.booklist.nickname}} 创建</view>
+					<view class="title">{{booklist.name}}</view>
+					<view class="author">{{booklist.nickname}} 创建</view>
 				</view>
-				<view class="padding-top padding-right text-white">{{booklists.booklist.des}}</view>
+				<view class="padding-top padding-right text-white">{{booklist.des}}</view>
 			</view>
 
 		</view>
 		<view class="flex justify-between directory _padding">
-			<view class="text-xl text-bold">书目({{booklists.books.length}})</view>
+			<view class="text-xl text-bold">书目({{books.length}})</view>
 			<view class="joinBtn" v-if="is_collect==true" @click="addCollect">已收藏</view>
 			<view class="joinBtn" v-else @click="addCollect">收藏书单</view>
 		</view>
@@ -23,7 +23,7 @@
 
 <script>
 	export default {
-		props: ['booklists', 'is_collect'],
+		props: ['booklist','books', 'is_collect'],
 		data() {
 			return {
 
@@ -65,7 +65,7 @@
 
 			.book-img {
 				width: 223upx;
-				height: 209upx;
+				height: 284upx;
 				border-radius: 12upx;
 				background-color: #1CBBB4;
 			}

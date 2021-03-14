@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<BooksDetails :isBookShelf="isBookShelf" :detail="detail" :chapter_count="chapter.count" @to_read="to_read"
-		 @addBookShelf="addBookShelf" @to_directory="to_directory"></BooksDetails>
+		 @addBookShelf="addBookShelf" @to_directory="to_directory" :grade="grade"></BooksDetails>
 		<Comments @to_comments="to_comments" :comments_lists="comments_lists" :user="user" @del_comment="del_comment"></Comments>
 		<uni-popup ref="popup" type="dialog">
 			<uni-popup-dialog type="input" message="成功消息" :duration="2000" :before-close="true" @close="close" @confirm="confirm"></uni-popup-dialog>
@@ -27,7 +27,8 @@
 					"score_star":[],
 					"time":"",
 					"str":""//不同星星颗数，不同话
-				}]
+				}],
+				grade:{}
 				// comments_lists: [{
 				// 	"img": "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2566720529,304942931&fm=26&gp=0.jpg",
 				// 	"nickname": "twelve",
@@ -41,22 +42,22 @@
 			Comments
 		},
 		onShow() {
-			let user = uni.getStorageSync('user');
-			if (user != null) {
-				this.user = user
-			}
-			this.getChapter()
 			this.isInBookShelf()
 			this.getComments()
 		},
 		//接受参数
 		onLoad: function(option) {
-
+			let user = uni.getStorageSync('user');
+			if (user != null) {
+				this.user = user
+			}
 			if (option) {
 				const item = JSON.parse(decodeURIComponent(option.item));
 				this.detail = item;
-
+				this.getChapter()
+				this.getGrade()
 			}
+			
 
 		},
 		methods: {
@@ -198,7 +199,8 @@
 						dataType: 'json',
 						data: {
 							"bookId": this.detail.id,
-							"userId": this.user.id
+							"userId": this.user.id,
+							"time":this.$moment().format('YYYY-MM-DD hh:mm:ss')
 						},
 						success: res => {
 							if (res.data.success) {
@@ -324,6 +326,35 @@
 								icon:'none'
 							})
 						}
+					},
+					fail: () => {},
+					complete: () => {}
+				});
+			},
+			getGrade(){
+				uni.request({
+					url: getApp().globalData.base_ip + "comment/queryGrade",
+					method: 'GET',
+					header: {
+						'Content-Type': 'application/x-www-form-urlencoded'
+						// 'Content-Type': 'application/json',
+						// token : uni.getStorageSync("TOKEN")
+					},
+					dataType: 'json',
+					data: {"bookId":this.detail.id},
+					success: res => {
+						console.log(res.data)
+						let score_star=[]
+						let score=res.data.data
+						for (let j = 0; j < score; j++) {
+							score_star.push(true);
+						}
+						if(score_star.length<5){
+							for (let j = score_star.length; j < 5; j++) {
+								score_star.push(false);
+							}
+						}
+						this.grade={"score_star":score_star,"score":score}
 					},
 					fail: () => {},
 					complete: () => {}

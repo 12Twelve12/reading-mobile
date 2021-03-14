@@ -238,18 +238,14 @@ var _default =
       }
 
     },
-    PickerChange: function PickerChange(e) {
-      this.index = e.detail.value;
-      this.form.type = this.picker[e.detail.value];
-      this.verify_type = 0;
-    },
+
 
     register: function register() {var _this2 = this;
-      console.log(this.type);
+
       /* 表单验证 */
       var flag = true; //标记表单合法性
 
-      if (this.form.nickname == null || this.form.type == "") {
+      if (this.form.nickname == null || this.form.nickname == "") {
         flag = false;
         this.verify_nickname = 1;
       }
@@ -269,7 +265,6 @@ var _default =
 
 
       if (flag) {
-        console.log(this.form);
         //注册
         var websiteUrl = getApp().globalData.base_ip + 'users/insert';
         uni.request({
@@ -285,11 +280,25 @@ var _default =
             "img": 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201812%2F19%2F20181219191612_izBii.thumb.700_0.jpeg&refer=http%3A%2F%2Fb-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1616132880&t=8b3db88ff0fc4b00f2698d1e03106ba7',
             "nickname": this.form.nickname,
             "mail": this.form.mail,
-            "password": this.form.password },
+            "password": this.form.password,
+            "time": this.$moment().format('YYYY-MM-DD hh:mm:ss') },
 
           success: function success(res) {
-            if (res.data) {
+            // console.log(res.data)
+            if (res.data.code == 0) {
               _this2.go_login();
+            }
+            if (res.data.code == 2 || res.data.code == 3) {
+              uni.showToast({
+                title: res.data.msg,
+                icon: 'none' });
+
+            }
+            if (res.data.code == 5) {
+              uni.showToast({
+                title: '昵称和邮箱都被注册',
+                icon: 'none' });
+
             }
           },
           fail: function fail() {},

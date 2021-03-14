@@ -16,7 +16,9 @@
     "pages/booklist/booklist",
     "pages/booklist/addBookList",
     "pages/booklist/addBook",
-    "pages/booklist/bookListDetails"
+    "pages/booklist/bookListDetails",
+    "pages/mine/myBooklist",
+    "pages/find/search"
   ],
   "subPackages": [],
   "window": {
@@ -62,6 +64,5 @@
       }
     ]
   },
-  "usingComponents": {},
-  "sitemapLocation": "sitemap53.json"
+  "usingComponents": {}
 }

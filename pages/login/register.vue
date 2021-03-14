@@ -89,18 +89,14 @@
 				}
 
 			},
-			PickerChange(e) {
-				this.index = e.detail.value;
-				this.form.type = this.picker[e.detail.value];
-				this.verify_type=0;
-			},
+		
 
 			register() {
-				console.log(this.type)
+			
 				/* 表单验证 */
 				let flag=true;//标记表单合法性
 				
-				if(this.form.nickname==null||this.form.type==""){
+				if(this.form.nickname==null||this.form.nickname==""){
 					flag=false;
 					this.verify_nickname = 1
 				}
@@ -120,7 +116,6 @@
 				
 				
 				if (flag) {
-					console.log(this.form);
 					//注册
 					let websiteUrl = getApp().globalData.base_ip + 'users/insert';
 					uni.request({
@@ -137,10 +132,24 @@
 							"nickname": this.form.nickname,
 							"mail": this.form.mail,
 							"password": this.form.password,
+							"time":this.$moment().format('YYYY-MM-DD hh:mm:ss')
 						},
 						success: res => {
-							if (res.data) {
+							// console.log(res.data)
+							if (res.data.code==0) {
 								this.go_login()
+							}
+							if(res.data.code==2||res.data.code==3){
+								uni.showToast({
+									title:res.data.msg,
+									icon:'none'
+								})
+							}
+							if(res.data.code==5){
+								uni.showToast({
+									title:'昵称和邮箱都被注册',
+									icon:'none'
+								})
 							}
 						},
 						fail: () => {},

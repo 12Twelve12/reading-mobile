@@ -44,7 +44,7 @@
 }
 .book-detail .detail-left .book-img.data-v-78de2430 {
   width: 223rpx;
-  height: 209rpx;
+  height: 284rpx;
   border-radius: 12rpx;
   background-color: #1CBBB4;
 }

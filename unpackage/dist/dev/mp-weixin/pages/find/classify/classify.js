@@ -175,7 +175,7 @@ var _default = {
     return {
 
       list: [],
-      tabCur: 1, //左侧当前选中的分类
+      tabCur: null, //左侧当前选中的分类
       verticalNavTop: 0,
       current_classify: {
         "id": 1,
@@ -192,7 +192,11 @@ var _default = {
   components: {},
 
 
-  onLoad: function onLoad() {
+  onLoad: function onLoad(option) {
+    var item = JSON.parse(decodeURIComponent(option.item));
+    this.tabCur = item.id;
+    this.current_classify = item;
+    console.log(item);
     this.getData();
     this.getBooks();
   },
@@ -204,6 +208,7 @@ var _default = {
       this.getData();
       this.getBooks();
       this.tabCur = e.id;
+      console.log(e.id);
 
     },
     //获得所有分类

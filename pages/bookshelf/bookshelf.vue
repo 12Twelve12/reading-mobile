@@ -22,9 +22,14 @@
 			<!-- <image src="../../static/logo.png"></image> -->
 			<!-- </view> -->
 		</view>
-		<GridList :BookLists="BookLists" v-if="user&&BookLists.length>0" @to_read="to_read"></GridList>
+		<GridList :BookLists="BookLists" v-if="user&&BookLists.length>0" @to_read="to_read" @to_longpress="to_longpress">
+		</GridList>
 		<view v-if="!user" class="text-gray text-center padding">还没登陆哦~</view>
 		<view v-if="user&&BookLists.length==0" class="text-gray text-center padding">空空如也~</view>
+		<uni-popup ref="popup" type="dialog">
+			<uni-popup-dialog type="input" message="成功消息" :duration="2000" :before-close="true" @close="close"
+				@confirm="confirm" :title="'是否移除该图书？'"></uni-popup-dialog>
+		</uni-popup>
 	</view>
 </template>
 
@@ -40,8 +45,9 @@
 				detail: {}, //基本信息（作者，简介等）
 				chapter: {}, //章节数
 				current_progress: 0, //当前进度，第几-1章
-				minutes:'0',//进入阅读分钟
-				seconds:'0'//进入阅读余秒
+				minutes: '0', //进入阅读分钟
+				seconds: '0', //进入阅读余秒
+				del_bookid: null
 			}
 		},
 		onShow() {
@@ -103,16 +109,43 @@
 			//获得跳转时需要的数据
 			to_read(index) {
 				this.detail = this.BookLists[index]
+				this.updateTime()
 				this.getCurrent_progress()
 				this.getChapter()
-
-
 			},
+			/* 长按删除 */
+			to_longpress(index) {
+				this.del_bookid = this.BookLists[index].id
+				this.$refs.popup.open() //进入阅读界面前先问是否要加入书架
+			},
+			//是否删除图书对话框======================================================================================
+			/**
+			 * 点击取消按钮触发
+			 * @param {Object} done
+			 */
+			close(done) {
+				// TODO 做一些其他的事情，before-close 为true的情况下，手动执行 done 才会关闭对话框
+				// ...
+				done()
+			},
+			/**
+			 * 点击确认按钮触发
+			 * @param {Object} done
+			 * @param {Object} value
+			 */
+			confirm(done) {
+				done()
+				//确认删除
+				this.delete()
+			},
+			//是否删除图书对话框======================================================================================
+
 
 			to() {
-				console.log("获得跳转时需要的数据")
-				console.log(this.chapter)
-				console.log(this.current_progress)
+				// console.log("获得跳转时需要的数据")
+				// console.log(this.chapter)
+				// console.log(this.current_progress)
+				/* 跳转前更新阅读进度，好在书架中排序 */
 				uni.navigateTo({
 					url: '../find/booksDetails/read?item=' + encodeURIComponent(JSON.stringify({
 						"detail": this.detail,
@@ -178,7 +211,7 @@
 			},
 			getTimeDay() {
 				uni.request({
-					url: getApp().globalData.base_ip + 'read/queryTimeDay?userId='+this.user.id,
+					url: getApp().globalData.base_ip + 'read/queryTimeDay?userId=' + this.user.id,
 					method: 'GET',
 					header: {
 						'Content-Type': 'application/x-www-form-urlencoded'
@@ -188,9 +221,67 @@
 						console.log("获得时间返回结果=====================")
 						console.log(res)
 						console.log(res.data)
-						this.minutes=res.data.msg
-						this.seconds=res.data.data
-						
+						this.minutes = res.data.msg
+						this.seconds = res.data.data
+
+					},
+					fail: () => {},
+					complete: () => {}
+				});
+			},
+			/**
+			 * 更新书阅读的时间，方便书架排序
+			 */
+			updateTime() {
+				uni.request({
+					url: getApp().globalData.base_ip + 'bookshelf/update',
+					method: 'PUT',
+					header: {
+						'Content-Type': 'application/x-www-form-urlencoded'
+
+					},
+					dataType: 'json',
+					data: {
+						"userId": this.user.id,
+						"bookId": this.detail.id,
+						"time": this.$moment().format('YYYY-MM-DD hh:mm:ss')
+					},
+					success: res => {
+						if (!res.data.success) {
+							uni.showToast({
+								title: res.data.msg,
+								icon: 'none'
+							})
+						}
+
+					},
+					fail: () => {},
+					complete: () => {}
+				});
+			},
+			/* 从书架中移除 */
+			delete() {
+				uni.request({
+					url: getApp().globalData.base_ip + 'bookshelf/delete',
+					method: 'DELETE',
+					header: {
+						'Content-Type': 'application/x-www-form-urlencoded'
+					},
+					dataType: 'json',
+					data: {
+						"userId": this.user.id,
+						"bookId": this.del_bookid,
+					},
+					success: res => {
+						if (!res.data.success) {
+							uni.showToast({
+								title: res.data.msg,
+								icon: 'none'
+							})
+						} else {
+							this.getData()
+						}
+
 					},
 					fail: () => {},
 					complete: () => {}

@@ -9,8 +9,8 @@
 					<view class="title">{{detail.title}}</view>
 					<view class="author">{{detail.author}}</view>
 					<view class="score">
-						<text class="text-yellow text-bold padding-sm">2.0分</text>
-						<view v-for="(item,index) in score_star">
+						<text class="text-yellow text-bold padding-sm">{{grade.score}}分</text>
+						<view v-for="(item,index) in grade.score_star">
 							<text :class="item?'cuIcon-favorfill':'cuIcon-favor'" class="text-yellow"></text>
 						</view>
 					</view>
@@ -42,12 +42,12 @@
 
 <script>
 	export default {
-		props: ['detail', 'chapter_count', 'isBookShelf'],
+		props: ['detail', 'chapter_count', 'isBookShelf','grade'],
 		data() {
 			return {
 				show: false,
-				score: 2, //评分数
-				score_star: [true, true, false, false, false]
+				// score: 5, //评分数
+				// score_star: [true, true, true, true, true]
 			};
 		},
 		components: {

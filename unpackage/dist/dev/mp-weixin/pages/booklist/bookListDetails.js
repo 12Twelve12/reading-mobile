@@ -128,7 +128,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var BookListDetails = function BookListDetails() {__webpack_require__.e(/*! require.ensure | pages/booklist/components/details */ "pages/booklist/components/details").then((function () {return resolve(__webpack_require__(/*! ./components/details.vue */ 326));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var Books = function Books() {__webpack_require__.e(/*! require.ensure | pages/booklist/components/list */ "pages/booklist/components/list").then((function () {return resolve(__webpack_require__(/*! ./components/list.vue */ 378));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var BookListDetails = function BookListDetails() {__webpack_require__.e(/*! require.ensure | pages/booklist/components/details */ "pages/booklist/components/details").then((function () {return resolve(__webpack_require__(/*! ./components/details.vue */ 339));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var Books = function Books() {__webpack_require__.e(/*! require.ensure | pages/booklist/components/list */ "pages/booklist/components/list").then((function () {return resolve(__webpack_require__(/*! ./components/list.vue */ 346));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -141,7 +141,20 @@ __webpack_require__.r(__webpack_exports__);
 {
   data: function data() {
     return {
-      booklists: {},
+      booklist: {},
+      books: [],
+      // 		booklists: {
+      // 			"booklist": {
+      // 				"des": "",
+      // 				"id": null,
+      // 				"img":"",
+      // 				"name":"",
+      // 				"nickname":"",
+      // 				"time":""
+
+      // 			},
+      // 			"books": []
+      // 		},
       user: {},
       is_collect: false };
 
@@ -155,12 +168,22 @@ __webpack_require__.r(__webpack_exports__);
 
     if (option) {
       var item = JSON.parse(decodeURIComponent(option.item));
+      console.log("============================================");
       console.log(item.booklists);
-      this.booklists = item.booklists;
-      this.isCollect();
+      this.booklist = item.booklists.booklist;
+      this.books = item.booklists.books;
+      console.log(this.booklist);
+      console.log(this.books);
+      // this.$forceUpdate();
     }
 
 
+  },
+  onShow: function onShow() {
+
+  },
+  mounted: function mounted() {
+    this.isCollect();
   },
   created: function created() {
     this.user = uni.getStorageSync('user');
@@ -169,11 +192,13 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     to_bookDetails: function to_bookDetails(index) {
       uni.navigateTo({
-        url: '../find/booksDetails/booksDetails?item=' + encodeURIComponent(JSON.stringify(this.booklists.books[index])) });
+        url: '../find/booksDetails/booksDetails?item=' + encodeURIComponent(JSON.stringify(this.books[index])) });
 
     },
     //判断是否收藏
     isCollect: function isCollect() {var _this = this;
+      console.log("收藏");
+      console.log(this.user);
       if (this.user.nickname) {
         var websiteUrl = getApp().globalData.base_ip + 'booklistCollect/isCollect';
         uni.request({
@@ -186,10 +211,11 @@ __webpack_require__.r(__webpack_exports__);
           },
           dataType: 'json',
           data: {
-            "booklistId": this.booklists.booklist.id,
+            "booklistId": this.booklist.id,
             "userId": this.user.id },
 
           success: function success(res) {
+            console.log(res.data);
             if (res.data.success) {
               _this.is_collect = true;
             }
@@ -220,8 +246,9 @@ __webpack_require__.r(__webpack_exports__);
         },
         dataType: 'json',
         data: {
-          "booklistId": this.booklists.booklist.id,
-          "userId": this.user.id },
+          "booklistId": this.booklist.id,
+          "userId": this.user.id,
+          "time": this.$moment().format('YYYY-MM-DD hh:mm:ss') },
 
         success: function success(res) {
           if (res.data.success) {
@@ -248,7 +275,7 @@ __webpack_require__.r(__webpack_exports__);
         },
         dataType: 'json',
         data: {
-          "booklistId": this.booklists.booklist.id,
+          "booklistId": this.booklist.id,
           "userId": this.user.id },
 
         success: function success(res) {

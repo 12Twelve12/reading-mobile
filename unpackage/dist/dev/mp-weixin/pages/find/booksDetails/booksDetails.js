@@ -96,10 +96,10 @@ var components
 try {
   components = {
     uniPopup: function() {
-      return Promise.all(/*! import() | uni_modules/uni-popup/components/uni-popup/uni-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-popup/components/uni-popup/uni-popup")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-popup/components/uni-popup/uni-popup.vue */ 296))
+      return Promise.all(/*! import() | uni_modules/uni-popup/components/uni-popup/uni-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-popup/components/uni-popup/uni-popup")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-popup/components/uni-popup/uni-popup.vue */ 304))
     },
     uniPopupDialog: function() {
-      return __webpack_require__.e(/*! import() | uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog */ "uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog.vue */ 305))
+      return __webpack_require__.e(/*! import() | uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog */ "uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog.vue */ 313))
     }
   }
 } catch (e) {
@@ -156,7 +156,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var BooksDetails = function BooksDetails() {__webpack_require__.e(/*! require.ensure | pages/find/booksDetails/components/booksDetails */ "pages/find/booksDetails/components/booksDetails").then((function () {return resolve(__webpack_require__(/*! ./components/booksDetails.vue */ 312));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var Comments = function Comments() {__webpack_require__.e(/*! require.ensure | pages/find/booksDetails/components/comments */ "pages/find/booksDetails/components/comments").then((function () {return resolve(__webpack_require__(/*! ./components/comments.vue */ 319));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var BooksDetails = function BooksDetails() {__webpack_require__.e(/*! require.ensure | pages/find/booksDetails/components/booksDetails */ "pages/find/booksDetails/components/booksDetails").then((function () {return resolve(__webpack_require__(/*! ./components/booksDetails.vue */ 320));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var Comments = function Comments() {__webpack_require__.e(/*! require.ensure | pages/find/booksDetails/components/comments */ "pages/find/booksDetails/components/comments").then((function () {return resolve(__webpack_require__(/*! ./components/comments.vue */ 327));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -185,7 +185,8 @@ __webpack_require__.r(__webpack_exports__);
         "score_star": [],
         "time": "",
         "str": "" //不同星星颗数，不同话
-      }]
+      }],
+      grade: {}
       // comments_lists: [{
       // 	"img": "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2566720529,304942931&fm=26&gp=0.jpg",
       // 	"nickname": "twelve",
@@ -199,22 +200,22 @@ __webpack_require__.r(__webpack_exports__);
     Comments: Comments },
 
   onShow: function onShow() {
-    var user = uni.getStorageSync('user');
-    if (user != null) {
-      this.user = user;
-    }
-    this.getChapter();
     this.isInBookShelf();
     this.getComments();
   },
   //接受参数
   onLoad: function onLoad(option) {
-
+    var user = uni.getStorageSync('user');
+    if (user != null) {
+      this.user = user;
+    }
     if (option) {
       var item = JSON.parse(decodeURIComponent(option.item));
       this.detail = item;
-
+      this.getChapter();
+      this.getGrade();
     }
+
 
   },
   methods: {
@@ -356,7 +357,8 @@ __webpack_require__.r(__webpack_exports__);
           dataType: 'json',
           data: {
             "bookId": this.detail.id,
-            "userId": this.user.id },
+            "userId": this.user.id,
+            "time": this.$moment().format('YYYY-MM-DD hh:mm:ss') },
 
           success: function success(res) {
             if (res.data.success) {
@@ -482,6 +484,35 @@ __webpack_require__.r(__webpack_exports__);
               icon: 'none' });
 
           }
+        },
+        fail: function fail() {},
+        complete: function complete() {} });
+
+    },
+    getGrade: function getGrade() {var _this6 = this;
+      uni.request({
+        url: getApp().globalData.base_ip + "comment/queryGrade",
+        method: 'GET',
+        header: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+          // 'Content-Type': 'application/json',
+          // token : uni.getStorageSync("TOKEN")
+        },
+        dataType: 'json',
+        data: { "bookId": this.detail.id },
+        success: function success(res) {
+          console.log(res.data);
+          var score_star = [];
+          var score = res.data.data;
+          for (var j = 0; j < score; j++) {
+            score_star.push(true);
+          }
+          if (score_star.length < 5) {
+            for (var _j = score_star.length; _j < 5; _j++) {
+              score_star.push(false);
+            }
+          }
+          _this6.grade = { "score_star": score_star, "score": score };
         },
         fail: function fail() {},
         complete: function complete() {} });

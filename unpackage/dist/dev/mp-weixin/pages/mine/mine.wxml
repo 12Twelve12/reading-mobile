@@ -1,1 +1,1 @@
-<view><user-card vue-id="bae1c640-1" user="{{user}}" bind:__l="__l"></user-card></view>
+<view><user-card vue-id="bae1c640-1" user="{{user}}" bind:__l="__l"></user-card><mine-list vue-id="bae1c640-2" lists="{{lists}}" data-event-opts="{{[['^to',[['to']]]]}}" bind:to="__e" bind:__l="__l"></mine-list></view>
