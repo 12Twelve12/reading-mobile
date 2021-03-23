@@ -6,6 +6,8 @@
     "pages/find/booksDetails/read",
     "pages/find/booksDetails/booksDetails",
     "pages/mine/mine",
+    "pages/mine/personalInfo",
+    "pages/mine/updateInfo",
     "pages/mine/setting",
     "pages/bookshelf/bookshelf",
     "pages/login/login",
@@ -64,6 +66,5 @@
       }
     ]
   },
-  "usingComponents": {},
-  "sitemapLocation": "sitemap13.json"
+  "usingComponents": {}
 }

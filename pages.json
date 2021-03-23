@@ -45,6 +45,20 @@
             }
         },
 		{
+		    "path" : "pages/mine/personalInfo",
+		    "style" : {
+		        "navigationBarTitleText" : "",
+		        "enablePullDownRefresh" : false
+		    }
+		},
+		{
+		    "path" : "pages/mine/updateInfo",
+		    "style" : {
+		        "navigationBarTitleText" : "",
+		        "enablePullDownRefresh" : false
+		    }
+		},
+		{
 		    "path" : "pages/mine/setting",
 		    "style" : {
 		        "navigationBarTitleText" : "",

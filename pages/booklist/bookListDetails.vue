@@ -24,7 +24,7 @@
 		},
 		//接受参数
 		onLoad: function(option) {
-
+			this.user = uni.getStorageSync('user')
 			if (option) {
 				const item = JSON.parse(decodeURIComponent(option.item));
 				console.log("============================================")
@@ -65,7 +65,7 @@
 			this.isCollect()
 		},
 		created() {
-			this.user = uni.getStorageSync('user')
+
 
 		},
 		methods: {
@@ -143,10 +143,10 @@
 						fail: () => {},
 						complete: () => {}
 					});
-				}else{
+				} else {
 					uni.showToast({
-						title:'请先登陆',
-						icon:'none'
+						title: '请先登陆',
+						icon: 'none'
 					})
 				}
 

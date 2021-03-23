@@ -130,7 +130,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var CardList = function CardList() {__webpack_require__.e(/*! require.ensure | components/cardList */ "components/cardList").then((function () {return resolve(__webpack_require__(/*! ../../components/cardList.vue */ 293));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var CardList = function CardList() {__webpack_require__.e(/*! require.ensure | components/cardList */ "components/cardList").then((function () {return resolve(__webpack_require__(/*! ../../components/cardList.vue */ 301));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -171,9 +171,16 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     tabSelect: function tabSelect(e) {
       this.TabCur = e.currentTarget.dataset.id;
+      this.getData();
     },
     getData: function getData() {var _this = this;
-      var websiteUrl = getApp().globalData.base_ip + 'booklist/findAllNew';
+      var websiteUrl;
+      if (this.TabCur == 1) {
+        websiteUrl = getApp().globalData.base_ip + 'booklist/findAllNew';
+      } else {
+        websiteUrl = getApp().globalData.base_ip + 'booklist/findAllLookCounts?startTime=';
+      }
+
       uni.request({
         url: websiteUrl,
         method: 'GET',

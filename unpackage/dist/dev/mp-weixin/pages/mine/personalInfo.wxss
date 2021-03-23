@@ -1,0 +1,9 @@
+
+image {
+	display: block;
+}
+picker {
+	width: 200px;
+	text-align: right;
+}
+

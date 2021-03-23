@@ -16,6 +16,11 @@
 				user: {},
 				//列表组件所需的数据
 				lists: [{
+					"icon": "cuIcon-peoplefill text-blue",
+					"name": "个人信息",
+					// "src": '../../static/about.png',
+					"href": "../../pages/mine/personalInfo"
+				},{
 					"icon": "cuIcon-copy text-green",
 					"name": "我的发布",
 					// "src": '../../static/about.png',

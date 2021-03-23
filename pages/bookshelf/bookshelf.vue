@@ -22,7 +22,7 @@
 			<!-- <image src="../../static/logo.png"></image> -->
 			<!-- </view> -->
 		</view>
-		<GridList :BookLists="BookLists" v-if="user&&BookLists.length>0" @to_read="to_read" @to_longpress="to_longpress">
+		<GridList :BookLists="BookLists" v-if="user&&BookLists.length>0" @to_read="to_read" @to_longpress="to_longpress" :total="BookLists.length">
 		</GridList>
 		<view v-if="!user" class="text-gray text-center padding">还没登陆哦~</view>
 		<view v-if="user&&BookLists.length==0" class="text-gray text-center padding">空空如也~</view>

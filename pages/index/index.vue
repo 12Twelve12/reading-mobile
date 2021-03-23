@@ -6,7 +6,7 @@
 			 :data-id="index">
 				{{item}}
 			</view>
-			<text class="cuIcon-search text-gray search"></text>
+			<!-- <text class="cuIcon-search text-gray search"></text> -->
 		</scroll-view>
 		<view v-if="TabCur==0">
 			<text class="text-gray" style="display: block;text-align: center;padding: 12px;" v-if="booklists.length==0">暂无数据</text>
@@ -39,9 +39,16 @@
 		methods: {
 			tabSelect(e) {
 				this.TabCur = e.currentTarget.dataset.id;
+				this.getData()
 			},
 			getData() {
-				let websiteUrl = getApp().globalData.base_ip + 'booklist/findAllNew';
+				let websiteUrl
+				if(this.TabCur==1){
+					websiteUrl = getApp().globalData.base_ip + 'booklist/findAllNew';
+				}else{
+					websiteUrl = getApp().globalData.base_ip + 'booklist/findAllLookCounts?startTime=';
+				}
+				
 				uni.request({
 					url: websiteUrl,
 					method: 'GET',

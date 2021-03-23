@@ -1,6 +1,6 @@
 <template>
 	<view class="cu-list grid bg-white" :class="['col-' + gridCol,gridBorder?'':'no-border']">
-		<view class="cu-item" v-for="(item,index) in BookLists" :key="index" @click="to(index)" @longpress="to_longpress(index)">
+		<view class="cu-item" v-for="(item,index) in BookLists" :key="index" @click="to(index)" v-if="index<total" @longpress="to_longpress(index)">
 			<view>
 				<!-- <image style="width:70px; height: 100px; background-color: #eeeeee;" :src="item.src" @error="imageError"></image> -->
 				<image :src="item.img"></image>
@@ -12,7 +12,7 @@
 
 <script>
 	export default {
-		props: ['BookLists'],
+		props: ['BookLists','total'],
 		data() {
 			return {
 				gridCol: 3, //宫格列表列数
