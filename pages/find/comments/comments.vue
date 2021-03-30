@@ -77,7 +77,7 @@
 						"userId": this.user.id,
 						"bookId": this.detail.id,
 						"content":this.content,
-						"time":this.$moment().format('YYYY-MM-DD hh:mm:ss'),
+						"time":this.$moment().format('YYYY-MM-DD HH:mm:ss'),
 						"grade":this.score
 					},
 					success: res => {

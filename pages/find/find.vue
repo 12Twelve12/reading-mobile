@@ -75,10 +75,11 @@
 		},
 		created() {
 			this.getData()
-			this.user = uni.getStorageSync("user");
+			
 			
 		},
 		onShow() {
+			this.user = uni.getStorageSync("user");
 			this.getRecommendedResult()
 			this.getLookList()
 		},
@@ -150,13 +151,13 @@
 			 *推荐
 			 */
 			getRecommendedResult() {
-				let data;
+				let recommended_data;
 				if (this.user) {
-					data = {
-						"userId": this.user.id
+					recommended_data = {
+						"userId": parseInt(this.user.id) 
 					}
 				} else {
-					data = {
+					recommended_data = {
 						"userId": -1
 					}
 				}
@@ -169,7 +170,7 @@
 						// token : uni.getStorageSync("TOKEN")
 					},
 					dataType: 'json',
-					data: data,
+					data: recommended_data,
 					success: res => {
 						console.log(res.data)
 						if (res.data.success) {
@@ -252,7 +253,7 @@
 					},
 					dataType: 'json',
 					data: {
-						"bookList": bookList
+						"bookList": JSON.stringify(bookList)
 					},
 					success: res => {
 						console.log(res.data)

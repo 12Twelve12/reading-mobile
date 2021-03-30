@@ -116,8 +116,8 @@ __webpack_require__.r(__webpack_exports__);
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var _default =
 {
   globalData: {
-    base_ip: 'http://192.168.43.13:8080/',
-    mongo_ip: 'http://192.168.43.13:8000/'
+    base_ip: 'http://192.168.31.53:8080/',
+    mongo_ip: 'http://192.168.31.53:8000/'
     // base_ip: 'http://192.168.23.55:8080/',
     // mongo_ip: 'http://192.168.23.55:8000/'
   },

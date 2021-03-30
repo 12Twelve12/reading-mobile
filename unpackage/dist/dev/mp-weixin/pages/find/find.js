@@ -130,7 +130,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var GridList = function GridList() {__webpack_require__.e(/*! require.ensure | pages/find/components/gridList */ "pages/find/components/gridList").then((function () {return resolve(__webpack_require__(/*! ./components/gridList.vue */ 306));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var LookingList = function LookingList() {__webpack_require__.e(/*! require.ensure | pages/find/components/lookingList */ "pages/find/components/lookingList").then((function () {return resolve(__webpack_require__(/*! ./components/lookingList.vue */ 313));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var GridList = function GridList() {__webpack_require__.e(/*! require.ensure | pages/find/components/gridList */ "pages/find/components/gridList").then((function () {return resolve(__webpack_require__(/*! ./components/gridList.vue */ 314));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var LookingList = function LookingList() {__webpack_require__.e(/*! require.ensure | pages/find/components/lookingList */ "pages/find/components/lookingList").then((function () {return resolve(__webpack_require__(/*! ./components/lookingList.vue */ 321));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -207,10 +207,11 @@ __webpack_require__.r(__webpack_exports__);
 
   created: function created() {
     this.getData();
-    this.user = uni.getStorageSync("user");
+
 
   },
   onShow: function onShow() {
+    this.user = uni.getStorageSync("user");
     this.getRecommendedResult();
     this.getLookList();
   },
@@ -282,13 +283,13 @@ __webpack_require__.r(__webpack_exports__);
         *推荐
         */
     getRecommendedResult: function getRecommendedResult() {var _this2 = this;
-      var data;
+      var recommended_data;
       if (this.user) {
-        data = {
-          "userId": this.user.id };
+        recommended_data = {
+          "userId": parseInt(this.user.id) };
 
       } else {
-        data = {
+        recommended_data = {
           "userId": -1 };
 
       }
@@ -301,7 +302,7 @@ __webpack_require__.r(__webpack_exports__);
           // token : uni.getStorageSync("TOKEN")
         },
         dataType: 'json',
-        data: data,
+        data: recommended_data,
         success: function success(res) {
           console.log(res.data);
           if (res.data.success) {
@@ -384,7 +385,7 @@ __webpack_require__.r(__webpack_exports__);
         },
         dataType: 'json',
         data: {
-          "bookList": bookList },
+          "bookList": JSON.stringify(bookList) },
 
         success: function success(res) {
           console.log(res.data);

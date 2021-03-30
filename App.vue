@@ -2,8 +2,8 @@
 	import Vue from 'vue'
 	export default {
 		globalData: {
-			base_ip: 'http://192.168.43.13:8080/',
-			mongo_ip: 'http://192.168.43.13:8000/'
+			base_ip: 'http://192.168.31.53:8080/',
+			mongo_ip: 'http://192.168.31.53:8000/'
 			// base_ip: 'http://192.168.23.55:8080/',
 			// mongo_ip: 'http://192.168.23.55:8000/'
 			

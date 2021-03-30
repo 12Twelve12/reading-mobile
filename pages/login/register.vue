@@ -132,7 +132,7 @@
 							"nickname": this.form.nickname,
 							"mail": this.form.mail,
 							"password": this.form.password,
-							"time":this.$moment().format('YYYY-MM-DD hh:mm:ss')
+							"time":this.$moment().format('YYYY-MM-DD HH:mm:ss')
 						},
 						success: res => {
 							// console.log(res.data)

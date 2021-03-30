@@ -1,6 +1,6 @@
 <template>
 	<!-- 修改信息 -->
-	<view class="bg-white">
+	<view class="bg-white" style="padding-top: 100upx;">
 		<view class='line'>
 			<view class='lineLeft'>{{update_title1}}</view>
 			<view class="lineRight">

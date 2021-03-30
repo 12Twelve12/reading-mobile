@@ -38,14 +38,14 @@
 				let val
 				if (this.user) {
 					val = {
-						"startTime": this.$moment().format('YYYY-MM-DD hh:mm:ss'),
+						"startTime": this.$moment().format('YYYY-MM-DD HH:mm:ss'),
 						"operation": "浏览书单",
 						"booklistId": this.booklist.id,
 						"userId": this.user.id
 					}
 				} else {
 					val = {
-						"startTime": this.$moment().format('YYYY-MM-DD hh:mm:ss'),
+						"startTime": this.$moment().format('YYYY-MM-DD HH:mm:ss'),
 						"operation": "浏览书单",
 						"booklistId": this.booklist.id
 					}
@@ -129,7 +129,7 @@
 						data: {
 							"booklistId": this.booklist.id,
 							"userId": this.user.id,
-							"time": this.$moment().format('YYYY-MM-DD hh:mm:ss')
+							"time": this.$moment().format('YYYY-MM-DD HH:mm:ss')
 						},
 						success: res => {
 							if (res.data.success) {

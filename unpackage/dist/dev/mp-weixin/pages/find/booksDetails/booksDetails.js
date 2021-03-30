@@ -96,10 +96,10 @@ var components
 try {
   components = {
     uniPopup: function() {
-      return Promise.all(/*! import() | uni_modules/uni-popup/components/uni-popup/uni-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-popup/components/uni-popup/uni-popup")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-popup/components/uni-popup/uni-popup.vue */ 320))
+      return Promise.all(/*! import() | uni_modules/uni-popup/components/uni-popup/uni-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-popup/components/uni-popup/uni-popup")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-popup/components/uni-popup/uni-popup.vue */ 328))
     },
     uniPopupDialog: function() {
-      return __webpack_require__.e(/*! import() | uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog */ "uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog.vue */ 329))
+      return __webpack_require__.e(/*! import() | uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog */ "uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog.vue */ 337))
     }
   }
 } catch (e) {
@@ -156,7 +156,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var BooksDetails = function BooksDetails() {__webpack_require__.e(/*! require.ensure | pages/find/booksDetails/components/booksDetails */ "pages/find/booksDetails/components/booksDetails").then((function () {return resolve(__webpack_require__(/*! ./components/booksDetails.vue */ 336));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var Comments = function Comments() {__webpack_require__.e(/*! require.ensure | pages/find/booksDetails/components/comments */ "pages/find/booksDetails/components/comments").then((function () {return resolve(__webpack_require__(/*! ./components/comments.vue */ 343));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var BooksDetails = function BooksDetails() {__webpack_require__.e(/*! require.ensure | pages/find/booksDetails/components/booksDetails */ "pages/find/booksDetails/components/booksDetails").then((function () {return resolve(__webpack_require__(/*! ./components/booksDetails.vue */ 344));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var Comments = function Comments() {__webpack_require__.e(/*! require.ensure | pages/find/booksDetails/components/comments */ "pages/find/booksDetails/components/comments").then((function () {return resolve(__webpack_require__(/*! ./components/comments.vue */ 351));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -216,14 +216,14 @@ __webpack_require__.r(__webpack_exports__);
       var val;
       if (this.user) {
         val = {
-          "startTime": this.$moment().format('YYYY-MM-DD hh:mm:ss'),
+          "startTime": this.$moment().format('YYYY-MM-DD HH:mm:ss'),
           "operation": "浏览图书",
           "bookId": this.detail.id,
           "userId": this.user.id };
 
       } else {
         val = {
-          "startTime": this.$moment().format('YYYY-MM-DD hh:mm:ss'),
+          "startTime": this.$moment().format('YYYY-MM-DD HH:mm:ss'),
           "operation": "浏览图书",
           "bookId": this.detail.id };
 
@@ -376,7 +376,7 @@ __webpack_require__.r(__webpack_exports__);
           data: {
             "bookId": this.detail.id,
             "userId": this.user.id,
-            "time": this.$moment().format('YYYY-MM-DD hh:mm:ss') },
+            "time": this.$moment().format('YYYY-MM-DD HH:mm:ss') },
 
           success: function success(res) {
             if (res.data.success) {

@@ -198,7 +198,7 @@
 		},
 		onLoad(option) { //接受参数
 			this.user = uni.getStorageSync('user')
-			this.read_log.startTime = this.$moment().format('YYYY-MM-DD hh:mm:ss')
+			this.read_log.startTime = this.$moment().format('YYYY-MM-DD HH:mm:ss')
 			if (option) {
 				const item = JSON.parse(decodeURIComponent(option.item));
 				console.log("传到阅读界面的数据================================")
@@ -417,7 +417,7 @@
 					console.log("//返回的时候记录阅读日志");
 					console.log(e);
 					if (this.isBookShelf) {
-						this.read_log.endTime = this.$moment().format('YYYY-MM-DD hh:mm:ss')
+						this.read_log.endTime = this.$moment().format('YYYY-MM-DD HH:mm:ss')
 						this.read_log.bookId = this.BookData.id
 						this.read_log.userId = this.user.id
 
@@ -446,7 +446,7 @@
 					if (this.user) {
 						val = {
 							"startTime": this.read_log.startTime,
-							"endTime": this.$moment().format('YYYY-MM-DD hh:mm:ss'),
+							"endTime": this.$moment().format('YYYY-MM-DD HH:mm:ss'),
 							"operation": "阅读",
 							"bookId": this.BookData.id,
 							"userId": this.user.id
@@ -454,7 +454,7 @@
 					} else {
 						val = {
 							"startTime": this.read_log.startTime,
-							"endTime": this.$moment().format('YYYY-MM-DD hh:mm:ss'),
+							"endTime": this.$moment().format('YYYY-MM-DD HH:mm:ss'),
 							"operation": "阅读",
 							"bookId": this.BookData.id,
 						}

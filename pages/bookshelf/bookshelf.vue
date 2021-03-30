@@ -247,7 +247,7 @@
 					data: {
 						"userId": this.user.id,
 						"bookId": this.detail.id,
-						"time": this.$moment().format('YYYY-MM-DD hh:mm:ss')
+						"time": this.$moment().format('YYYY-MM-DD HH:mm:ss')
 					},
 					success: res => {
 						if (!res.data.success) {

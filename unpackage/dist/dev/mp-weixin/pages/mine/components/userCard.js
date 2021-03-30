@@ -222,7 +222,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ 240:
+/***/ 248:
 /*!***************************************************************************************************!*\
   !*** F:/A_study/HBuilderProjects/reading/main.js?{"page":"pages%2Fmine%2Fcomponents%2FuserCard"} ***!
   \***************************************************************************************************/
@@ -238,5 +238,5 @@ createPage(_userCard.default);
 
 /***/ })
 
-},[[240,"common/runtime","common/vendor"]]]);
+},[[248,"common/runtime","common/vendor"]]]);
 //# sourceMappingURL=../../../../.sourcemap/mp-weixin/pages/mine/components/userCard.js.map

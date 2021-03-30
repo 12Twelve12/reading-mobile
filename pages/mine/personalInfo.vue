@@ -1,6 +1,6 @@
 <template>
 	<!-- 个人信息 -->
-	<view>
+	<view style="padding-top: 100upx;" class="bg-white">
 		<view class="cu-list menu">
 			<view class="cu-item arrow">
 				<view class="content" @click="updateHeadImg()">

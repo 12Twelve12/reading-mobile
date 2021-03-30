@@ -60,7 +60,7 @@
 					for (let i = 0; i < this.books.length; i++) {
 						books.push(this.books[i].id)
 					}
-					this.booklist.time = this.$moment().format('YYYY-MM-DD hh:mm:ss')
+					this.booklist.time = this.$moment().format('YYYY-MM-DD HH:mm:ss')
 					console.log(this.booklist)
 					console.log(books)
 					uni.request({
