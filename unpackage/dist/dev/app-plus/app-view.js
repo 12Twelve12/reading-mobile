@@ -1950,7 +1950,15 @@ var render = function() {
           }
         }
       }),
-      _c("LookingList", { staticClass: _vm._$g(15, "sc"), attrs: { _i: 15 } })
+      _c("LookingList", {
+        staticClass: _vm._$g(15, "sc"),
+        attrs: { _i: 15 },
+        on: {
+          to_detail_looking: function($event) {
+            return _vm.$handleViewEvent($event)
+          }
+        }
+      })
     ],
     1
   )
@@ -2325,7 +2333,12 @@ var render = function() {
                 {
                   key: item,
                   staticClass: _vm._$g("4-" + $30, "sc"),
-                  attrs: { _i: "4-" + $30 }
+                  attrs: { _i: "4-" + $30 },
+                  on: {
+                    click: function($event) {
+                      return _vm.$handleViewEvent($event)
+                    }
+                  }
                 },
                 [
                   _c(

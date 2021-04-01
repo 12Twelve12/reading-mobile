@@ -2,18 +2,20 @@
 
 	<view class="padding-top">
 		<scroll-view scroll-x class="bg-white nav">
-			<view class="cu-item" :class="index==TabCur?'text-cyan cur':''" v-for="(item,index) in tabSelects" :key="index" @tap="tabSelect"
-			 :data-id="index">
+			<view class="cu-item" :class="index==TabCur?'text-cyan cur':''" v-for="(item,index) in tabSelects"
+				:key="index" @tap="tabSelect" :data-id="index">
 				{{item}}
 			</view>
 			<!-- <text class="cuIcon-search text-gray search"></text> -->
 		</scroll-view>
 		<view v-if="TabCur==0">
-			<text class="text-gray" style="display: block;text-align: center;padding: 12px;" v-if="booklists.length==0">暂无数据</text>
+			<text class="text-gray" style="display: block;text-align: center;padding: 12px;"
+				v-if="booklists.length==0">暂无数据</text>
 			<CardList v-bind:booklists="booklists" @to_details="to_details"></CardList>
 		</view>
 		<view v-if="TabCur==1">
-			<text class="text-gray" style="display: block;text-align: center;padding: 12px;" v-if="booklists.length==0">暂无数据</text>
+			<text class="text-gray" style="display: block;text-align: center;padding: 12px;"
+				v-if="booklists.length==0">暂无数据</text>
 			<CardList v-bind:booklists="booklists"></CardList>
 		</view>
 	</view>
@@ -36,6 +38,26 @@
 		onShow() {
 			this.getData()
 		},
+		created() {
+			//记录日志=============================================
+			let user = uni.getStorageSync('user')
+			let val = {}
+			if (user) {
+				val = {
+					"startTime": this.$moment().format('YYYY-MM-DD HH:mm:ss'),
+					"operation": "访问",
+					"userId": user.id
+				}
+
+			} else {
+				val = {
+					"startTime": this.$moment().format('YYYY-MM-DD HH:mm:ss'),
+					"operation": "访问"
+				}
+			}
+			this.$uniApi.addLog(val)
+			//记录日志=============================================
+		},
 		methods: {
 			tabSelect(e) {
 				this.TabCur = e.currentTarget.dataset.id;
@@ -43,12 +65,12 @@
 			},
 			getData() {
 				let websiteUrl
-				if(this.TabCur==1){
+				if (this.TabCur == 1) {
 					websiteUrl = getApp().globalData.base_ip + 'booklist/findAllNew';
-				}else{
+				} else {
 					websiteUrl = getApp().globalData.base_ip + 'booklist/findAllLookCounts?startTime=';
 				}
-				
+
 				uni.request({
 					url: websiteUrl,
 					method: 'GET',
@@ -77,7 +99,7 @@
 					}))
 				})
 			},
-			
+
 		}
 	}
 </script>

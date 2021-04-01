@@ -23,7 +23,7 @@
 					class='cuIcon-refresh padding-sm text-orange'></text></view> -->
 		</view>
 		<GridList :BookLists="RecommendedBooks" :total="6" @to_read="to_detail"></GridList>
-		<LookingList class="padding" :lookingList="lookingList"></LookingList>
+		<LookingList class="padding" :lookingList="lookingList" @to_detail_looking="to_detail_looking"></LookingList>
 	</view>
 </template>
 
@@ -65,7 +65,7 @@
 				}],
 				str: "", //搜索关键字
 				user: {},
-				RecommendedBooks: [], //推荐的图书
+				RecommendedBooks: [], //推荐的图书(没有推荐时就按阅读量)
 				lookingList: [] //大家都在看的图书列表（按浏览量）
 			}
 		},
@@ -265,9 +265,18 @@
 				});
 			},
 
-			//获得跳转时需要的数据
+			//获得跳转时需要的数据（推荐那里的跳转）
 			to_detail(index) {
 				let item = this.RecommendedBooks[index]
+				console.log(item);
+				uni.navigateTo({
+					url: 'booksDetails/booksDetails?item=' + encodeURIComponent(JSON.stringify(item))
+				})
+			},
+			
+			//获得跳转时需要的数据（大家都在看那里的跳转）
+			to_detail_looking(index) {
+				let item = this.lookingList[index]
 				console.log(item);
 				uni.navigateTo({
 					url: 'booksDetails/booksDetails?item=' + encodeURIComponent(JSON.stringify(item))

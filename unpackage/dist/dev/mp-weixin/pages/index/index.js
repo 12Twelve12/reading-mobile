@@ -154,6 +154,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
 {
   data: function data() {
     return {
@@ -167,6 +169,26 @@ __webpack_require__.r(__webpack_exports__);
 
   onShow: function onShow() {
     this.getData();
+  },
+  created: function created() {
+    //记录日志=============================================
+    var user = uni.getStorageSync('user');
+    var val = {};
+    if (user) {
+      val = {
+        "startTime": this.$moment().format('YYYY-MM-DD HH:mm:ss'),
+        "operation": "访问",
+        "userId": user.id };
+
+
+    } else {
+      val = {
+        "startTime": this.$moment().format('YYYY-MM-DD HH:mm:ss'),
+        "operation": "访问" };
+
+    }
+    this.$uniApi.addLog(val);
+    //记录日志=============================================
   },
   methods: {
     tabSelect: function tabSelect(e) {

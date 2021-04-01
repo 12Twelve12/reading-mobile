@@ -5,7 +5,7 @@
 			<view class="text-xl">大家都在看</view>
 		</view>
 		<view class="padding bg-white card margin-top">
-			<view class="flex  p-xs margin-bottom-sm mb-sm" v-for="(item,index) in lookingList" :key="index"
+			<view class="flex  p-xs margin-bottom-sm mb-sm" v-for="(item,index) in lookingList" :key="index" @click="to_detail_looking(index)"
 				v-if="index<10">
 				<view class="flex-sub ">
 					<view class="cu-avatar round sm " :class="bg[index]">{{index + 1}}</view>
@@ -19,45 +19,7 @@
 					<view class="text-sm text-gray text-cut">{{item.author}}</view>
 				</view>
 			</view>
-			<!-- <view class="flex  p-xs margin-bottom-sm mb-sm">
-				<view class="flex-sub ">
-					<view class="cu-avatar round sm bg-blue">2</view>
-				</view>
-				<view class="flex-twice ">
-					<view class="cu-avatar"
-						style="background-image:url(../../../static/logo.png);width: 70px;height: 91px;"></view>
-				</view>
-				<view class="flex-treble ">
-					<view class="text-bold text-lg" style="padding-bottom: 40px;">书名</view>
-					<view class="text-sm text-gray">作者</view>
-				</view>
-			</view>
-			<view class="flex  p-xs margin-bottom-sm mb-sm">
-				<view class="flex-sub ">
-					<view class="cu-avatar round sm bg-green">3</view>
-				</view>
-				<view class="flex-twice ">
-					<view class="cu-avatar"
-						style="background-image:url(../../../static/logo.png);width: 70px;height: 91px;"></view>
-				</view>
-				<view class="flex-treble ">
-					<view class="text-bold text-lg" style="padding-bottom: 40px;">书名</view>
-					<view class="text-sm text-gray">作者</view>
-				</view>
-			</view>
-			<view class="flex  p-xs margin-bottom-sm mb-sm">
-				<view class="flex-sub ">
-					<view class="padding text-lg text-blod">4</view>
-				</view>
-				<view class="flex-twice ">
-					<view class="cu-avatar"
-						style="background-image:url(../../../static/logo.png);width: 70px;height: 91px;"></view>
-				</view>
-				<view class="flex-treble ">
-					<view class="text-bold text-lg" style="padding-bottom: 40px;">书名</view>
-					<view class="text-sm text-gray">作者</view>
-				</view>
-			</view> -->
+			
 		</view>
 
 	</view>
@@ -72,6 +34,11 @@
 		data() {
 			return {
 				bg: ['bg-red', 'bg-blue', 'bg-green']
+			}
+		},
+		methods:{
+			to_detail_looking(index){
+				this.$emit('to_detail_looking',index);
 			}
 		}
 	}

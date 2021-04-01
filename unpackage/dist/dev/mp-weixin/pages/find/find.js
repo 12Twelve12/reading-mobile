@@ -197,7 +197,7 @@ __webpack_require__.r(__webpack_exports__);
 
       str: "", //搜索关键字
       user: {},
-      RecommendedBooks: [], //推荐的图书
+      RecommendedBooks: [], //推荐的图书(没有推荐时就按阅读量)
       lookingList: [] //大家都在看的图书列表（按浏览量）
     };
   },
@@ -397,9 +397,18 @@ __webpack_require__.r(__webpack_exports__);
 
     },
 
-    //获得跳转时需要的数据
+    //获得跳转时需要的数据（推荐那里的跳转）
     to_detail: function to_detail(index) {
       var item = this.RecommendedBooks[index];
+      console.log(item);
+      uni.navigateTo({
+        url: 'booksDetails/booksDetails?item=' + encodeURIComponent(JSON.stringify(item)) });
+
+    },
+
+    //获得跳转时需要的数据（大家都在看那里的跳转）
+    to_detail_looking: function to_detail_looking(index) {
+      var item = this.lookingList[index];
       console.log(item);
       uni.navigateTo({
         url: 'booksDetails/booksDetails?item=' + encodeURIComponent(JSON.stringify(item)) });

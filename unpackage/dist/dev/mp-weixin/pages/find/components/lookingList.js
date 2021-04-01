@@ -144,44 +144,6 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 var _default =
 {
   props: ['lookingList'],
@@ -189,7 +151,11 @@ var _default =
     return {
       bg: ['bg-red', 'bg-blue', 'bg-green'] };
 
-  } };exports.default = _default;
+  },
+  methods: {
+    to_detail_looking: function to_detail_looking(index) {
+      this.$emit('to_detail_looking', index);
+    } } };exports.default = _default;
 
 /***/ }),
 
