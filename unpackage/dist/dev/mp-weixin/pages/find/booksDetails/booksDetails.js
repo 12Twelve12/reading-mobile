@@ -96,10 +96,10 @@ var components
 try {
   components = {
     uniPopup: function() {
-      return Promise.all(/*! import() | uni_modules/uni-popup/components/uni-popup/uni-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-popup/components/uni-popup/uni-popup")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-popup/components/uni-popup/uni-popup.vue */ 328))
+      return Promise.all(/*! import() | uni_modules/uni-popup/components/uni-popup/uni-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-popup/components/uni-popup/uni-popup")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-popup/components/uni-popup/uni-popup.vue */ 330))
     },
     uniPopupDialog: function() {
-      return __webpack_require__.e(/*! import() | uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog */ "uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog.vue */ 337))
+      return __webpack_require__.e(/*! import() | uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog */ "uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog.vue */ 339))
     }
   }
 } catch (e) {
@@ -156,7 +156,9 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var BooksDetails = function BooksDetails() {__webpack_require__.e(/*! require.ensure | pages/find/booksDetails/components/booksDetails */ "pages/find/booksDetails/components/booksDetails").then((function () {return resolve(__webpack_require__(/*! ./components/booksDetails.vue */ 344));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var Comments = function Comments() {__webpack_require__.e(/*! require.ensure | pages/find/booksDetails/components/comments */ "pages/find/booksDetails/components/comments").then((function () {return resolve(__webpack_require__(/*! ./components/comments.vue */ 351));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var BooksDetails = function BooksDetails() {__webpack_require__.e(/*! require.ensure | pages/find/booksDetails/components/booksDetails */ "pages/find/booksDetails/components/booksDetails").then((function () {return resolve(__webpack_require__(/*! ./components/booksDetails.vue */ 346));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var Comments = function Comments() {__webpack_require__.e(/*! require.ensure | pages/find/booksDetails/components/comments */ "pages/find/booksDetails/components/comments").then((function () {return resolve(__webpack_require__(/*! ./components/comments.vue */ 353));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
 
 
 
@@ -208,30 +210,39 @@ __webpack_require__.r(__webpack_exports__);
     this.user = uni.getStorageSync('user');
     if (option) {
       var item = JSON.parse(decodeURIComponent(option.item));
+      console.log(item, "**********************************");
       this.detail = item;
       this.getChapter();
       this.getGrade();
 
-      //记录日志=============================================
-      var val;
-      if (this.user) {
-        val = {
-          "startTime": this.$moment().format('YYYY-MM-DD HH:mm:ss'),
-          "operation": "浏览图书",
-          "bookId": this.detail.id,
-          "userId": this.user.id };
+      if (this.detail.isDeleted == 0) {
+        //记录日志=============================================
+        var val;
+        if (this.user) {
+          val = {
+            "startTime": this.$moment().format('YYYY-MM-DD HH:mm:ss'),
+            "operation": "浏览图书",
+            "bookId": this.detail.id,
+            "userId": this.user.id };
 
+        } else {
+          val = {
+            "startTime": this.$moment().format('YYYY-MM-DD HH:mm:ss'),
+            "operation": "浏览图书",
+            "bookId": this.detail.id };
+
+        }
+
+        console.log(val);
+        this.$uniApi.addLog(val);
+        //记录日志=============================================
       } else {
-        val = {
-          "startTime": this.$moment().format('YYYY-MM-DD HH:mm:ss'),
-          "operation": "浏览图书",
-          "bookId": this.detail.id };
+        uni.showToast({
+          title: '该书已下架',
+          icon: 'none' });
 
       }
 
-      console.log(val);
-      this.$uniApi.addLog(val);
-      //记录日志=============================================
     }
 
 
@@ -456,17 +467,13 @@ __webpack_require__.r(__webpack_exports__);
             _this4.comments_lists[i].score_star = score_star;
             if (_this4.comments_lists[i].grade == 1) {
               _this4.comments_lists[i].str = "惨不忍睹";
-            } else
-            if (_this4.comments_lists[i].grade == 2) {
+            } else if (_this4.comments_lists[i].grade == 2) {
               _this4.comments_lists[i].str = "不值一提";
-            } else
-            if (_this4.comments_lists[i].grade == 3) {
+            } else if (_this4.comments_lists[i].grade == 3) {
               _this4.comments_lists[i].str = "平淡无奇";
-            } else
-            if (_this4.comments_lists[i].grade == 4) {
+            } else if (_this4.comments_lists[i].grade == 4) {
               _this4.comments_lists[i].str = "值得一看";
-            } else
-            if (_this4.comments_lists[i].grade == 5) {
+            } else if (_this4.comments_lists[i].grade == 5) {
               _this4.comments_lists[i].str = "强力推荐";
             }
           }
@@ -487,7 +494,9 @@ __webpack_require__.r(__webpack_exports__);
           // token : uni.getStorageSync("TOKEN")
         },
         dataType: 'json',
-        data: { "time": time },
+        data: {
+          "time": time },
+
         success: function success(res) {
           console.log(res.data);
           if (res.data.success) {
@@ -517,7 +526,9 @@ __webpack_require__.r(__webpack_exports__);
           // token : uni.getStorageSync("TOKEN")
         },
         dataType: 'json',
-        data: { "bookId": this.detail.id },
+        data: {
+          "bookId": this.detail.id },
+
         success: function success(res) {
           console.log(res.data);
           var score_star = [];
@@ -530,7 +541,10 @@ __webpack_require__.r(__webpack_exports__);
               score_star.push(false);
             }
           }
-          _this6.grade = { "score_star": score_star, "score": score };
+          _this6.grade = {
+            "score_star": score_star,
+            "score": score };
+
         },
         fail: function fail() {},
         complete: function complete() {} });

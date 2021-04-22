@@ -25,10 +25,10 @@
 					<text class="text-red" v-if="verify_password==1">*两次密码不一致</text>
 					<input type="password" placeholder="确认密码" v-model="form.password2" @input="verify_password=0" />
 				</view>
-				<view class="login-input login-margin-b">
+				<!-- <view class="login-input login-margin-b">
 					<input placeholder="请输入验证码" type="number" name="input" placeholder-class="plaClass" style="width: 72%;" v-model="form.code"></input>
 					<text class="text-green code"  @tap="getCheckNum()">{{!codeTime?'获取验证码':codeTime+'s'}}</text>
-				</view>
+				</view> -->
 
 			</view>
 		</view>

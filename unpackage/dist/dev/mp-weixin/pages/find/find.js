@@ -130,7 +130,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var GridList = function GridList() {__webpack_require__.e(/*! require.ensure | pages/find/components/gridList */ "pages/find/components/gridList").then((function () {return resolve(__webpack_require__(/*! ./components/gridList.vue */ 314));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var LookingList = function LookingList() {__webpack_require__.e(/*! require.ensure | pages/find/components/lookingList */ "pages/find/components/lookingList").then((function () {return resolve(__webpack_require__(/*! ./components/lookingList.vue */ 321));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var GridList = function GridList() {__webpack_require__.e(/*! require.ensure | pages/find/components/gridList */ "pages/find/components/gridList").then((function () {return resolve(__webpack_require__(/*! ./components/gridList.vue */ 316));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var LookingList = function LookingList() {__webpack_require__.e(/*! require.ensure | pages/find/components/lookingList */ "pages/find/components/lookingList").then((function () {return resolve(__webpack_require__(/*! ./components/lookingList.vue */ 323));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -388,7 +388,7 @@ __webpack_require__.r(__webpack_exports__);
           "bookList": JSON.stringify(bookList) },
 
         success: function success(res) {
-          console.log(res.data);
+          console.log(res.data, "请求的推荐数据");
           _this3.RecommendedBooks = res.data.data;
 
         },

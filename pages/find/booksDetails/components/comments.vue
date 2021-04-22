@@ -56,7 +56,15 @@
 
 		methods: {
 			to_comments() {
-				this.$emit('to_comments')
+				if (this.detail.isDeleted == 0) {
+					this.$emit('to_comments')
+				} else {
+					uni.showToast({
+						title: '该书已下架',
+						icon:'none'
+					});
+				}
+				
 			},
 			press(item) {
 				let that=this;

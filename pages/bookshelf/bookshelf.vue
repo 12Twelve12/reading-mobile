@@ -4,9 +4,9 @@
 			<view class="padding-sm flex">
 				<view class="flex-sub text-xxl text-white">书架</view>
 				<view class="flex-sub" style="text-align: right;">
-					<text class="cuIcon-search text-white padding-sm xl"></text>
+					<!-- <text class="cuIcon-search text-white padding-sm xl"></text>
 					<text class="cuIcon-pick text-white padding-sm"></text>
-					<text class="cuIcon-time text-white padding-sm"></text>
+					<text class="cuIcon-time text-white padding-sm"></text> -->
 				</view>
 				<!-- <text class="text-xl">书架</text>
 				<view class="">
@@ -22,7 +22,8 @@
 			<!-- <image src="../../static/logo.png"></image> -->
 			<!-- </view> -->
 		</view>
-		<GridList :BookLists="BookLists" v-if="user&&BookLists.length>0" @to_read="to_read" @to_longpress="to_longpress" :total="BookLists.length">
+		<GridList :BookLists="BookLists" v-if="user&&BookLists.length>0" @to_read="to_read" @to_longpress="to_longpress"
+			:total="BookLists.length">
 		</GridList>
 		<view v-if="!user" class="text-gray text-center padding">还没登陆哦~</view>
 		<view v-if="user&&BookLists.length==0" class="text-gray text-center padding">空空如也~</view>
@@ -108,10 +109,25 @@
 			},
 			//获得跳转时需要的数据
 			to_read(index) {
-				this.detail = this.BookLists[index]
-				this.updateTime()
-				this.getCurrent_progress()
-				this.getChapter()
+				if (index < this.BookLists.length - 1) {
+					if (this.BookLists[index].isDeleted == 0) {
+						this.detail = this.BookLists[index]
+						this.updateTime()
+						this.getCurrent_progress()
+						this.getChapter()
+					}else{
+						uni.showToast({
+							title: '该书已下架',
+							icon:'none'
+						});
+					}
+
+				} else {
+					uni.switchTab({
+						url: '../find/find'
+					})
+				}
+
 			},
 			/* 长按删除 */
 			to_longpress(index) {
@@ -210,27 +226,27 @@
 				});
 			},
 			getTimeDay() {
-				if(this.user){
+				if (this.user) {
 					uni.request({
-					url: getApp().globalData.base_ip + 'read/queryTimeDay?userId=' + this.user.id,
-					method: 'GET',
-					header: {
-						'Content-Type': 'application/x-www-form-urlencoded'
-					},
-					dataType: 'json',
-					success: res => {
-						console.log("获得时间返回结果=====================")
-						console.log(res)
-						console.log(res.data)
-						this.minutes = res.data.msg
-						this.seconds = res.data.data
+						url: getApp().globalData.base_ip + 'read/queryTimeDay?userId=' + this.user.id,
+						method: 'GET',
+						header: {
+							'Content-Type': 'application/x-www-form-urlencoded'
+						},
+						dataType: 'json',
+						success: res => {
+							console.log("获得时间返回结果=====================")
+							console.log(res)
+							console.log(res.data)
+							this.minutes = res.data.msg
+							this.seconds = res.data.data
 
-					},
-					fail: () => {},
-					complete: () => {}
-				});
+						},
+						fail: () => {},
+						complete: () => {}
+					});
 				}
-				
+
 			},
 			/**
 			 * 更新书阅读的时间，方便书架排序

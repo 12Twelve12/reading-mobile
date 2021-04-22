@@ -30,7 +30,8 @@
 				{{detail.des}}
 				<text v-if="show" class="text-green cuIcon-fold" @click="hidded">收起</text>
 			</view>
-			<text v-if="!show" @click="shows" class="text-green cuIcon-unfold" style="position: relative;left: 33%;">展开阅读全文</text>
+			<text v-if="!show" @click="shows" class="text-green cuIcon-unfold"
+				style="position: relative;left: 33%;">展开阅读全文</text>
 		</view>
 		<view class="flex justify-between directory _padding" @click="to_directory">
 			<view>目录</view>
@@ -42,7 +43,7 @@
 
 <script>
 	export default {
-		props: ['detail', 'chapter_count', 'isBookShelf','grade'],
+		props: ['detail', 'chapter_count', 'isBookShelf', 'grade'],
 		data() {
 			return {
 				show: false,
@@ -63,13 +64,37 @@
 				this.show = false
 			},
 			to() {
-				this.$emit('to_read')
+				if (this.detail.isDeleted == 0) {
+					this.$emit('to_read')
+				} else {
+					uni.showToast({
+						title: '该书已下架',
+						icon:'none'
+					});
+				}
+
 			},
 			addBookShelf() {
-				this.$emit('addBookShelf')
+				if (this.detail.isDeleted == 0) {
+					this.$emit('addBookShelf')
+				} else {
+					uni.showToast({
+						title: '该书已下架',
+						icon:'none'
+					});
+				}
+
 			},
 			to_directory() {
-				this.$emit('to_directory')
+				if (this.detail.isDeleted == 0) {
+					this.$emit('to_directory')
+				} else {
+					uni.showToast({
+						title: '该书已下架',
+						icon:'none'
+					});
+				}
+
 			}
 
 		}

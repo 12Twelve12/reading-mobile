@@ -1,10 +1,12 @@
 <template>
 	<view>
 		<BooksDetails :isBookShelf="isBookShelf" :detail="detail" :chapter_count="chapter.count" @to_read="to_read"
-		 @addBookShelf="addBookShelf" @to_directory="to_directory" :grade="grade"></BooksDetails>
-		<Comments @to_comments="to_comments" :comments_lists="comments_lists" :user="user" @del_comment="del_comment"></Comments>
+			@addBookShelf="addBookShelf" @to_directory="to_directory" :grade="grade"></BooksDetails>
+		<Comments @to_comments="to_comments" :comments_lists="comments_lists" :user="user" @del_comment="del_comment">
+		</Comments>
 		<uni-popup ref="popup" type="dialog">
-			<uni-popup-dialog type="input" message="成功消息" :duration="2000" :before-close="true" @close="close" @confirm="confirm"></uni-popup-dialog>
+			<uni-popup-dialog type="input" message="成功消息" :duration="2000" :before-close="true" @close="close"
+				@confirm="confirm"></uni-popup-dialog>
 		</uni-popup>
 	</view>
 </template>
@@ -24,11 +26,11 @@
 					"img": "",
 					"nickname": "",
 					"content": "",
-					"score_star":[],
-					"time":"",
-					"str":""//不同星星颗数，不同话
+					"score_star": [],
+					"time": "",
+					"str": "" //不同星星颗数，不同话
 				}],
-				grade:{}
+				grade: {}
 				// comments_lists: [{
 				// 	"img": "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2566720529,304942931&fm=26&gp=0.jpg",
 				// 	"nickname": "twelve",
@@ -50,32 +52,41 @@
 			this.user = uni.getStorageSync('user');
 			if (option) {
 				const item = JSON.parse(decodeURIComponent(option.item));
+				console.log(item, "**********************************")
 				this.detail = item;
 				this.getChapter()
 				this.getGrade()
-				
-				//记录日志=============================================
-				let val
-				if (this.user) {
-					val = {
-						"startTime": this.$moment().format('YYYY-MM-DD HH:mm:ss'),
-						"operation": "浏览图书",
-						"bookId": this.detail.id,
-						"userId": this.user.id
+
+				if (this.detail.isDeleted == 0) {
+					//记录日志=============================================
+					let val
+					if (this.user) {
+						val = {
+							"startTime": this.$moment().format('YYYY-MM-DD HH:mm:ss'),
+							"operation": "浏览图书",
+							"bookId": this.detail.id,
+							"userId": this.user.id
+						}
+					} else {
+						val = {
+							"startTime": this.$moment().format('YYYY-MM-DD HH:mm:ss'),
+							"operation": "浏览图书",
+							"bookId": this.detail.id
+						}
 					}
-				}else{
-					val = {
-						"startTime": this.$moment().format('YYYY-MM-DD HH:mm:ss'),
-						"operation": "浏览图书",
-						"bookId": this.detail.id
-					}
+
+					console.log(val)
+					this.$uniApi.addLog(val)
+					//记录日志=============================================
+				} else {
+					uni.showToast({
+						title: '该书已下架',
+						icon: 'none'
+					});
 				}
-				
-				console.log(val)
-				this.$uniApi.addLog(val)
-				//记录日志=============================================
+
 			}
-			
+
 
 		},
 		methods: {
@@ -106,15 +117,15 @@
 				}
 
 			},
-			
+
 			//点击了目录
-			to_directory(){
+			to_directory() {
 				uni.navigateTo({
 					url: '../directory/directory?item=' + encodeURIComponent(JSON.stringify({
 						"detail": this.detail,
 						"chapter": this.chapter,
 						"current_progress": this.current_progress,
-						"isBookShelf": this.isBookShelf 
+						"isBookShelf": this.isBookShelf
 					}))
 				})
 			},
@@ -218,7 +229,7 @@
 						data: {
 							"bookId": this.detail.id,
 							"userId": this.user.id,
-							"time":this.$moment().format('YYYY-MM-DD HH:mm:ss')
+							"time": this.$moment().format('YYYY-MM-DD HH:mm:ss')
 						},
 						success: res => {
 							if (res.data.success) {
@@ -296,19 +307,15 @@
 								score_star.push(true);
 							}
 							this.comments_lists[i].score_star = score_star
-							if(this.comments_lists[i].grade==1){
+							if (this.comments_lists[i].grade == 1) {
 								this.comments_lists[i].str = "惨不忍睹"
-							}
-							else if(this.comments_lists[i].grade==2){
+							} else if (this.comments_lists[i].grade == 2) {
 								this.comments_lists[i].str = "不值一提"
-							}
-							else if(this.comments_lists[i].grade==3){
+							} else if (this.comments_lists[i].grade == 3) {
 								this.comments_lists[i].str = "平淡无奇"
-							}
-							else if(this.comments_lists[i].grade==4){
+							} else if (this.comments_lists[i].grade == 4) {
 								this.comments_lists[i].str = "值得一看"
-							}
-							else if(this.comments_lists[i].grade==5){
+							} else if (this.comments_lists[i].grade == 5) {
 								this.comments_lists[i].str = "强力推荐"
 							}
 						}
@@ -318,8 +325,8 @@
 				});
 			},
 			//删除评论
-			del_comment(time){
-				console.log("点击删除评论"+time)
+			del_comment(time) {
+				console.log("点击删除评论" + time)
 				uni.request({
 					url: getApp().globalData.base_ip + "comment/delete",
 					method: 'DELETE',
@@ -329,19 +336,21 @@
 						// token : uni.getStorageSync("TOKEN")
 					},
 					dataType: 'json',
-					data: {"time":time},
+					data: {
+						"time": time
+					},
 					success: res => {
 						console.log(res.data)
-						if(res.data.success){
+						if (res.data.success) {
 							uni.showToast({
-								title:"成功删除",
-								icon:'none'
+								title: "成功删除",
+								icon: 'none'
 							})
 							this.getComments()
-						}else{
+						} else {
 							uni.showToast({
-								title:res.data.msg,
-								icon:'none'
+								title: res.data.msg,
+								icon: 'none'
 							})
 						}
 					},
@@ -349,7 +358,7 @@
 					complete: () => {}
 				});
 			},
-			getGrade(){
+			getGrade() {
 				uni.request({
 					url: getApp().globalData.base_ip + "comment/queryGrade",
 					method: 'GET',
@@ -359,20 +368,25 @@
 						// token : uni.getStorageSync("TOKEN")
 					},
 					dataType: 'json',
-					data: {"bookId":this.detail.id},
+					data: {
+						"bookId": this.detail.id
+					},
 					success: res => {
 						console.log(res.data)
-						let score_star=[]
-						let score=res.data.data
+						let score_star = []
+						let score = res.data.data
 						for (let j = 0; j < score; j++) {
 							score_star.push(true);
 						}
-						if(score_star.length<5){
+						if (score_star.length < 5) {
 							for (let j = score_star.length; j < 5; j++) {
 								score_star.push(false);
 							}
 						}
-						this.grade={"score_star":score_star,"score":score}
+						this.grade = {
+							"score_star": score_star,
+							"score": score
+						}
 					},
 					fail: () => {},
 					complete: () => {}

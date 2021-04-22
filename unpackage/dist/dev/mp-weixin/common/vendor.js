@@ -29526,7 +29526,9 @@ webpackContext.id = 13;
 /* 330 */,
 /* 331 */,
 /* 332 */,
-/* 333 */
+/* 333 */,
+/* 334 */,
+/* 335 */
 /*!***********************************************************************************************!*\
   !*** F:/A_study/HBuilderProjects/reading/uni_modules/uni-popup/components/uni-popup/popup.js ***!
   \***********************************************************************************************/
@@ -29534,7 +29536,7 @@ webpackContext.id = 13;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _message = _interopRequireDefault(__webpack_require__(/*! ./message.js */ 334));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _message = _interopRequireDefault(__webpack_require__(/*! ./message.js */ 336));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 // 定义 type 类型:弹出类型：top/bottom/center
 var config = {
   // 顶部弹出
@@ -29586,7 +29588,7 @@ var config = {
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
-/* 334 */
+/* 336 */
 /*!*************************************************************************************************!*\
   !*** F:/A_study/HBuilderProjects/reading/uni_modules/uni-popup/components/uni-popup/message.js ***!
   \*************************************************************************************************/

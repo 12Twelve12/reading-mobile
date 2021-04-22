@@ -16,7 +16,7 @@
 		<view v-if="TabCur==1">
 			<text class="text-gray" style="display: block;text-align: center;padding: 12px;"
 				v-if="booklists.length==0">暂无数据</text>
-			<CardList v-bind:booklists="booklists"></CardList>
+			<CardList v-bind:booklists="booklists" @to_details="to_details"></CardList>
 		</view>
 	</view>
 

@@ -225,7 +225,7 @@ var _default =
             success: function success(res) {
 
               var result = JSON.parse(res.data);
-              _this.user.img = result.data.src;
+              _this.user.img = getApp().globalData.base_ip + result.data.src;
               _this.update();
             } });
 

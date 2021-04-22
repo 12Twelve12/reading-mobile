@@ -249,7 +249,7 @@ var _default = {
 
     },
     to: function to(item) {
-      console.log(item);
+      console.log(item, "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
       uni.navigateTo({
         url: '../booksDetails/booksDetails?item=' + encodeURIComponent(JSON.stringify(item)) });
 

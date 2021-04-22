@@ -256,7 +256,7 @@
 						"bookList": JSON.stringify(bookList)
 					},
 					success: res => {
-						console.log(res.data)
+						console.log(res.data,"请求的推荐数据")
 						this.RecommendedBooks = res.data.data
 
 					},

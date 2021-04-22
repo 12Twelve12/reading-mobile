@@ -97,6 +97,7 @@
 							console.log("登陆成功");
 							console.log(res.data);
 							if (res.data.code == 0) {
+								console.log(res.data.data)
 								uni.setStorageSync('user', res.data.data); //缓存数据
 								if (this.before_page == 'register') {
 									uni.switchTab({

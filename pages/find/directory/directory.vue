@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view class="padding-top">
 		<view class="flex justify-between padding">
 			<view class="text-gray">目录</view>
 			<view class="text-gray">共{{chapter.count}}章</view>
@@ -56,5 +56,7 @@
 </script>
 
 <style scoped >
-
+	.padding-top {
+		padding-top: 40px;
+	}
 </style>

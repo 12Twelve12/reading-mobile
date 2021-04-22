@@ -93,7 +93,7 @@
 							success: (res) => {
 
 								let result = JSON.parse(res.data)
-								this.user.img = result.data.src
+								this.user.img = getApp().globalData.base_ip+result.data.src
 								this.update()
 							}
 						});

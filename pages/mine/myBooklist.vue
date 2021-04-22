@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view class="padding-top">
 		<CardList v-bind:booklists="booklists" @to_details="to_details"></CardList>
 	</view>
 </template>
