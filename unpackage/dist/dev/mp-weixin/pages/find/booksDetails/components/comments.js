@@ -160,7 +160,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 var _default =
 {
-  props: ['comments_lists', 'user'],
+  props: ['comments_lists', 'user', 'detail'],
   data: function data() {
     return {};
 

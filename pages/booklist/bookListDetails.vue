@@ -34,26 +34,35 @@
 				console.log(this.booklist)
 				console.log(this.books)
 				// this.$forceUpdate();
-				//记录日志=============================================
-				let val
-				if (this.user) {
-					val = {
-						"startTime": this.$moment().format('YYYY-MM-DD HH:mm:ss'),
-						"operation": "浏览书单",
-						"booklistId": this.booklist.id,
-						"userId": this.user.id
+
+				if (this.booklist.isDeleted == 0) {
+					//记录日志=============================================
+					let val
+					if (this.user) {
+						val = {
+							"startTime": this.$moment().format('YYYY-MM-DD HH:mm:ss'),
+							"operation": "浏览书单",
+							"booklistId": this.booklist.id,
+							"userId": this.user.id
+						}
+					} else {
+						val = {
+							"startTime": this.$moment().format('YYYY-MM-DD HH:mm:ss'),
+							"operation": "浏览书单",
+							"booklistId": this.booklist.id
+						}
 					}
+
+					console.log(val)
+					this.$uniApi.addLog(val)
+					//记录日志=============================================
 				} else {
-					val = {
-						"startTime": this.$moment().format('YYYY-MM-DD HH:mm:ss'),
-						"operation": "浏览书单",
-						"booklistId": this.booklist.id
-					}
+					uni.showToast({
+						title: '该书单已被删除',
+						icon: 'none'
+					})
 				}
 
-				console.log(val)
-				this.$uniApi.addLog(val)
-				//记录日志=============================================
 			}
 
 
@@ -70,10 +79,19 @@
 		},
 		methods: {
 			to_bookDetails(index) {
-				uni.navigateTo({
-					url: '../find/booksDetails/booksDetails?item=' + encodeURIComponent(JSON.stringify(this.books[
-						index]))
-				})
+				if (this.booklist.isDeleted == 0) {
+					uni.navigateTo({
+						url: '../find/booksDetails/booksDetails?item=' + encodeURIComponent(JSON.stringify(this
+							.books[
+								index]))
+					})
+				} else {
+					uni.showToast({
+						title: '该书单已被删除',
+						icon: 'none'
+					})
+				}
+
 			},
 			//判断是否收藏
 			isCollect() {

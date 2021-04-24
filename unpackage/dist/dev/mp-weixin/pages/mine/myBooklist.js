@@ -93,6 +93,32 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "recyclableRender", function() { return recyclableRender; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components
+try {
+  components = {
+    uniPopup: function() {
+      return Promise.all(/*! import() | uni_modules/uni-popup/components/uni-popup/uni-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-popup/components/uni-popup/uni-popup")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-popup/components/uni-popup/uni-popup.vue */ 330))
+    },
+    uniPopupDialog: function() {
+      return __webpack_require__.e(/*! import() | uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog */ "uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog.vue */ 339))
+    }
+  }
+} catch (e) {
+  if (
+    e.message.indexOf("Cannot find module") !== -1 &&
+    e.message.indexOf(".vue") !== -1
+  ) {
+    console.error(e.message)
+    console.error("1. 排查组件名称拼写是否正确")
+    console.error(
+      "2. 排查组件是否符合 easycom 规范，文档：https://uniapp.dcloud.net.cn/collocation/pages?id=easycom"
+    )
+    console.error(
+      "3. 若组件不符合 easycom 规范，需手动引入，并在 components 中注册该组件"
+    )
+  } else {
+    throw e
+  }
+}
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
@@ -138,20 +164,25 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
 {
   data: function data() {
     return {
       user: uni.getStorageSync('user'),
       booklists: [],
-      type: '' //为了复用，判断点击的是我的发布还是我的收藏
-    };
+      type: '', //为了复用，判断点击的是我的发布还是我的收藏
+      del_id: null };
+
   },
   components: {
     CardList: CardList },
 
   onLoad: function onLoad(val) {
     if (val) {
-      console.log(val.type);
+      console.log(val.type, "++++++++++++++++++++++++++++++++");
       this.type = val.type;
       this.getData();
     }
@@ -197,6 +228,60 @@ __webpack_require__.r(__webpack_exports__);
         url: '../booklist/bookListDetails?item=' + encodeURIComponent(JSON.stringify({
           "booklists": this.booklists[index] })) });
 
+
+    },
+    /* 长按删除 */
+    to_del: function to_del(id) {
+      this.del_id = id;
+      this.$refs.popup.open();
+    },
+    //是否删除图书对话框======================================================================================
+    /**
+     * 点击取消按钮触发
+     * @param {Object} done
+     */
+    close: function close(done) {
+      // TODO 做一些其他的事情，before-close 为true的情况下，手动执行 done 才会关闭对话框
+      // ...
+      done();
+    },
+    /**
+        * 点击确认按钮触发
+        * @param {Object} done
+        * @param {Object} value
+        */
+    confirm: function confirm(done) {
+      done();
+      //确认删除
+      this.delete();
+    },
+    //是否删除图书对话框======================================================================================
+    delete: function _delete() {var _this2 = this;
+      console.log(this.del_id, "删除书单id");
+      uni.request({
+        url: getApp().globalData.base_ip + 'booklist/update',
+        method: 'PUT',
+        header: {
+          'Content-Type': 'application/x-www-form-urlencoded' },
+
+        dataType: 'json',
+        data: {
+          "id": this.del_id,
+          "isDeleted": 1 },
+
+        success: function success(res) {
+          if (!res.data.success) {
+            uni.showToast({
+              title: res.data.msg,
+              icon: 'none' });
+
+          } else {
+            _this2.getData();
+          }
+
+        },
+        fail: function fail() {},
+        complete: function complete() {} });
 
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))

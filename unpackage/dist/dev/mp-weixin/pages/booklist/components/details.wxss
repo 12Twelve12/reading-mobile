@@ -45,7 +45,8 @@
 .book-detail .detail-left .book-img.data-v-78de2430 {
   width: 223rpx;
   height: 284rpx;
-  border-radius: 12rpx;
+  -webkit-border-radius: 12rpx;
+          border-radius: 12rpx;
   background-color: #1CBBB4;
 }
 .book-detail .detail-right.data-v-78de2430 {
@@ -79,7 +80,8 @@
   background-color: rgba(12, 10, 6, 0.3);
   width: -webkit-fit-content;
   width: fit-content;
-  border-radius: 8rpx;
+  -webkit-border-radius: 8rpx;
+          border-radius: 8rpx;
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -98,7 +100,8 @@
   display: inline-block;
   height: 64rpx;
   line-height: 64rpx;
-  border-radius: 4rpx;
+  -webkit-border-radius: 4rpx;
+          border-radius: 4rpx;
   color: #fff;
   cursor: pointer;
   font-size: 28rpx;
@@ -111,7 +114,8 @@
   height: 64rpx;
   line-height: 64rpx;
   display: inline-block;
-  border-radius: 4rpx;
+  -webkit-border-radius: 4rpx;
+          border-radius: 4rpx;
   cursor: pointer;
   font-size: 28rpx;
 }

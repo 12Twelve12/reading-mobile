@@ -44,7 +44,7 @@
 
 <script>
 	export default {
-		props: ['comments_lists', 'user'],
+		props: ['comments_lists', 'user','detail'],
 		data() {
 			return {
 

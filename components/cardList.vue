@@ -5,7 +5,7 @@
 					<view v-if="booklists.length==0" class="text-center text-gray">
 						暂无数据~
 					</view>
-					<view class="cu-item" v-else v-for="(item,index) in booklists" :key="index" @click="to_details(index)">
+					<view class="cu-item" v-else v-for="(item,index) in booklists" :key="index" @click="to_details(index)"  @longpress="to_longpress(item)">
 						<!--头像-->
 						<view class="cu-avatar round" :style="'background-image:url('+item.booklist.img+');'"></view>
 						<view class="content">
@@ -37,13 +37,14 @@
 					</view>
 				</view>
 			</view>
+			
 		</view>
 </template>
 
 <script>
 	import BookListCard from './bookListCard.vue'
 	export default {
-		props:['booklists'],
+		props:['booklists','mine'],
 		data() {
 			return {
 				
@@ -55,7 +56,14 @@
 		methods:{
 			to_details(index){
 				this.$emit('to_details',index)
-			}
+			},
+			/* 长按删除 */
+			to_longpress(item) {
+				if(this.mine){
+					this.$emit('to_del',item.booklist.id) 
+				}
+			},
+			
 			
 		}
 	}

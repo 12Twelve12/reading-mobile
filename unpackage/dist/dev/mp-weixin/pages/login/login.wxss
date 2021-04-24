@@ -2,7 +2,8 @@
 .landing {
 	height: 84rpx;
 	line-height: 84rpx;
-	border-radius: 44rpx;
+	-webkit-border-radius: 44rpx;
+	        border-radius: 44rpx;
 	font-size: 32rpx;
 	background: #75D97F !important;
 }
@@ -30,7 +31,8 @@
 	padding: 10rpx 25rpx;
 	height: 62rpx;
 	line-height: 62rpx;
-	border-radius: 8rpx;
+	-webkit-border-radius: 8rpx;
+	        border-radius: 8rpx;
 }
 .login-margin-b {
 	margin-bottom: 25rpx;
@@ -45,9 +47,11 @@
 }
 .login-card {
 	background: #fff;
-	border-radius: 12rpx;
+	-webkit-border-radius: 12rpx;
+	        border-radius: 12rpx;
 	padding: 10rpx 25rpx;
-	box-shadow: 0 6rpx 18rpx rgba(0, 0, 0, 0.12);
+	-webkit-box-shadow: 0 6rpx 18rpx rgba(0, 0, 0, 0.12);
+	        box-shadow: 0 6rpx 18rpx rgba(0, 0, 0, 0.12);
 	position: relative;
 	margin-top: 120rpx;
 }

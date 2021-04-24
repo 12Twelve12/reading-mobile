@@ -2,7 +2,7 @@
 	<view>
 		<BooksDetails :isBookShelf="isBookShelf" :detail="detail" :chapter_count="chapter.count" @to_read="to_read"
 			@addBookShelf="addBookShelf" @to_directory="to_directory" :grade="grade"></BooksDetails>
-		<Comments @to_comments="to_comments" :comments_lists="comments_lists" :user="user" @del_comment="del_comment">
+		<Comments @to_comments="to_comments" :comments_lists="comments_lists" :detail="detail" :user="user" @del_comment="del_comment">
 		</Comments>
 		<uni-popup ref="popup" type="dialog">
 			<uni-popup-dialog type="input" message="成功消息" :duration="2000" :before-close="true" @close="close"

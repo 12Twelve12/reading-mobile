@@ -14,7 +14,8 @@
 	left: -8px;
 	background-color: white;
 	width: 177px;
-	border-radius: 9px;
+	-webkit-border-radius: 9px;
+	        border-radius: 9px;
 	padding-left: 20px;
 }
 [class*="cuIcon-"].data-v-59858e6c {

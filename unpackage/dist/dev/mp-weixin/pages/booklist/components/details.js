@@ -149,10 +149,6 @@ var _default =
 
 
   methods: {
-
-    to: function to() {
-      this.$emit('to_read');
-    },
     addCollect: function addCollect() {
       this.$emit('Collect');
     } } };exports.default = _default;

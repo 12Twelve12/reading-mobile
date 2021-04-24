@@ -38,7 +38,8 @@
 }
 .zai-read-box .zai-read-cover {
   z-index: 999;
-  box-shadow: 0 0 19rpx rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 0 19rpx rgba(0, 0, 0, 0.2);
+          box-shadow: 0 0 19rpx rgba(0, 0, 0, 0.2);
   color: rgba(0, 0, 0, 0.85);
   -webkit-transition: opacity 0.25s, -webkit-transform 0.25s;
   transition: opacity 0.25s, -webkit-transform 0.25s;
@@ -106,7 +107,8 @@
   left: 10rpx;
   width: 6rpx;
   height: 6rpx;
-  border-radius: 0 2rpx 2rpx 2rpx;
+  -webkit-border-radius: 0 2rpx 2rpx 2rpx;
+          border-radius: 0 2rpx 2rpx 2rpx;
 }
 .zai-read-box .zai-read-cover .zai-cover-v .zai-cover-info {
   display: inline-block;
@@ -329,7 +331,8 @@
   transition: color 0.15s, transform 0.15s, -webkit-transform 0.15s;
   -webkit-transform: translateX(100%);
           transform: translateX(100%);
-  border-radius: 3rem 0 0 3rem;
+  -webkit-border-radius: 3rem 0 0 3rem;
+          border-radius: 3rem 0 0 3rem;
 }
 .zai-opt-box .zai-opt-footer {
   position: absolute;

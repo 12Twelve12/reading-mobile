@@ -13,7 +13,8 @@
 	/*子元素水平居中*/
 	background-color: #ffffff;
 	padding-top: 20px;
-	border-radius: 11px;
+	-webkit-border-radius: 11px;
+	        border-radius: 11px;
 }
 .card.data-v-59c78c11 {
 	width: 91%;
@@ -21,8 +22,10 @@
 	background-color: #ffffff;
 	top: 179rpx;
 	position: relative;
-	border-radius: 11px;
-	box-shadow: 2px 2px 5px #9e9e9e70;
+	-webkit-border-radius: 11px;
+	        border-radius: 11px;
+	-webkit-box-shadow: 2px 2px 5px #9e9e9e70;
+	        box-shadow: 2px 2px 5px #9e9e9e70;
 	background-color: rgba(255, 255, 255, 0.9);
 }
 .content-bg.data-v-59c78c11 {
@@ -45,7 +48,8 @@
 	/* background: url(helper.websiteUrl + '/api/1.0/user/background') no-repeat center center; */
 }
 .cu-list.data-v-59c78c11 {
-	border-radius: 21px;
+	-webkit-border-radius: 21px;
+	        border-radius: 21px;
 	width: 100%;
 	padding: 27px;
 }
@@ -55,7 +59,8 @@
 	left: 200rpx;
 }
 .cu-list.menu-avatar>.cu-item>.cu-avatar.data-v-59c78c11 {
-	border-radius: 8px;
+	-webkit-border-radius: 8px;
+	        border-radius: 8px;
 }
 .bg-green.data-v-59c78c11 {}
 

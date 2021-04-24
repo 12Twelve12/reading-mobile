@@ -156,8 +156,9 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 
 
+
 {
-  props: ['booklists'],
+  props: ['booklists', 'mine'],
   data: function data() {
     return {};
 
@@ -169,6 +170,12 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
   methods: {
     to_details: function to_details(index) {
       this.$emit('to_details', index);
+    },
+    /* 长按删除 */
+    to_longpress: function to_longpress(item) {
+      if (this.mine) {
+        this.$emit('to_del', item.booklist.id);
+      }
     } } };exports.default = _default;
 
 /***/ })

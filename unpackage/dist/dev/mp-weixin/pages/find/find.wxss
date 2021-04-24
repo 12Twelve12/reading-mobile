@@ -15,7 +15,8 @@
 }
 .search.data-v-408c90a6 {
 	border: 0.1px solid #FDFEF6;
-	border-radius: 50rpx;
+	-webkit-border-radius: 50rpx;
+	        border-radius: 50rpx;
 	padding-left: 1;
 	width: 83%;
 	background-color: #FDFEF6;

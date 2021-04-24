@@ -23,7 +23,7 @@
 
 <script>
 	export default {
-		props: ['booklist','books', 'is_collect'],
+		props: ['booklist', 'books', 'is_collect'],
 		data() {
 			return {
 
@@ -33,10 +33,6 @@
 
 		},
 		methods: {
-
-			to() {
-				this.$emit('to_read')
-			},
 			addCollect() {
 				this.$emit('Collect')
 			}
